@@ -32,6 +32,7 @@ chaquopy {
         version '3.11'
         buildPython System.getenv('CASHMINER_BUILD_PYTHON')
         pip {
+            options '--cache-dir', System.getenv('CASHMINER_ANDROID_BUILD')+'/pip-cache'
             install 'cryptography==42.0.8'
             install 'cffi==1.17.1'
             install 'pycparser==3.12'

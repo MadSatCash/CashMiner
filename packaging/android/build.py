@@ -26,6 +26,7 @@ def main():
         ANDROID_USER_HOME=str(work/'android-user'),GRADLE_USER_HOME=str(work/'gradle-home'),
         CASHMINER_ANDROID_BUILD=str(work/'build'),CASHMINER_ANDROID_ASSETS=str(work/'generated-assets'),
         CASHMINER_ANDROID_RES=str(work/'generated-res'),CASHMINER_BUILD_PYTHON=tools['python'],
+        PIP_CACHE_DIR=str(work/'pip-cache'),
         TEMP=str(work/'tmp'),TMP=str(work/'tmp'),PYTHONNOUSERSITE='1',PYTHONDONTWRITEBYTECODE='1')
     for name in ('android-user','gradle-home','generated-assets','generated-res','tmp','build'):(work/name).mkdir(exist_ok=True)
     signing=out/'Signing';signing.mkdir(exist_ok=True)
