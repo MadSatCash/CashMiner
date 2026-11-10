@@ -22,9 +22,10 @@ solution (height 364992), whose header was then announced by three peers.
 The counters matched these logs. This is evidence from a short real mining
 trial, not full-block validation or a completed long-duration stability test.
 
-Still pending before final distribution: automated startup/normal shutdown,
-clean Windows installation, installer, signing/distribution decisions and final
-native toolchain/redistribution notices. These results describe the retained
+Coverage not established: automated startup/normal shutdown and clean Windows
+installation. This experimental release has no installer or publisher signature.
+Publication refreshed the Windows MIT/vendor notices and manifest only;
+executable, DLLs and application sources match the tested candidate. These results describe the retained
 Windows ZIP, not the Android package below. Linux/macOS/iOS remain deferred.
 
 ## Android APK 2170105, 2026-11-10
@@ -86,8 +87,9 @@ fue anunciada después por tres peers. Los contadores coincidieron con los logs.
 Es evidencia de minería real breve, no validación completa de bloques ni una
 prueba prolongada de estabilidad terminada.
 
-Siguen pendientes el cierre de la comprobación automática de inicio/cierre,
-Windows limpio, instalador y los detalles finales de distribución. Para
+No se completó la comprobación automática de inicio/cierre ni Windows limpio.
+Esta publicación experimental no incluye instalador ni firma del editor. Se
+actualizaron licencias/avisos y manifiesto, conservando los archivos del programa. Para
 reproducir, usá datos aislados y los comandos anteriores. Las pruebas GPU y
 BCHN son optativas y requieren hardware/binarios externos compatibles.
 

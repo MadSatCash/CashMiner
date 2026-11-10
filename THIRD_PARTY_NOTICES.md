@@ -70,15 +70,25 @@ The three `native/*.dll` files and corresponding C/CUDA sources originate
 from the author's `cashminer_app` project. Their current SHA-256 values are
 listed in [native/SHA256SUMS.txt](native/SHA256SUMS.txt).
 
-The DLLs contain or depend on vendor/runtime components whose terms are not
-replaced by MIT. The exact original CPU/CUDA build toolchain and CUDA runtime
-redistribution provenance remain to be documented before public binary release.
-The OpenCL build script records its compiler/SDK inputs, but does not establish
-the CUDA DLL's original toolkit version. See the
-[NVIDIA CUDA EULA](https://docs.nvidia.com/cuda/eula/index.html).
+The CUDA DLL reports CUDA Runtime **12.8** (`cudaRuntimeGetVersion=12080`).
+Its PE header reports linker 14.50; it incorporates the CUDA runtime and imports
+Windows/Visual C++ runtime APIs. The CUDA 12.8 license text is retained in
+[packaging/windows/licenses/NVIDIA-CUDA-12.8-EULA.txt](packaging/windows/licenses/NVIDIA-CUDA-12.8-EULA.txt)
+and included in the Windows ZIP's `Licenses/` directory. The NVIDIA driver is
+external, as is the OpenCL implementation supplied by the user's GPU driver.
+See the [CUDA 12.8 EULA](https://docs.nvidia.com/cuda/archive/12.8.0/eula/index.html).
 
-Queda pendiente cerrar la trazabilidad de compilación y redistribución de los
-componentes nativos antes de la publicación pública de binarios.
+The CPU DLL imports Windows KERNEL32/MSVCRT; the OpenCL DLL additionally imports
+OpenCL.dll. MinGW/GCC runtime notices and exceptions accompany the Windows ZIP.
+The exact original CPU/CUDA compiler commands and flags were not recovered;
+these are retained author-built binaries, not a claim of a reproducible rebuild.
+The OpenCL build script records its compiler/SDK inputs. DLL hashes are unchanged
+from the hardware-tested candidate and are listed under `native/`.
+
+La DLL CUDA informa runtime 12.8; se incorpora su licencia al ZIP Windows.
+Los drivers son externos. No se recuperaron todos los comandos originales de
+compilación CPU/CUDA; se conserva esa limitación de reproducibilidad, sin cambiar
+los binarios probados ni atribuirles una procedencia no comprobada.
 
 ## Protocol references and development tools / Referencias y herramientas
 

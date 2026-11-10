@@ -119,6 +119,7 @@ def main():
     notices = stage/'Licenses'
     notices.mkdir()
     shutil.copy2(SOURCE/'LICENSE', stage/'LICENSE')
+    shutil.copy2(HERE/'licenses/NVIDIA-CUDA-12.8-EULA.txt', notices/'NVIDIA-CUDA-12.8-EULA.txt')
     shutil.copy2(runtime/'LICENSE.txt', notices/'Python-LICENSE.txt')
     shutil.copy2(app/'ui'/'vendor'/'LICENSE-qrcodejs.txt', notices/'QRCodejs-LICENSE.txt')
     shutil.copy2(SOURCE/'src/cashminer/wallet/bip39_LICENSE.txt', notices/'BIP39-LICENSE.txt')
@@ -147,7 +148,8 @@ def main():
         'Native hashing DLLs/sources are from the author\'s cashminer_app project.\n'
         'CUDA/OpenCL/Windows vendor components retain their respective terms. Drivers are not bundled.\n'
         'Project code: MIT, Copyright (c) 2026 CashRider; see LICENSE.\n'
-        'Native redistribution provenance must be finalized before public binary publication.\n',
+        'Retained CUDA DLL: CUDA Runtime 12.8; see Licenses/NVIDIA-CUDA-12.8-EULA.txt.\n'
+        'Original CPU/CUDA build flags were not recovered; see the source third-party notices.\n',
         encoding='utf-8')
     manifest = dict(application=VERSION, python=PYTHON_VERSION, python_url=PYTHON_URL,
                     python_sha256=PYTHON_SHA256, wheels=pins,

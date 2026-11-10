@@ -1,14 +1,15 @@
 # Release artifacts / Artefactos de distribución — 2.17.1
 
-The release retains the tested packages; it does not rebuild them while editing
-documentation. A single repository holds shared source and platform build recipes.
+The Android APK is retained exactly as tested. The Windows ZIP refreshes only
+MIT/vendor license documents and its manifest; executable, native DLLs and
+application sources are unchanged from the tested package. A single repository holds shared source and platform build recipes.
 Each binary has its own build provenance; do not assume a documentation commit
 was the input of an older binary. / Se conservan los paquetes probados y se
 registra por separado la procedencia de cada uno.
 
 | Artifact | Bytes | SHA-256 |
 | --- | ---: | --- |
-| `CashMiner-Windows.zip` | 18852449 | `903aef8ab81de5e34796ebd6e6e392ddf5b6991c4efbccae617d57f7c4e6f10f` |
+| `CashMiner-Windows.zip` | 18868759 | `f3d724029be852e89c4af225771e6bf6987a5d04c6e9aa7d7f5944bfd43bbcd3` |
 | `CashMiner-Android-v2.17.1.apk` | 30359215 | `75596df8e37af42a395b41172094c103980cb1b4a5a0a3fe8783169b80df617f` |
 
 ## Windows
@@ -19,7 +20,9 @@ compared with desktop commit
 all matched after line-ending normalization. Its `BUILD_MANIFEST.json` records
 byte hashes for delivered files and runtime/toolchain inputs. The ZIP predates
 the later shared C-MT CPU duty fix in commit
-`a43334c53c2593c4f45818151f9d076929390508`; it is not rebuilt by this release task.
+`a43334c53c2593c4f45818151f9d076929390508`; its executable and runtime are not rebuilt by this release task. The ZIP now
+includes the project MIT license and CUDA 12.8 runtime license, with an updated
+manifest. The earlier candidate ZIP SHA-256 was `903aef8ab81de5e34796ebd6e6e392ddf5b6991c4efbccae617d57f7c4e6f10f`.
 The tracked Windows DLLs are unchanged. Existing pending notice/provenance work
 is described in [third-party notices](../THIRD_PARTY_NOTICES.md).
 

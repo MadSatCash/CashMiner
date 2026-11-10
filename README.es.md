@@ -1,17 +1,14 @@
 # CashMiner 💚
 
-### ⬇️ [Descargar Windows · ZIP](https://github.com/MadSatCash/CashMiner/releases/download/untagged-6970afe768cf3d432731/CashMiner-Windows.zip)
+### ⬇️ [Descargar Windows · ZIP](https://github.com/MadSatCash/CashMiner/releases/download/v2.17.1/CashMiner-Windows.zip)
 
-### ⬇️ [Descargar Android · APK](https://github.com/MadSatCash/CashMiner/releases/download/untagged-6970afe768cf3d432731/CashMiner-Android-v2.17.1.apk)
+### ⬇️ [Descargar Android · APK](https://github.com/MadSatCash/CashMiner/releases/download/v2.17.1/CashMiner-Android-v2.17.1.apk)
 
 Windows: extraé el ZIP completo y abrí `CashMiner/CashMiner.exe`.
 Android: abrí la APK en el teléfono y elegí Instalar/Actualizar.
 
-[Todos los archivos de descarga y checksums](https://github.com/MadSatCash/CashMiner/releases/tag/untagged-6970afe768cf3d432731)
+[Todos los archivos de descarga y checksums](https://github.com/MadSatCash/CashMiner/releases/tag/v2.17.1)
 · [English](README.md)
-
-*Borrador privado: iniciá sesión con una cuenta que tenga acceso al repositorio.
-Los enlaces se actualizarán al publicar la release.*
 
 **Billetera y minero liviano para Bitcoin Cash**
 
@@ -46,14 +43,13 @@ La minería está detenida en la captura. No se muestran datos del usuario.*
 ## Descarga e instalación
 
 Elegí tu paquete en [Releases](https://github.com/MadSatCash/CashMiner/releases).
-La primera publicación experimental se está preparando como borrador privado;
-por ahora sus archivos sólo están disponibles para colaboradores del repositorio.
+Los paquetes experimentales de Windows y Android se descargan sin iniciar sesión.
 El botón verde **Code** descarga el código, no la aplicación lista para usar.
 
 | Sistema | Archivo de la release | Hardware de minería |
 | --- | --- | --- |
-| Windows 10/11 x64 | [Descargar Windows ZIP](https://github.com/MadSatCash/CashMiner/releases/download/untagged-6970afe768cf3d432731/CashMiner-Windows.zip) | CPU, NVIDIA CUDA y GPU compatibles con OpenCL |
-| Android 7.0+ | [Descargar Android APK](https://github.com/MadSatCash/CashMiner/releases/download/untagged-6970afe768cf3d432731/CashMiner-Android-v2.17.1.apk) | CPU; incluye ARM32, ARM64 y x86-64 |
+| Windows 10/11 x64 | [Descargar Windows ZIP](https://github.com/MadSatCash/CashMiner/releases/download/v2.17.1/CashMiner-Windows.zip) | CPU, NVIDIA CUDA y GPU compatibles con OpenCL |
+| Android 7.0+ | [Descargar Android APK](https://github.com/MadSatCash/CashMiner/releases/download/v2.17.1/CashMiner-Android-v2.17.1.apk) | CPU; incluye ARM32, ARM64 y x86-64 |
 
 `SHA256SUMS.txt` contiene los checksums de ambos paquetes. Descargá solamente
 el correspondiente a tu equipo. No se ofrecen paquetes Linux, macOS ni iOS.

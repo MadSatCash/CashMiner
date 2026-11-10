@@ -35,10 +35,11 @@ The manifest records the compiler, runtime/wheel versions and hashes of every
 delivered file. wheels.lock.json pins every wheel URL/hash; no dependency
 resolution is performed when that lock already exists.
 
-The launcher is not publisher-signed. This first delivery is a local test ZIP;
-no installer, signing key, updater or public GitHub publication is performed.
-Project code is MIT, as chosen by the author; native redistribution provenance
-remains publication work. The source LICENSE is included in future ZIP builds.
+The launcher is not publisher-signed; no installer or updater is included.
+Project code is MIT. The release includes LICENSE and third-party notices,
+including the retained CUDA 12.8 runtime license. Original CPU/CUDA compiler
+flags are not fully recorded; see THIRD_PARTY_NOTICES.md. The tested Windows
+runtime is retained; publication refreshes license documents and the manifest.
 
 ## Integration checks / Comprobaciones
 
