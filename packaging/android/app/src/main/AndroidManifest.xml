@@ -1,0 +1,22 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <application android:label="CashMiner Preview" android:icon="@mipmap/ic_launcher"
+        android:theme="@android:style/Theme.Material.NoActionBar"
+        android:allowBackup="false" android:fullBackupContent="false"
+        android:usesCleartextTraffic="false" android:networkSecurityConfig="@xml/network_security"
+        android:extractNativeLibs="true" android:supportsRtl="true">
+        <activity android:name=".MainActivity" android:exported="true"
+            android:configChanges="orientation|screenSize|keyboardHidden" android:windowSoftInputMode="adjustResize">
+            <intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter>
+        </activity>
+        <service android:name=".MinerService$Mainnet" android:exported="false" android:process=":miner_mainnet" android:foregroundServiceType="specialUse"><property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE" android:value="User-started visible experimental CPU mining"/></service>
+        <service android:name=".MinerService$Testnet3" android:exported="false" android:process=":miner_testnet3" android:foregroundServiceType="specialUse"><property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE" android:value="User-started visible experimental CPU mining"/></service>
+        <service android:name=".MinerService$Testnet4" android:exported="false" android:process=":miner_testnet4" android:foregroundServiceType="specialUse"><property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE" android:value="User-started visible experimental CPU mining"/></service>
+        <service android:name=".MinerService$Chipnet" android:exported="false" android:process=":miner_chipnet" android:foregroundServiceType="specialUse"><property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE" android:value="User-started visible experimental CPU mining"/></service>
+        <service android:name=".MinerService$Tempnet" android:exported="false" android:process=":miner_tempnet" android:foregroundServiceType="specialUse"><property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE" android:value="User-started visible experimental CPU mining"/></service>
+        <service android:name=".MinerService$Regtest" android:exported="false" android:process=":miner_regtest" android:foregroundServiceType="specialUse"><property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE" android:value="User-started visible experimental CPU mining"/></service>
+    </application>
+</manifest>

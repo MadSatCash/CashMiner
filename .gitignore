@@ -13,6 +13,14 @@ dist/
 *.zip
 *.7z
 *.exe
+*.apk
+*.aab
+*.jks
+*.keystore
+Signing/
+local.properties
+.gradle/
+.cxx/
 *.log
 *.bak
 *.tmp

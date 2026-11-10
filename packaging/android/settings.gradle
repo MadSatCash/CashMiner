@@ -1,0 +1,8 @@
+pluginManagement { repositories { google(); mavenCentral(); gradlePluginPortal() } }
+dependencyResolutionManagement { repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS); repositories { google(); mavenCentral() } }
+rootProject.name = 'CashMinerAndroid'
+// Configure output paths before plugins capture buildDir during application.
+gradle.beforeProject { p ->
+    p.layout.buildDirectory.set(file(System.getenv('CASHMINER_ANDROID_BUILD')+'/'+(p.path==':'?'root':p.name)))
+}
+include ':app'

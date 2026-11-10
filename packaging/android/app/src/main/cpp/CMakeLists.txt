@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.22.1)
+project(cashminer_cpu C)
+add_library(bch_hashscan SHARED "${CMAKE_CURRENT_SOURCE_DIR}/../../../../../../native/source/bch_hashscan.c")
+target_compile_options(bch_hashscan PRIVATE -O3 -fvisibility=hidden)
+target_link_options(bch_hashscan PRIVATE -Wl,-z,max-page-size=16384)

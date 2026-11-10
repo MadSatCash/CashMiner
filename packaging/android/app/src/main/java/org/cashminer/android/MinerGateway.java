@@ -1,0 +1,72 @@
+package org.cashminer.android;
+
+import android.content.*;
+import android.net.Uri;
+import android.os.*;
+import org.json.JSONObject;
+import java.util.*;
+import java.util.concurrent.*;
+
+public final class MinerGateway {
+    private static Context context;
+    public static volatile boolean visible;
+    private static final Map<String,Session> sessions=new ConcurrentHashMap<>();
+    private static final class Session {
+        final String run;final Class<?> type;final BlockingQueue<String> queue=new LinkedBlockingQueue<>();
+        volatile boolean exited;
+        ResultReceiver receiver;
+        Session(String id,Class<?> klass){run=id;type=klass;}
+    }
+    public static void initialize(Context ctx){context=ctx.getApplicationContext();}
+    private static Class<?> type(String network) {
+        return switch(network) {
+            case "mainnet" -> MinerService.Mainnet.class;
+            case "testnet3" -> MinerService.Testnet3.class;
+            case "testnet4" -> MinerService.Testnet4.class;
+            case "chipnet" -> MinerService.Chipnet.class;
+            case "tempnet_fablous_2026" -> MinerService.Tempnet.class;
+            case "regtest" -> MinerService.Regtest.class;
+            default -> throw new IllegalArgumentException("Red desconocida");
+        };
+    }
+    public static synchronized void start(String network,String run,String config) throws Exception {
+        if(!visible)throw new IllegalStateException("Android Preview requiere la app visible");
+        for(Session s:sessions.values())if(!s.exited)throw new IllegalStateException("Android Preview admite una red minera a la vez");
+        Session session=new Session(run,type(network));sessions.put(network,session);
+        ResultReceiver receiver=new ResultReceiver(new Handler(Looper.getMainLooper())) {
+            @Override protected void onReceiveResult(int result,Bundle data) {
+                try {
+                    JSONObject event=new JSONObject();
+                    if(result==1){event.put("type","line");event.put("line",data.getString("line",""));}
+                    else {session.exited=true;event.put("type","exit");event.put("code",data.getInt("code",1));event.put("forced",data.getBoolean("forced"));}
+                    session.queue.offer(event.toString());
+                } catch(Exception ignored){}
+            }
+        };
+        session.receiver=receiver;
+        Intent intent=new Intent(context,session.type).setAction("START");
+        intent.putExtra("config",config);intent.putExtra("receiver",receiver);
+        try {
+            if(Build.VERSION.SDK_INT>=26)context.startForegroundService(intent);else context.startService(intent);
+        } catch(RuntimeException error) {session.exited=true;throw error;}
+    }
+    public static String poll(String network,String run,int millis) throws Exception {
+        Session s=sessions.get(network);
+        if(s==null||!s.run.equals(run))throw new IllegalArgumentException("Sesión desconocida");
+        return s.queue.poll(millis,TimeUnit.MILLISECONDS);
+    }
+    public static void stop(String network,String run) {
+        Session s=sessions.get(network);
+        if(s!=null&&s.run.equals(run)&&!s.exited)context.startService(new Intent(context,s.type).setAction("STOP").putExtra("receiver",s.receiver));
+    }
+    public static void heartbeat() {
+        if(context==null)return;
+        for(Session s:sessions.values())if(!s.exited)
+            try{context.startService(new Intent(context,s.type).setAction("HEARTBEAT").putExtra("receiver",s.receiver));}catch(Exception ignored){}
+    }
+    public static void openExternal(String text) {
+        Uri uri=Uri.parse(text);
+        if(!"https".equals(uri.getScheme())||uri.getHost()==null)throw new IllegalArgumentException("Sólo HTTPS externo");
+        context.startActivity(new Intent(Intent.ACTION_VIEW,uri).addCategory(Intent.CATEGORY_BROWSABLE).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+    }
+}
