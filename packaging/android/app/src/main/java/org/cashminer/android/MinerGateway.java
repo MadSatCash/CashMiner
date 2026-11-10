@@ -11,6 +11,20 @@ public final class MinerGateway {
     private static Context context;
     public static volatile boolean visible;
     private static final Map<String,Session> sessions=new ConcurrentHashMap<>();
+    private static final Handler monitor=new Handler(Looper.getMainLooper());
+    private static boolean watching;
+    private static final Runnable tick=new Runnable(){public void run(){
+        boolean active=false;
+        for(Session s:sessions.values())if(!s.exited){
+            active=true;
+            try{context.startService(new Intent(context,s.type).setAction("HEARTBEAT").putExtra("receiver",s.receiver));}
+            catch(RuntimeException error){
+                Bundle data=new Bundle();data.putInt("code",1);data.putBoolean("forced",true);
+                s.receiver.send(2,data);
+            }
+        }
+        if(active)monitor.postDelayed(this,3000);else watching=false;
+    }};
     private static final class Session {
         final String run;final Class<?> type;final BlockingQueue<String> queue=new LinkedBlockingQueue<>();
         volatile boolean exited;
@@ -49,6 +63,8 @@ public final class MinerGateway {
         try {
             if(Build.VERSION.SDK_INT>=26)context.startForegroundService(intent);else context.startService(intent);
         } catch(RuntimeException error) {session.exited=true;throw error;}
+        // Monitoring belongs to the application, not to a visible Activity.
+        monitor.post(()->{if(!watching){watching=true;monitor.postDelayed(tick,3000);}});
     }
     public static String poll(String network,String run,int millis) throws Exception {
         Session s=sessions.get(network);
@@ -58,11 +74,6 @@ public final class MinerGateway {
     public static void stop(String network,String run) {
         Session s=sessions.get(network);
         if(s!=null&&s.run.equals(run)&&!s.exited)context.startService(new Intent(context,s.type).setAction("STOP").putExtra("receiver",s.receiver));
-    }
-    public static void heartbeat() {
-        if(context==null)return;
-        for(Session s:sessions.values())if(!s.exited)
-            try{context.startService(new Intent(context,s.type).setAction("HEARTBEAT").putExtra("receiver",s.receiver));}catch(Exception ignored){}
     }
     public static void openExternal(String text) {
         Uri uri=Uri.parse(text);

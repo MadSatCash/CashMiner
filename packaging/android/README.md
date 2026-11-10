@@ -12,10 +12,18 @@ separate APK build; the Windows release and its native DLLs are unchanged.
 - CPU only: the original `native/source/bch_hashscan.c` is compiled with the
   Android NDK and uses its existing internal-thread interface. No CUDA/OpenCL.
 - Initial Android version: 25% CPU by default, maximum 50%, one mining session at once.
-  Leaving the app, locking the screen or opening another application stops
-  mining. Returning does not automatically restart it. Network operations can
-  take several seconds to stop; an isolated miner process is terminated if it
-  does not exit within six seconds. A foreground notification also offers Stop.
+  Mining continues when the app is minimized, its Activity is recreated, or the
+  screen is locked. The miner uses a foreground notification with a Stop action;
+  its partial wake lock is held only while mining and released on stop/exit.
+  A bound app service keeps the Python application/log receiver associated with
+  the foreground miner. Activity visibility is required to start a new session,
+  not to keep it running. Stop or the explicit Close action ends mining; there
+  is no automatic restart after process termination. Android/vendor power or
+  memory policies can still affect background operation.
+  Network operations can take several seconds to stop; an isolated miner
+  process is terminated if it does not exit within six seconds.
+  CPU percentage changes apply at the next session start. The C-MT path now
+  applies the same duty control as the other existing CPU paths.
 - App data is private Android storage, separate from Windows wallets. Seed
   material is wrapped with Android Keystore AES-256-GCM and wallet-bound AAD.
   Recovery phrases/keys remain necessary: uninstalling or clearing app storage
@@ -87,7 +95,18 @@ Portable controller checks:
 ```powershell
 $env:PYTHONPATH='src'
 python -m unittest discover -s tests -p test_android_preview.py -v
+python -m unittest discover -s tests -p test_cpu_internal_duty.py -v
 ```
+
+With a disposable emulator running and the APK open, `verify_background.py
+--work <work-directory>` uses a local Stratum verifier to check continued valid
+work after Home and screen-off, background Stop, wake-lock release and UI return.
+It rejects real-device serials and restores the emulator setting it changes.
+The CPU self-test also measures the actual C-MT loop at 25% and 50% without
+network access. These short tests do not establish indefinite background uptime
+under every manufacturer's power policies. Android references:
+[foreground services](https://developer.android.com/develop/background-work/services/fgs),
+[wake locks](https://developer.android.com/develop/background-work/background-tasks/awake/wakelock/set).
 
 After verification, stop the emulator/build tools and delete the disposable
 work directory. Keep the APK, its checksum, instructions and the private signing

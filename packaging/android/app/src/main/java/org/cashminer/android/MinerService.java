@@ -12,7 +12,12 @@ public class MinerService extends Service {
     private ResultReceiver receiver;
     private Thread worker;
     private volatile boolean emittedExit;
-    private volatile long heartbeat=SystemClock.elapsedRealtime();
+    private PowerManager.WakeLock wakeLock;
+    private boolean hostBound,stopping;
+    private final ServiceConnection host=new ServiceConnection(){
+        @Override public void onServiceConnected(ComponentName name,IBinder binder){}
+        @Override public void onServiceDisconnected(ComponentName name){requestStop();}
+    };
     public static class Mainnet extends MinerService{}
     public static class Testnet3 extends MinerService{}
     public static class Testnet4 extends MinerService{}
@@ -29,19 +34,17 @@ public class MinerService extends Service {
         }
         Intent stop=new Intent(this,getClass()).setAction("STOP");
         PendingIntent action=PendingIntent.getService(this,1,stop,PendingIntent.FLAG_IMMUTABLE|PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent open=PendingIntent.getActivity(this,2,new Intent(this,MainActivity.class)
+            .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP),
+            PendingIntent.FLAG_IMMUTABLE|PendingIntent.FLAG_UPDATE_CURRENT);
         Notification.Builder builder=Build.VERSION.SDK_INT>=26?new Notification.Builder(this,"mining"):new Notification.Builder(this);
         builder.setContentTitle("CashMiner · CPU experimental").setContentText("Minería iniciada por vos · Detener / Stop")
-            .setSmallIcon(android.R.drawable.ic_menu_compass).setOngoing(true)
+            .setSmallIcon(android.R.drawable.ic_menu_compass).setOngoing(true).setContentIntent(open)
             .addAction(new Notification.Action.Builder(null,"Detener / Stop",action).build());
         startForeground(21,builder.build());
-        handler.postDelayed(new Runnable(){public void run(){
-            if(SystemClock.elapsedRealtime()-heartbeat>12000){requestStop();return;}
-            handler.postDelayed(this,3000);
-        }},3000);
     }
     @Override public int onStartCommand(Intent intent,int flags,int startId){
         if(intent==null){stopSelf();return START_NOT_STICKY;}
-        heartbeat=SystemClock.elapsedRealtime();
         if(receiver==null)receiver=intent.getParcelableExtra("receiver");
         if("HEARTBEAT".equals(intent.getAction())&&worker==null){
             emitLine("[android] El proceso minero se interrumpió; podés volver a iniciarlo.");
@@ -52,6 +55,10 @@ public class MinerService extends Service {
         if(!"START".equals(intent.getAction())||worker!=null)return START_NOT_STICKY;
         receiver=intent.getParcelableExtra("receiver");
         String config=intent.getStringExtra("config");
+        hostBound=bindService(new Intent(this,AppHostService.class),host,BIND_AUTO_CREATE|BIND_IMPORTANT);
+        if(!hostBound){emitLine("[android] No se pudo mantener el servicio de la aplicación");emitExit(1,false);stopSelf();return START_NOT_STICKY;}
+        wakeLock=((PowerManager)getSystemService(POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,"CashMiner:MiningCPU");
+        wakeLock.setReferenceCounted(false);wakeLock.acquire();
         worker=new Thread(()->{
             int code=1;
             try {
@@ -59,7 +66,7 @@ public class MinerService extends Service {
                 File root=AppFiles.prepare(this);
                 code=Python.getInstance().getModule("android_entry").callAttr("run_miner",this,root.getAbsolutePath(),config,this).toInt();
             } catch(Throwable e){emitLine("[android] "+e.getClass().getSimpleName()+": "+e.getMessage());}
-            finally {emitExit(code,false);handler.post(()->{stopSelf();android.os.Process.killProcess(android.os.Process.myPid());});}
+            finally {releasePower();emitExit(code,false);handler.post(()->{stopSelf();android.os.Process.killProcess(android.os.Process.myPid());});}
         },"CashMiner-CPU");
         worker.start();return START_NOT_STICKY;
     }
@@ -70,12 +77,17 @@ public class MinerService extends Service {
         if(emittedExit)return;emittedExit=true;
         if(receiver!=null){Bundle b=new Bundle();b.putInt("code",code);b.putBoolean("forced",forced);receiver.send(2,b);}
     }
-    private void requestStop(){
+    private synchronized void releasePower(){if(wakeLock!=null&&wakeLock.isHeld())wakeLock.release();}
+    private synchronized void requestStop(){
+        if(stopping)return;stopping=true;
         new Thread(()->{
             try {if(Python.isStarted())Python.getInstance().getModule("android_entry").callAttr("stop_miner");}catch(Throwable ignored){}
         }).start();
-        handler.postDelayed(()->{emitExit(0,true);stopSelf();android.os.Process.killProcess(android.os.Process.myPid());},6000);
+        handler.postDelayed(()->{releasePower();emitExit(0,true);stopSelf();android.os.Process.killProcess(android.os.Process.myPid());},6000);
     }
-    @Override public void onDestroy(){handler.removeCallbacksAndMessages(null);super.onDestroy();}
-    @Override public void onTaskRemoved(Intent rootIntent){requestStop();}
+    @Override public void onDestroy(){
+        handler.removeCallbacksAndMessages(null);releasePower();
+        if(hostBound){unbindService(host);hostBound=false;}
+        super.onDestroy();
+    }
 }

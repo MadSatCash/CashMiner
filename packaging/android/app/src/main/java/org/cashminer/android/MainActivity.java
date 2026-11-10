@@ -19,6 +19,7 @@ public final class MainActivity extends Activity {
     private final Handler handler=new Handler(Looper.getMainLooper());
     private final ExecutorService backend=Executors.newSingleThreadExecutor();
     private volatile boolean ready;
+    private boolean closeRequested;
     private void content(View child){
         FrameLayout root=new FrameLayout(this);
         root.setBackgroundColor(0xff101719);
@@ -44,7 +45,7 @@ public final class MainActivity extends Activity {
                 }
                 String url=Python.getInstance().getModule("android_entry").callAttr("start_app",this,root.getAbsolutePath()).toString();
                 android.util.Log.i("CashMinerStartup","UI "+url);
-                runOnUiThread(()->open(url));
+                runOnUiThread(()->{if(!isDestroyed()&&!isFinishing())open(url);});
             }catch(Throwable e){android.util.Log.e("CashMinerStartup","Startup failed",e);runOnUiThread(()->text.setText("No se pudo iniciar CashMiner\n"+e.getMessage()));}
         });
     }
@@ -71,10 +72,9 @@ public final class MainActivity extends Activity {
             }
         });content(view);view.loadUrl(url);ready=true;
         handler.post(new Runnable(){public void run(){
-            if(isFinishing())return;
-            MinerGateway.heartbeat();
+            if(isFinishing()||isDestroyed()||backend.isShutdown())return;
             if(ready)backend.submit(()->{
-                try {if(!Python.getInstance().getModule("android_entry").callAttr("alive").toBoolean())runOnUiThread(()->finish());}catch(Throwable ignored){}
+                try {if(!Python.getInstance().getModule("android_entry").callAttr("alive").toBoolean())runOnUiThread(()->{closeRequested=true;finish();});}catch(Throwable ignored){}
             });
             handler.postDelayed(this,2000);
         }});
@@ -82,16 +82,15 @@ public final class MainActivity extends Activity {
     @Override protected void onResume(){super.onResume();MinerGateway.visible=true;}
     @Override protected void onStop(){
         MinerGateway.visible=false;
-        if(ready)backend.submit(()->{try{Python.getInstance().getModule("android_entry").callAttr("pause_mining");}catch(Throwable ignored){}});
         super.onStop();
     }
     @Override public void onBackPressed(){
         new AlertDialog.Builder(this).setMessage("¿Cerrar CashMiner y detener la minería? / Close and stop mining?")
-            .setPositiveButton("Cerrar / Close",(dialog,which)->finish()).setNegativeButton("Cancelar / Cancel",null).show();
+            .setPositiveButton("Cerrar / Close",(dialog,which)->{closeRequested=true;finish();}).setNegativeButton("Cancelar / Cancel",null).show();
     }
     @Override protected void onDestroy(){
         handler.removeCallbacksAndMessages(null);
-        if(isFinishing()&&ready)backend.submit(()->{try{Python.getInstance().getModule("android_entry").callAttr("stop_app");}catch(Throwable ignored){}});
+        if(closeRequested)backend.submit(()->{try{Python.getInstance().getModule("android_entry").callAttr("stop_app");}catch(Throwable ignored){}});
         backend.shutdown();if(view!=null)view.destroy();super.onDestroy();
     }
 }

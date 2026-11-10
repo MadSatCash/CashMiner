@@ -115,6 +115,9 @@ class AndroidMinerController:
 def start_app(context):
     global _service,_server,_gateway
     _gateway=_java('MinerGateway');_gateway.initialize(context)
+    # Reopening an Activity attaches to the existing app/session, including logs.
+    if _server is not None and app_alive():
+        return 'http://127.0.0.1:'+str(_server.server_port)+'/'
     # Install only process-local adapters before the shared server imports aliases.
     from cashminer.wallet import crypto
     crypto.protect_seed=protect_seed;crypto.unprotect_seed=unprotect_seed
@@ -141,7 +144,7 @@ def start_app(context):
     class AndroidHandler(server.CashMinerHandler):
         def send(self,code,data,content='application/json; charset=utf-8',extra=None):
             if content.startswith('text/html') and isinstance(data,str):
-                banner='<div style="padding:9px 14px;background:#18372d;color:#c6efdf;font:13px sans-serif;text-align:center">Android · CPU ≤50% · 1 sesión · Sólo con la app visible / Foreground only</div>'
+                banner='<div style="padding:9px 14px;background:#18372d;color:#c6efdf;font:13px sans-serif;text-align:center">Android · CPU ≤50% · 1 sesión · Minería en segundo plano / Background mining</div>'
                 data=data.replace('<body>','<body>'+banner,1)
             return super().send(code,data,content,extra)
     _server=server.LocalServer(_service)
@@ -150,11 +153,6 @@ def start_app(context):
     threading.Thread(target=_server.serve_forever,daemon=True,name='Android-HTTP').start()
     return 'http://127.0.0.1:'+str(_server.server_port)+'/'
 
-def pause_mining():
-    if _service:
-        for slot in _service.sessions.values():
-            if slot.mining.running():slot.mining.stop()
-
 def stop_app():
     if _service:_service.stop_all()
     if _server:_server.shutdown();_server.server_close()
@@ -162,6 +160,40 @@ def stop_app():
 def app_alive():return bool(_service and not _service.close_event.is_set())
 
 def request_miner_stop():_stop.set()
+
+def _cpu_duty_diagnostics(engine,scanner,seconds=3):
+    """Developer self-test: real native C-MT loop, no network or public mining."""
+    from types import SimpleNamespace
+    saved={key:getattr(engine,key) for key in ('CPU_TARGET_PERCENT','CPU_ENABLED',
+        'USE_C_HASHSCAN','C_HASH_BATCH_SIZE','psutil','log','log_block_estimate')}
+    rows=[]
+    try:
+        engine.CPU_ENABLED=True;engine.USE_C_HASHSCAN=True;engine.C_HASH_BATCH_SIZE=200000
+        engine.psutil=None;engine.log=lambda *args:None;engine.log_block_estimate=lambda *args:None
+        for percent in (25,50):
+            engine.CPU_TARGET_PERCENT=percent
+            event=threading.Event();stats={'hashes':0,'active':0.0}
+            begin=time.monotonic();deadline=begin+seconds
+            def scan(*args):
+                started=time.monotonic();result=scanner.scan_mt(*args)
+                stats['active']+=time.monotonic()-started;stats['hashes']+=result['hashes_done']
+                if time.monotonic()>=deadline:event.set()
+                return result
+            solo=engine.BCHSoloMiner.__new__(engine.BCHSoloMiner)
+            solo.c_scanner=SimpleNamespace(scan_mt=scan)
+            solo.invalidator=SimpleNamespace(invalidate_event=event,error_count=0)
+            solo.build_reward_coinbase=lambda *args:b'CashMiner local benchmark'
+            solo.handle_found_block=lambda **kwargs:None
+            now=time.time()
+            solo.mine_template_c_internal_threads(100,'00'*32,'18000001',0x20000000,
+                int(now),5000000000,[],[],None,'',now,now)
+            elapsed=time.monotonic()-begin
+            rows.append(dict(percent=percent,hashes=stats['hashes'],seconds=round(elapsed,3),
+                             active_percent=round(100*stats['active']/elapsed,2),
+                             hashrate_hs=round(stats['hashes']/elapsed)))
+    finally:
+        for key,value in saved.items():setattr(engine,key,value)
+    return rows
 
 def diagnostics():
     import hashlib
@@ -196,7 +228,8 @@ def diagnostics():
     assert signed['amount_sats']==50000 and signed['fee_sats']>=signed['byte_size']
     return json.dumps(dict(native_genesis_pow=True,keystore_roundtrip=True,wrong_wallet_rejected=True,
         wallet_recovery=True,signed_transaction_verified=True,architecture=os.uname().machine,
-        python=sys.version.split()[0],openssl=ssl.OPENSSL_VERSION,cryptography=cryptography.__version__))
+        python=sys.version.split()[0],openssl=ssl.OPENSSL_VERSION,cryptography=cryptography.__version__,
+        cpu_duty=_cpu_duty_diagnostics(miner,scanner)))
 
 class _Pipe(io.TextIOBase):
     def __init__(self,sink):self.sink=sink;self.pending='';self.lock=threading.RLock()

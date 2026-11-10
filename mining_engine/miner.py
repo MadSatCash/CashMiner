@@ -5318,7 +5318,9 @@ class BCHSoloMiner:
                     return False
 
                 max_hashes = min(C_HASH_BATCH_SIZE, 0x100000000 - nonce_cursor)
+                batch_started = time.time()
                 scan = self.c_scanner.scan_mt(header_prefix, target_le32, nonce_cursor, 1, max_hashes, thread_count)
+                apply_target_throttle(time.time() - batch_started, target_percent_to_fraction(CPU_TARGET_PERCENT))
                 hashes_total += scan["hashes_done"]
 
                 if scan["found"]:

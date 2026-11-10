@@ -20,10 +20,6 @@ def stop_app():
     from cashminer.platform.android_runtime import stop_app
     stop_app()
 
-def pause_mining():
-    from cashminer.platform.android_runtime import pause_mining
-    pause_mining()
-
 def alive():
     from cashminer.platform.android_runtime import app_alive
     return app_alive()

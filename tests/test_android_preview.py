@@ -1,6 +1,8 @@
 """Portable checks for the Android controller; native/Keystore run on device."""
 import json
+import threading
 import unittest
+from types import SimpleNamespace
 from unittest.mock import patch
 from cashminer.platform import android_runtime as android
 from cashminer.mining.bridge import MiningSettings
@@ -15,6 +17,14 @@ def config(**changes):
 
 
 class AndroidControllerTests(unittest.TestCase):
+    def test_activity_recreation_reuses_the_existing_app_and_sessions(self):
+        service=SimpleNamespace(close_event=threading.Event())
+        with patch.object(android,'_service',service),\
+             patch.object(android,'_server',SimpleNamespace(server_port=12345)),\
+             patch.object(android,'_java'):
+            self.assertEqual(android.start_app(None),'http://127.0.0.1:12345/')
+            self.assertIs(android._service,service)
+
     def controller(self):
         lines=[];exits=[]
         return android.AndroidMinerController(lines.append,lambda *args:exits.append(args)),lines,exits
