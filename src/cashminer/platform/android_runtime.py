@@ -72,10 +72,10 @@ class AndroidMinerController:
     def running(self):return not self._done.is_set()
     def start(self,settings):
         settings.validate()
-        if settings.cpu_percent<=0:raise ValueError('Android Preview utiliza CPU: habilitala en Hardware')
-        if settings.cpu_percent>50:raise ValueError('Android Preview admite hasta 50% CPU; empezá con 25%')
+        if settings.cpu_percent<=0:raise ValueError('CashMiner en Android utiliza CPU: habilitala en Hardware')
+        if settings.cpu_percent>50:raise ValueError('CashMiner en Android admite hasta 50% CPU; empezá con 25%')
         if settings.gpu_percent or any(settings.gpu_overrides.values()):
-            raise ValueError('CUDA/OpenCL no están disponibles en Android Preview')
+            raise ValueError('CUDA/OpenCL no están disponibles en CashMiner para Android')
         if not native_libraries():raise RuntimeError('Falta la biblioteca CPU de Android')
         with self._lock:
             if self.running():raise RuntimeError('Ya hay minería en curso')
@@ -138,14 +138,14 @@ def start_app(context):
             cfg['hardware_controls_v2']=True
         server._prefs_save(prefs);marker.touch()
     _service=server.CashMinerService()
-    class PreviewHandler(server.CashMinerHandler):
+    class AndroidHandler(server.CashMinerHandler):
         def send(self,code,data,content='application/json; charset=utf-8',extra=None):
             if content.startswith('text/html') and isinstance(data,str):
-                banner='<div style="padding:9px 14px;background:#18372d;color:#c6efdf;font:13px sans-serif;text-align:center">Android Preview · CPU ≤50% · 1 sesión · Sólo con la app visible / Foreground only</div>'
+                banner='<div style="padding:9px 14px;background:#18372d;color:#c6efdf;font:13px sans-serif;text-align:center">Android · CPU ≤50% · 1 sesión · Sólo con la app visible / Foreground only</div>'
                 data=data.replace('<body>','<body>'+banner,1)
             return super().send(code,data,content,extra)
     _server=server.LocalServer(_service)
-    _server.RequestHandlerClass=PreviewHandler
+    _server.RequestHandlerClass=AndroidHandler
     _service.peer_rankings.start();_service.start_explorer_automation()
     threading.Thread(target=_server.serve_forever,daemon=True,name='Android-HTTP').start()
     return 'http://127.0.0.1:'+str(_server.server_port)+'/'

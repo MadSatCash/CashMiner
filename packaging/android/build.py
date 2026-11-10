@@ -68,7 +68,7 @@ def main():
     subprocess.run(command,check=True,env=env)
     if args.task=='assembleRelease':
         built=work/'build/app/outputs/apk/release/app-release.apk'
-        target=out/'CashMiner-Android-preview.apk';shutil.copy2(built,target)
+        target=out/'CashMiner-Android-v2.17.1.apk';shutil.copy2(built,target)
         value=hashlib.sha256(target.read_bytes()).hexdigest()
         (out/'SHA256SUMS.txt').write_text(value+'  '+target.name+'\n',encoding='ascii')
         print(json.dumps({'apk':str(target),'bytes':target.stat().st_size,'sha256':value}),flush=True)

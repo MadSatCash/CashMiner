@@ -30,8 +30,8 @@ public final class MinerGateway {
         };
     }
     public static synchronized void start(String network,String run,String config) throws Exception {
-        if(!visible)throw new IllegalStateException("Android Preview requiere la app visible");
-        for(Session s:sessions.values())if(!s.exited)throw new IllegalStateException("Android Preview admite una red minera a la vez");
+        if(!visible)throw new IllegalStateException("CashMiner en Android requiere la app visible");
+        for(Session s:sessions.values())if(!s.exited)throw new IllegalStateException("CashMiner en Android admite una red minera a la vez");
         Session session=new Session(run,type(network));sessions.put(network,session);
         ResultReceiver receiver=new ResultReceiver(new Handler(Looper.getMainLooper())) {
             @Override protected void onReceiveResult(int result,Bundle data) {

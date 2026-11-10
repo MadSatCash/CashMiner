@@ -3,7 +3,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <application android:label="CashMiner Preview" android:icon="@mipmap/ic_launcher"
+    <application android:label="CashMiner" android:icon="@mipmap/ic_launcher"
         android:theme="@android:style/Theme.Material.NoActionBar"
         android:allowBackup="false" android:fullBackupContent="false"
         android:usesCleartextTraffic="false" android:networkSecurityConfig="@xml/network_security"

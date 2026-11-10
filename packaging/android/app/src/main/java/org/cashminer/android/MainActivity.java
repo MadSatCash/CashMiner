@@ -31,7 +31,7 @@ public final class MainActivity extends Activity {
     }
     @Override public void onCreate(Bundle state){
         super.onCreate(state);
-        TextView text=new TextView(this);text.setText("CashMiner Android Preview\nPreparando / Starting…");text.setPadding(24,48,24,24);content(text);
+        TextView text=new TextView(this);text.setText("CashMiner\nPreparando / Starting…");text.setPadding(24,48,24,24);content(text);
         MinerGateway.initialize(this);
         if(Build.VERSION.SDK_INT>=33)requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS},1);
         backend.submit(()->{

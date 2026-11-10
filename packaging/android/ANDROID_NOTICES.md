@@ -1,6 +1,6 @@
 # Android build components
 
-CashMiner source remains MIT (see the root LICENSE). This preview adds:
+CashMiner source remains MIT (see the root LICENSE). The Android port adds:
 
 | Component | Version | Upstream | License |
 |---|---|---|---|
@@ -17,5 +17,5 @@ The Android WebView is supplied and maintained by the device, not bundled as a
 separate browser distribution by CashMiner. Android SDK/NDK, CMake, Gradle, JDK
 and AGP are build tools; their complete installations are not shipped in the APK.
 
-Dependency versions here describe the preview build, not the Windows release.
+Dependency versions here describe the Android build, not the Windows release.
 The root THIRD_PARTY_NOTICES.md also applies to shared wallet/UI/miner sources.

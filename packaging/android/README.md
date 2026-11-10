@@ -1,4 +1,4 @@
-# CashMiner Android preview
+# CashMiner Android
 
 Experimental Android port of the shared CashMiner 2.17.1 sources. This is a
 separate APK build; the Windows release and its native DLLs are unchanged.
@@ -11,7 +11,7 @@ separate APK build; the Windows release and its native DLLs are unchanged.
   peer storage and ranking policy come from the shared source tree.
 - CPU only: the original `native/source/bch_hashscan.c` is compiled with the
   Android NDK and uses its existing internal-thread interface. No CUDA/OpenCL.
-- Initial preview: 25% CPU by default, maximum 50%, one mining session at once.
+- Initial Android version: 25% CPU by default, maximum 50%, one mining session at once.
   Leaving the app, locking the screen or opening another application stops
   mining. Returning does not automatically restart it. Network operations can
   take several seconds to stop; an isolated miner process is terminated if it
@@ -25,15 +25,17 @@ separate APK build; the Windows release and its native DLLs are unchanged.
   runs in an app worker thread, separately from the miner service process, using
   the existing scoring policy and SQLite fallback.
 - The desktop log file download uses browser Blob URLs; native file export is
-  not implemented in this preview. Copying logs and displaying recovery material
+  not implemented in this Android version. Copying logs and displaying recovery material
   remain available. This is not a claim of full desktop feature parity.
 - Python 3.11 is required for Chaquopy's ARM32 support. Android uses the available
   prebuilt `cryptography==42.0.8`, not the Windows dependency version. This older
-  mobile dependency must be reviewed before promoting the preview to a stable
+  mobile dependency must be reviewed before promoting the Android port to a stable
   wallet release. Start with test networks and recovery backups.
 
 No Google Play distribution is planned for an app which mines on the device.
-The intended first test is installation of a signed APK directly on a phone.
+The project owner reported successful Testnet3 native P2P mining on a phone,
+around 2 MH/s, with the resulting reward also visible in the matching PC wallet.
+This does not establish equivalent coverage of every device or network.
 
 ## Build / Compilación
 
