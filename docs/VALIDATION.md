@@ -16,7 +16,11 @@ The automated GUI check timed out while discovering the child listener port;
 the visual automation tool could not confidently identify the app-browser URL.
 Those are unresolved verification limitations, not evidence of a confirmed GUI
 product defect. The author subsequently reported successful manual startup
-and began a mining trial; this is not yet a completed stability test.
+and ran a short simultaneous Testnet3/FABLOUS trial on 2026-11-10. The local
+miner logs record nine Testnet3 proof-of-work solutions and one FABLOUS
+solution (height 364992), whose header was then announced by three peers.
+The counters matched these logs. This is evidence from a short real mining
+trial, not full-block validation or a completed long-duration stability test.
 
 Still pending before final distribution: automated startup/normal shutdown,
 clean Windows installation, installer, signing/distribution decisions and final
@@ -48,8 +52,12 @@ contra un servidor Stratum local y el proceso separado de ranking.
 
 El comprobador automático de GUI agotó el plazo buscando el puerto del hijo;
 la automatización visual se detuvo al no identificar con certeza la URL.
-El autor informó después que abrió correctamente y comenzó una prueba manual
-de minería. Eso no equivale a una prueba prolongada de estabilidad terminada.
+El autor informó después que abrió correctamente y realizó una prueba corta
+simultánea de Testnet3 y FABLOUS el 10/11/2026. Los logs locales registraron
+nueve soluciones PoW de Testnet3 y una de FABLOUS (altura 364992), cuya cabecera
+fue anunciada después por tres peers. Los contadores coincidieron con los logs.
+Es evidencia de minería real breve, no validación completa de bloques ni una
+prueba prolongada de estabilidad terminada.
 
 Siguen pendientes el cierre de la comprobación automática de inicio/cierre,
 Windows limpio, instalador y los detalles finales de distribución. Para
