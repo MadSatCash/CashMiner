@@ -24,6 +24,11 @@ public class MinerService extends Service {
     public static class Chipnet extends MinerService{}
     public static class Tempnet extends MinerService{}
     public static class Regtest extends MinerService{}
+    private int networkIndex(){return switch(getClass().getSimpleName()){
+        case "Mainnet" -> 0;case "Testnet3" -> 1;case "Testnet4" -> 2;
+        case "Chipnet" -> 3;case "Tempnet" -> 4;case "Regtest" -> 5;
+        default -> throw new IllegalStateException("Red desconocida");
+    };}
 
     @Override public IBinder onBind(Intent intent){return null;}
     @Override public void onCreate(){
@@ -38,10 +43,11 @@ public class MinerService extends Service {
             .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP),
             PendingIntent.FLAG_IMMUTABLE|PendingIntent.FLAG_UPDATE_CURRENT);
         Notification.Builder builder=Build.VERSION.SDK_INT>=26?new Notification.Builder(this,"mining"):new Notification.Builder(this);
-        builder.setContentTitle("CashMiner · CPU experimental").setContentText("Minería iniciada por vos · Detener / Stop")
+        String label=new String[]{"Mainnet","Testnet3","Testnet4","Chipnet","FABLOUS Tempnet","Regtest"}[networkIndex()];
+        builder.setContentTitle("CashMiner · "+label).setContentText("Minería CPU · Detener / Stop")
             .setSmallIcon(android.R.drawable.ic_menu_compass).setOngoing(true).setContentIntent(open)
             .addAction(new Notification.Action.Builder(null,"Detener / Stop",action).build());
-        startForeground(21,builder.build());
+        startForeground(21+networkIndex(),builder.build());
     }
     @Override public int onStartCommand(Intent intent,int flags,int startId){
         if(intent==null){stopSelf();return START_NOT_STICKY;}

@@ -111,6 +111,27 @@ class AndroidMinerController:
     def wait_for_log_close(self,timeout=8):
         if self._reader and self._reader is not threading.current_thread():self._reader.join(timeout)
 
+def _prepare_preferences(server,root):
+    prefs=server._prefs_read()
+    marker=Path(root)/'android-initialized'
+    changed=False
+    if not marker.exists():
+        # Keep the shared Windows defaults, including CPU=0 and Mainnet view.
+        # Only unavailable GPU backends need an Android hardware adaptation.
+        prefs['gpu_percent']=0;prefs['hardware_controls_v2']=True
+        for cfg in prefs['miner_settings'].values():
+            cfg['gpu_percent']=0;cfg['gpu_overrides']={};cfg['gpu_identity_overrides']={}
+            cfg['hardware_controls_v2']=True
+        changed=True
+    if prefs.get('android_defaults_version',0)<2:
+        # Explicitly requested restoration of the old forced-off master values.
+        # This runs once; subsequent user changes remain authoritative.
+        prefs.update(server.EXPLORER_MASTER_DEFAULTS)
+        prefs['android_defaults_version']=2;changed=True
+    if changed:server._prefs_save(prefs)
+    if not marker.exists():marker.touch()
+
+
 def start_app(context):
     global _service,_server,_gateway
     _gateway=_java('MinerGateway');_gateway.initialize(context)
@@ -128,26 +149,9 @@ def start_app(context):
     peer_rankings.PeerRankingProcess=AndroidRanking
     from cashminer.app import server
     server._open_default_browser=lambda url:_gateway.openExternal(url)
-    prefs=server._prefs_read()
-    # New APK data is private to Android; no Windows preferences are migrated.
-    marker=Path(os.environ['CASHMINER_DATA_DIR'])/'android-initialized'
-    if not marker.exists():
-        prefs['wallet_network']='testnet3';prefs['network']='testnet3'
-        prefs['cpu_percent']=25;prefs['gpu_percent']=0;prefs['hardware_controls_v2']=True
-        prefs['explorer_auto_master']=False;prefs['explorer_continuous_master']=False
-        for cfg in prefs['miner_settings'].values():
-            cfg['cpu_percent']=25;cfg['gpu_percent']=0;cfg['gpu_overrides']={};cfg['gpu_identity_overrides']={}
-            cfg['hardware_controls_v2']=True
-        server._prefs_save(prefs);marker.touch()
+    _prepare_preferences(server,Path(os.environ['CASHMINER_DATA_DIR']))
     _service=server.CashMinerService()
-    class AndroidHandler(server.CashMinerHandler):
-        def send(self,code,data,content='application/json; charset=utf-8',extra=None):
-            if content.startswith('text/html') and isinstance(data,str):
-                banner='<div style="padding:9px 14px;background:#18372d;color:#c6efdf;font:13px sans-serif;text-align:center">Android · CPU 0–100% · 1 sesión · Minería en segundo plano / Background mining</div>'
-                data=data.replace('<body>','<body>'+banner,1)
-            return super().send(code,data,content,extra)
     _server=server.LocalServer(_service)
-    _server.RequestHandlerClass=AndroidHandler
     _service.peer_rankings.start();_service.start_explorer_automation()
     threading.Thread(target=_server.serve_forever,daemon=True,name='Android-HTTP').start()
     return 'http://127.0.0.1:'+str(_server.server_port)+'/'

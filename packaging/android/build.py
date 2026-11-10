@@ -52,10 +52,12 @@ def main():
                     if directory=='ui' and path.suffix in ('.html','.js'):
                         # The APK uses Android Keystore, never Windows DPAPI.
                         text=path.read_text('utf-8').replace('Windows DPAPI','Android Keystore').replace('cifrado DPAPI','cifrado Android Keystore')
-                        text=text.replace('Inicial: CPU 0 %, GPU 25 %.','Inicial en Android: CPU 25 %, sin minería GPU.')
-                        text=text.replace('Defaults: CPU 0%, GPU 25%.','Android default: CPU 25%, no GPU mining.')
+                        text=text.replace('Inicial: CPU 0 %, GPU 25 %.','Inicial: CPU 0 %. GPU no disponible en esta versión Android.')
+                        text=text.replace('Defaults: CPU 0%, GPU 25%.','Defaults: CPU 0%. GPU unavailable in this Android version.')
                         if path.name=='index.html':
                             text=text.replace('gpu_percent:25,gpu_overrides:{}','gpu_percent:0,gpu_overrides:{}')
+                            text=text.replace(' const name=selectedMinerLog;\n',
+                                " const name=selectedMinerLog;\n if(save&&window.CashMinerAndroid){window.CashMinerAndroid.saveLog(name,TOKEN);return;}\n")
                         z.writestr(str(path.relative_to(SOURCE)).replace('\\','/'),text)
                     else:z.write(path,path.relative_to(SOURCE))
         for name in ('LICENSE','THIRD_PARTY_NOTICES.md'):z.write(SOURCE/name,name)

@@ -11,13 +11,14 @@ separate APK build; the Windows release and its native DLLs are unchanged.
   peer storage and ranking policy come from the shared source tree.
 - CPU only: the original `native/source/bch_hashscan.c` is compiled with the
   Android NDK and uses its existing internal-thread interface. No CUDA/OpenCL.
-- CPU range is 0–100%, initially 25%, one mining session at once.
+- CPU range is 0–100%, with the shared Windows CPU default (0%). Sessions are
+  independent per network and can run simultaneously, with a separate mining
+  notification and Stop action for each network. Saved user percentages remain.
   Mining continues when the app is minimized, its Activity is recreated, or the
   screen is locked. The miner uses a foreground notification with a Stop action;
   its partial wake lock is held only while mining and released on stop/exit.
   A bound app service keeps the Python application/log receiver associated with
-  the foreground miner. Activity visibility is required to start a new session,
-  not to keep it running. Stop or the explicit Close action ends mining; there
+  the foreground miners. Stop or the explicit Close action ends mining; there
   is no automatic restart after process termination. Android/vendor power or
   memory policies can still affect background operation.
   Network operations can take several seconds to stop; an isolated miner
@@ -29,12 +30,15 @@ separate APK build; the Windows release and its native DLLs are unchanged.
   Recovery phrases/keys remain necessary: uninstalling or clearing app storage
   can destroy the vault and its wrapping key. Never treat copying an encrypted
   Android vault to another device as a recovery method.
-- Explorer automation starts disabled in a new Android installation. Ranking
+- Explorer automation uses the shared Windows defaults. Upgrading from the
+  initial Android build restores its two forced-off master switches once; later
+  user choices are preserved. Per-network settings remain untouched. New app
+  installations also use the shared Mainnet initial view. Ranking
   runs in an app worker thread, separately from the miner service process, using
   the existing scoring policy and SQLite fallback.
-- The desktop log file download uses browser Blob URLs; native file export is
-  not implemented in this Android version. Copying logs and displaying recovery material
-  remain available. This is not a claim of full desktop feature parity.
+- The existing log download opens Android's Save As document picker and streams
+  the complete authenticated local log to the destination chosen by the user.
+  Copying logs and displaying recovery material remain available.
 - Python 3.11 is required for Chaquopy's ARM32 support. Android uses the available
   prebuilt `cryptography==42.0.8`, not the Windows dependency version. This older
   mobile dependency must be reviewed before promoting the Android port to a stable
@@ -95,6 +99,7 @@ Portable controller checks:
 ```powershell
 $env:PYTHONPATH='src'
 python -m unittest discover -s tests -p test_android_preview.py -v
+python -m unittest discover -s tests -p test_android_defaults.py -v
 python -m unittest discover -s tests -p test_cpu_internal_duty.py -v
 ```
 
@@ -107,6 +112,15 @@ network access. These short tests do not establish indefinite background uptime
 under every manufacturer's power policies. Android references:
 [foreground services](https://developer.android.com/develop/background-work/services/fgs),
 [wake locks](https://developer.android.com/develop/background-work/background-tasks/awake/wakelock/set).
+
+`verify_parallel.py --work <work-directory>` checks two simultaneous network
+sessions against independent local Stratum verifiers, separate notifications,
+continued background shares, and stopping one network while the other continues.
+The 2170105 build passed this check with 29 and 41 independently verified shares.
+Its Save As log export was also exercised through the emulator's document picker;
+the saved 8,962 bytes matched the complete original log exactly. Eighteen focused
+controller, defaults and CPU duty tests passed. These are controlled emulator and
+unit checks, not a repeat of public-network mining on the owner's phone.
 
 After verification, stop the emulator/build tools and delete the disposable
 work directory. Keep the APK, its checksum, instructions and the private signing

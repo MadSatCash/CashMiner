@@ -9,7 +9,6 @@ import java.util.concurrent.*;
 
 public final class MinerGateway {
     private static Context context;
-    public static volatile boolean visible;
     private static final Map<String,Session> sessions=new ConcurrentHashMap<>();
     private static final Handler monitor=new Handler(Looper.getMainLooper());
     private static boolean watching;
@@ -44,8 +43,8 @@ public final class MinerGateway {
         };
     }
     public static synchronized void start(String network,String run,String config) throws Exception {
-        if(!visible)throw new IllegalStateException("CashMiner en Android requiere la app visible");
-        for(Session s:sessions.values())if(!s.exited)throw new IllegalStateException("CashMiner en Android admite una red minera a la vez");
+        Session previous=sessions.get(network);
+        if(previous!=null&&!previous.exited)throw new IllegalStateException("Ya hay minería en curso en esta red");
         Session session=new Session(run,type(network));sessions.put(network,session);
         ResultReceiver receiver=new ResultReceiver(new Handler(Looper.getMainLooper())) {
             @Override protected void onReceiveResult(int result,Bundle data) {

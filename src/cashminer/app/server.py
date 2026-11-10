@@ -83,11 +83,14 @@ def _as_float(value,default):
     except Exception:raise ValueError(f'El porcentaje debe estar entre 0 y 100 (recibido {value!r})')
 
 
+EXPLORER_MASTER_DEFAULTS={'explorer_auto_master':True,'explorer_continuous_master':True}
+
+
 def _prefs_read():
     defaults={'network':'mainnet','wallet_network':'mainnet','wallet_selected':{},'selected_wallet':{},'mining_wallet':{},'cpu_percent':0,
               'gpu_percent':25,'gpu_overrides':{},'gpu_identity_overrides':{},'hardware_controls_v2':False,'peers_per_round':25,
               'peer_concurrency':4,'peer_timeout':4,'explorer_interval':90,
-              'explorer_auto_master':True,'explorer_continuous_master':True,
+              **EXPLORER_MASTER_DEFAULTS,
               'explorer_auto_by_network':{},
               'max_db_mib':100,'mining_target_mode':'wallet','fixed_address':'',
               'log_max_mib':50,'min_peers_mining':2,'ui_language':'es','number_format':'auto','fiat_currency':'USD','wallet_derivation_defaults':{},

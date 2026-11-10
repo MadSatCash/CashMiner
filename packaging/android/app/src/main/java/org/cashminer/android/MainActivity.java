@@ -16,6 +16,7 @@ import java.util.concurrent.*;
 
 public final class MainActivity extends Activity {
     private WebView view;private String origin;
+    private LogExport logExport;
     private final Handler handler=new Handler(Looper.getMainLooper());
     private final ExecutorService backend=Executors.newSingleThreadExecutor();
     private volatile boolean ready;
@@ -32,6 +33,7 @@ public final class MainActivity extends Activity {
     }
     @Override public void onCreate(Bundle state){
         super.onCreate(state);
+        logExport=new LogExport(this,state);
         TextView text=new TextView(this);text.setText("CashMiner\nPreparando / Starting…");text.setPadding(24,48,24,24);content(text);
         MinerGateway.initialize(this);
         if(Build.VERSION.SDK_INT>=33)requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS},1);
@@ -52,6 +54,7 @@ public final class MainActivity extends Activity {
     private void open(String url){
         origin=url.substring(0,url.length()-1);
         view=new WebView(this);view.setBackgroundColor(0xff101719);
+        view.addJavascriptInterface(logExport.bridge(origin),"CashMinerAndroid");
         WebSettings settings=view.getSettings();settings.setJavaScriptEnabled(true);settings.setDomStorageEnabled(true);
         settings.setAllowFileAccess(false);settings.setAllowContentAccess(false);
         settings.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
@@ -79,14 +82,13 @@ public final class MainActivity extends Activity {
             handler.postDelayed(this,2000);
         }});
     }
-    @Override protected void onResume(){super.onResume();MinerGateway.visible=true;}
-    @Override protected void onStop(){
-        MinerGateway.visible=false;
-        super.onStop();
-    }
     @Override public void onBackPressed(){
         new AlertDialog.Builder(this).setMessage("¿Cerrar CashMiner y detener la minería? / Close and stop mining?")
             .setPositiveButton("Cerrar / Close",(dialog,which)->{closeRequested=true;finish();}).setNegativeButton("Cancelar / Cancel",null).show();
+    }
+    @Override protected void onSaveInstanceState(Bundle state){logExport.saveState(state);super.onSaveInstanceState(state);}
+    @Override protected void onActivityResult(int request,int result,Intent data){
+        if(!logExport.onResult(request,result,data))super.onActivityResult(request,result,data);
     }
     @Override protected void onDestroy(){
         handler.removeCallbacksAndMessages(null);
