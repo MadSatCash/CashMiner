@@ -1,0 +1,1 @@
+"""Subsistema mining de CashMiner."""

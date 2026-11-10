@@ -1,0 +1,1 @@
+"""Subsistema wallet de CashMiner."""

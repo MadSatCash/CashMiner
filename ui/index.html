@@ -1,0 +1,2048 @@
+<!DOCTYPE html>
+<html lang="es" translate="no">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="google" content="notranslate">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icon_32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/icon_16.png">
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><title>CashMiner · Bitcoin Cash Wallet & Miner</title>
+<style>
+:root { --bg:#0b1110;--panel:#141e1b;--surface:#182723;--surface2:#1b3028;--muted:#9aafa7;--text:#effaf1;--line:#2b4038;--green:#8dc351;--action:#188a57;--action-hover:#26a66d;--amber:#e5bf68;--red:#e97e7e;--radius:17px; }
+*{box-sizing:border-box} html,body{margin:0;min-height:100%;font-family:'Segoe UI',Inter,system-ui,sans-serif;background:var(--bg);color:var(--text)} button,input,select{font:inherit}button{cursor:pointer;transition:background .17s,border-color .17s,transform .12s}button:active{transform:scale(.99)} button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--green);outline-offset:2px} .container{max-width:1330px;padding:28px 30px 52px;margin:auto} .masthead{display:flex;align-items:center;justify-content:space-between;margin:8px 0 37px;gap:15px}.identity{display:flex;gap:13px;align-items:center}.logo{background:linear-gradient(135deg,var(--action),#82bb4f);width:47px;height:47px;border-radius:15px;display:grid;place-items:center;box-shadow:0 8px 26px #06371e66}.logo svg{width:29px;height:29px;stroke:white;stroke-width:1.75;fill:none;stroke-linecap:round;stroke-linejoin:round}.brand{font-size:25px;font-weight:720;letter-spacing:-.75px}.subtitle{font-size:12px;color:var(--muted);margin-top:1px}.top-actions{display:flex;gap:8px;align-items:center}.pill{font-size:12px;background:#13291f;border:1px solid #285a3b;padding:8px 12px;border-radius:25px;color:#a3e0af;display:flex;gap:7px;align-items:center}.dot{width:7px;height:7px;display:inline-block;background:var(--green);border-radius:100%;box-shadow:0 0 6px #b1f76688}.dim-dot{background:#698177;box-shadow:none}.small-gear{width:36px;height:36px;display:grid;place-items:center;background:transparent;color:var(--muted);border:1px solid transparent;border-radius:8px;font-size:20px}.small-gear:hover{color:var(--text);background:var(--surface2)}
+.network-shell{position:relative;border:1px solid var(--line);border-radius:19px;padding:29px 23px 24px;margin-top:27px;background:#0e1714;box-shadow:0 15px 55px #0003}.network-indicator{height:8px;width:8px;display:inline-block;flex-shrink:0;border-radius:50%;background:#6f8076}.network-indicator.online{background:var(--green);box-shadow:0 0 7px #8dc35188}.network-indicator.mining{background:var(--action)}
+.layout{display:grid;grid-template-columns:minmax(220px,345px) minmax(0,1fr);gap:18px;align-items:stretch}.pane{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);min-width:0}.wallets-pane{padding:21px;min-height:540px}.pane-title{font-size:15px;font-weight:680;letter-spacing:-.12px}.pane-title-group{display:flex;align-items:center;justify-content:space-between;gap:7px;margin-bottom:16px}.wallet-list{display:flex;flex-direction:column;gap:9px;min-height:180px}.wallet-item{width:100%;border-radius:12px;border:1px solid #365545;background:#1b2b24;text-align:left;padding:13px 14px;color:var(--text);display:flex;align-items:flex-start;gap:11px}.wallet-item:hover{background:#213e2e}.wallet-item.selected{border-color:#5aab65;background:#1f3829;box-shadow:inset 3px 0 0 var(--green)}.wallet-item-icon{font-size:20px;color:var(--green);line-height:1}.wallet-item strong{display:block;font-size:14px}.wallet-item small{display:block;color:var(--muted);margin-top:5px;font-size:11px;word-break:break-all}.wallet-empty{color:var(--muted);font-size:14px;line-height:1.55;padding:15px 6px}.add-wallet{border:1px dashed #436447;background:transparent;color:#b7d7b8;font-size:13px;border-radius:11px;padding:12px 9px;width:100%;margin-top:14px}.add-wallet:hover{background:#1a3024}
+.primary-column{display:flex;flex-direction:column;gap:16px}.balance-pane{padding:27px 28px 20px;min-height:260px}.eyebrow{font-size:10px;font-weight:740;letter-spacing:1.4px;color:var(--muted);text-transform:uppercase}.wallet-name{margin-top:8px;font-size:15px;font-weight:650}.balance{font-size:37px;line-height:1.25;font-weight:720;letter-spacing:-.9px;color:var(--green);margin:18px 0 6px}.balance.unknown{font-size:27px;color:#c8d9cf}.help-text{font-size:12px;color:var(--muted);line-height:1.5}.action-row{display:flex;gap:10px;margin-top:22px}.action-row button{flex:1}.btn{border:1px solid #355348;padding:12px 17px;border-radius:11px;background:#26352f;color:#eef8ee;font-weight:650;font-size:14px}.btn:hover{background:#355247}.btn.primary{background:var(--action);border-color:#268961;color:white}.btn.primary:hover{background:var(--action-hover)}.btn.ghost{background:transparent;border-color:var(--line);color:var(--muted)}.btn.ghost:hover{background:var(--surface)}.btn:disabled{opacity:.45;cursor:not-allowed}.btn.small{padding:8px 11px;font-size:12px}.balance-hint{font-size:12px;color:#a9bcb2;margin-top:18px}.balance-hint button{border:none;background:transparent;color:var(--green);text-decoration:underline;cursor:pointer;font-size:12px}
+.mining-pane{padding:23px 28px 27px}.mining-header{display:flex;justify-content:space-between;align-items:center}.mining-title{display:flex;align-items:center;gap:9px;font-size:17px;font-weight:690}.pick{font-size:22px}.miner-meta{font-size:13px;color:var(--muted);margin:17px 0 16px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px}.miner-meta .running{color:#a3edaa}.mining-destination{font-size:12px;color:var(--muted);margin-bottom:12px}.mining-bottom{display:flex;gap:12px;align-items:center}.mining-bottom .btn{flex:1}.miner-summary{display:flex;gap:16px;flex-wrap:wrap;margin-top:15px;border-top:1px solid var(--line);padding-top:15px}.metric{font-size:12px;color:var(--muted)}.metric b{display:block;color:#e5f1e8;margin-top:4px;font-size:17px}.badge-warning{color:#e8bf6c}
+.footer{color:#71867b;font-size:11px;margin:17px 8px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}.hintline{margin-top:12px;color:#94b2a0;font-size:12px}
+.modal-overlay{position:fixed;inset:0;background:#000b;display:flex;align-items:center;justify-content:center;z-index:30;padding:20px;backdrop-filter:blur(4px)}.modal-overlay[hidden]{display:none}.modal{background:#111b17;border:1px solid #385244;border-radius:20px;box-shadow:0 30px 90px #0009;width:min(730px,100%);max-height:92vh;overflow-y:auto}.modal.wide{width:min(1040px,100%)}.modal-header{position:sticky;top:0;z-index:2;background:#111b17;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding:20px 23px}.modal-title{font-size:19px;font-weight:700}.modal-body{padding:23px}.modal-close{width:38px;height:38px;font-size:24px;line-height:1;background:#1f3027;border:1px solid var(--line);border-radius:10px;color:#c9d7cf}.modal-close:hover{background:#2c4737}.settings-section{padding:16px 0;border-bottom:1px solid #2d4538}.settings-section:first-child{padding-top:0}.settings-section:last-child{border:0}.section-title{font-size:15px;font-weight:700;margin:0 0 13px}.field-label{display:block;font-size:12px;color:var(--muted);margin-bottom:7px}.input,.select{width:100%;padding:12px;background:#1a2d23;color:var(--text);border:1px solid #365142;border-radius:9px;outline:0;font-size:14px}.input:focus,.select:focus{border-color:var(--green)}.option-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{margin-bottom:15px}.field:last-child{margin-bottom:0}.radio-row{display:flex;align-items:center;gap:10px;padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:#192720;margin:8px 0;cursor:pointer;font-size:13px}.radio-row:has(input:checked){border-color:#6aa960;background:#1d3626}.radio-row input{accent-color:var(--green)}.notice{border:1px solid #5c5334;background:#292519;color:#e5c889;padding:12px;border-radius:10px;font-size:12px;line-height:1.5;margin:12px 0}.success-notice{border-color:#3c7047;background:#1b3324;color:#acdcb4}.path{font-family:Consolas,monospace;font-size:11px;word-break:break-all;color:#c1d3c6}details{border:1px solid var(--line);border-radius:11px;margin:12px 0;background:#16231d}summary{list-style:none;cursor:pointer;padding:15px;font-weight:640;font-size:14px;display:flex;justify-content:space-between;align-items:center}summary::-webkit-details-marker{display:none}details > summary::after{content:'';display:block;flex:none;width:8px;height:8px;margin-left:13px;margin-right:3px;border-right:2px solid var(--green);border-bottom:2px solid var(--green);transform:rotate(45deg);transition:transform .15s ease}details[open] > summary::after{transform:rotate(225deg)}.details-body{padding:0 15px 17px}.btn-line{display:flex;gap:10px;flex-wrap:wrap;margin-top:13px}.status-line{font-size:12px;color:var(--muted);margin-top:10px}.logbox{height:245px;overflow:auto;padding:12px;background:#080f0d;border:1px solid #2c4437;border-radius:9px;white-space:pre-wrap;word-break:break-word;font:11px/1.5 Consolas,monospace;color:#c5e5c8}.peer-table{width:100%;border-collapse:collapse;font:12px 'Segoe UI',sans-serif}.peer-table td,.peer-table th{padding:9px 8px;border-bottom:1px solid #244032;text-align:left}.peer-table th{color:#a6c1b0;font-size:11px}.peer-table td{word-break:break-word}.muted{color:var(--muted)}.inline-code{font-family:Consolas,monospace;color:#b3e1b7;word-break:break-all;font-size:13px}.toast{position:fixed;bottom:26px;right:27px;max-width:400px;background:#263a2c;border:1px solid #4d8055;color:white;border-radius:11px;padding:13px 16px;box-shadow:0 8px 25px #0008;z-index:40;font-size:13px}.toast.error{border-color:#a45151;background:#3a2727}.hidden{display:none!important}.flex-between{display:flex;align-items:center;justify-content:space-between;gap:10px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.hr{border:none;border-top:1px solid var(--line);margin:18px 0}.verification{background:#1c3524;padding:12px;border-radius:10px;color:#a8dab7;font-size:12px}.create-only{padding:0;border:0;background:transparent;color:var(--green);font-weight:650;text-decoration:underline}
+@media (max-width:860px){.container{padding:18px 14px 35px}.layout{grid-template-columns:1fr}.wallets-pane{min-height:auto}.wallet-list{min-height:auto}.balance-pane,.mining-pane{padding:22px}.masthead{margin:5px 0 37px}.network-shell{padding:29px 12px 15px}.option-grid{grid-template-columns:1fr}.modal-body{padding:17px}}
+@media (max-width:460px){.brand{font-size:20px}.logo{height:39px;width:39px}.subtitle{font-size:10px}.balance{font-size:32px}.masthead{align-items:flex-start}.pill{font-size:10px}.modal-overlay{padding:8px}.modal-body{padding:12px}.grid2{grid-template-columns:1fr}}
+
+.log-tools{display:flex;align-items:center;flex-wrap:wrap;gap:7px;margin:9px 0}
+.log-tools .btn{padding:7px 10px;font-size:12px}
+.log-session-select{flex:1;min-width:195px;max-width:100%;font-size:12px;padding:9px}
+.log-summary{font-size:11px;color:var(--muted);margin:6px 0;overflow-wrap:anywhere}
+.logbox{font-size:11px;user-select:text}
+.logbox:focus{outline:1px solid var(--green)}
+.log-search-input{flex:1;min-width:165px;font-size:12px;padding:9px}
+.log-retention{font-size:12px;color:var(--muted);gap:9px}
+.log-retention #logLimit{width:80px;font-size:12px;padding:8px}
+.log-retention #logUsage{flex:1;min-width:140px}
+.logbox mark{background:#ead35b;color:#122117;border-radius:2px;padding:0 1px}
+@media(max-width:540px){.log-tools{align-items:stretch}.log-session-select,.log-search-input{flex-basis:100%}.log-retention #logUsage{flex-basis:100%}}
+
+
+/* 2.2.0: la vista principal es wallet-first; minería sólo ocupa una fila. */
+.container{padding:20px 28px 22px}
+.masthead{margin:4px 0 26px}
+.network-shell{margin-top:27px;padding:23px 20px 20px}
+.layout{grid-template-columns:minmax(215px,345px) minmax(0,1fr);gap:16px}
+.wallets-pane{min-height:365px;display:flex;flex-direction:column}
+.wallet-list{min-height:145px;flex:1}
+.primary-column{gap:13px}
+.balance-pane{min-height:240px;padding:22px 25px 20px;flex:1}
+.mining-pane{padding:16px 20px;min-height:78px;display:flex;align-items:center}
+.mining-header{width:100%;gap:12px}
+.mining-title{font-size:16px}
+.mining-controls{display:flex;align-items:center;gap:12px}
+.mine-toggle{width:49px;height:27px;border-radius:16px;border:1px solid #536c5d;background:#283a31;padding:3px;display:flex;align-items:center;justify-content:flex-start;cursor:pointer;transition:background .15s;flex-shrink:0}
+.mine-toggle .thumb{width:19px;height:19px;border-radius:50%;background:#d7e0d9;box-shadow:0 1px 4px #0005;transition:transform .15s}
+.mine-toggle[aria-checked="true"]{background:#148b58;border-color:#39a66d}
+.mine-toggle[aria-checked="true"] .thumb{transform:translateX(21px);background:white}
+.mine-toggle:disabled{opacity:.4;cursor:not-allowed}
+.mine-toggle.busy{opacity:.65}
+.mine-toggle:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+.footer{margin:14px 4px 0;align-items:center}
+.footer-left{display:flex;flex-direction:column;gap:5px;min-width:0;flex:1}
+.activity-strip{display:flex;gap:8px;align-items:center;color:#a9c5b2;font-size:12px;min-height:19px}
+.activity-strip .dot{flex-shrink:0}
+.activity-strip[data-phase="error"]{color:#eaa1a1}
+.activity-strip[data-phase="found"],.activity-strip[data-phase="observing"]{color:#bee5a7}
+.activity-strip[data-phase="stale"]{color:#dfbf75}
+.activity-message{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+.footer-info{font-size:10px;color:#728779}
+.diagnostic-overview{display:flex;align-items:center;flex-wrap:wrap;gap:10px 18px;font-size:12px;color:var(--muted)}
+.diagnostic-overview strong{color:var(--text);font-size:13px}
+.decision-overlay{position:fixed;inset:0;background:#000b;z-index:55;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(2px)}
+.decision-overlay[hidden]{display:none}
+.decision-dialog{width:min(440px,100%);background:#13211a;border:1px solid #46634f;border-radius:16px;box-shadow:0 22px 80px #000b;padding:22px}
+.decision-title{font-size:17px;font-weight:680;margin-bottom:12px}
+.decision-message{font-size:13px;line-height:1.5;color:#bdcfbf;white-space:pre-line}
+.decision-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;flex-wrap:wrap}
+.decision-options{display:flex;align-items:flex-start;gap:8px;margin-top:15px;font-size:12px;color:#b9d6c1;line-height:1.5}
+.decision-options input{accent-color:var(--green);margin-top:2px}
+@media(max-width:860px){.layout{grid-template-columns:minmax(0,1fr)}.wallets-pane{min-height:auto}.wallet-list{min-height:auto}.balance-pane{min-height:245px}.mining-pane{padding:16px}.container{padding:16px 14px 25px}.footer{gap:8px}}
+@media(max-width:460px){.network-shell{padding:28px 10px 12px}.mining-title{font-size:15px}.footer-left{width:100%}.activity-strip{font-size:11px}}
+@media(min-width:861px) and (min-height:650px){.container{padding-bottom:12px}.network-shell{margin-top:26px}.wallets-pane{min-height:370px}}
+
+/* v2.2.1: minería pertenece al lateral, debajo de Mis billeteras. */
+.sidebar-column{min-width:0;display:flex;flex-direction:column;gap:12px}
+.sidebar-column .wallets-pane{min-height:320px;flex:1}
+.sidebar-column .wallet-list{min-height:130px}
+.sidebar-column .mining-pane{min-height:105px;display:flex;flex-direction:column;align-items:stretch;justify-content:center;padding:13px 17px;flex:none;gap:0}
+.sidebar-column .mining-header{width:100%;gap:8px}
+.sidebar-column .mining-title{font-size:15px;gap:7px}
+.sidebar-column .mining-title .pick{font-size:20px}
+.sidebar-column .mining-controls{gap:7px}
+.sidebar-column .small-gear{width:30px;height:32px}
+.sidebar-column .activity-strip{margin-top:10px;min-width:0;font-size:11px;gap:6px}
+.sidebar-column .activity-message{flex:1;min-width:0}
+.block-count{font-variant-numeric:tabular-nums;font-weight:720;color:#c9e8c7;white-space:nowrap;border-left:1px solid #395448;padding-left:9px;font-size:13px;min-width:15px;text-align:center}
+.footer{margin-top:14px}
+@media(max-width:860px){.layout{grid-template-columns:minmax(0,1fr)}.sidebar-column .wallets-pane{min-height:250px}.sidebar-column .mining-pane{min-height:100px}}
+@media(max-width:460px){.sidebar-column .mining-pane{padding:13px 12px}.sidebar-column .activity-strip{font-size:10px}}
+
+
+.explorer-summary-label{min-width:0;flex:1}.explorer-summary-state{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;font-size:12px;color:var(--muted);font-weight:500;margin-left:auto}.explorer-summary-state::before{content:'';display:inline-block;flex:none;height:7px;width:7px;background:#698177;border-radius:50%}.explorer-summary-state.is-active{color:#ace9b6}.explorer-summary-state.is-active::before{background:#8dc351;box-shadow:0 0 6px #8dc35188}.explorer-summary-state.is-stopping{color:#e5bf68}.explorer-summary-state.is-stopping::before{background:#e5bf68}.peer-known-counter{font-weight:400;font-size:12px;color:var(--muted);margin-left:auto;white-space:nowrap}.explorer-log-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.explorer-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.explorer-phase{color:#b9ddb9;font-size:13px}.explorer-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:13px 0}
+.explorer-metric{background:#192c23;border:1px solid #294437;border-radius:11px;padding:12px;min-width:0}
+.explorer-metric b{display:block;color:#e9f5e9;font-size:21px}.explorer-metric span{display:block;margin-top:5px;color:#a6bcb0;font-size:11px}
+.explorer-progress-track{background:#24372e;height:8px;border-radius:6px;overflow:hidden}
+.explorer-progress-fill{background:#229564;height:100%;width:0%;transition:width .2s}
+.peer-inline td{background:#12221a;padding:12px!important}.peer-inline-card{border:1px solid #345747;border-radius:10px;padding:13px;max-height:325px;overflow:auto}
+.peer-status-ok{color:#b6e4b7}.peer-status-bad{color:#e9b88b}.peer-events{margin-top:8px;border-top:1px solid #314b3d;padding-top:8px}
+.peer-table-wrap{max-height:320px;overflow:auto;min-width:0}.explorer-dates{margin-top:8px;color:#9fb7a8;font-size:11px}
+@media(max-width:620px){.explorer-summary-state{font-size:11px}.explorer-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.explorer-head{align-items:flex-start}.peer-table{min-width:780px}}
+
+/* v2.3.3: each left-side panel owns its own network context. */
+.network-shell{margin-top:0;padding-top:20px}
+.pane-network-control{display:flex;flex-direction:column;align-items:stretch;gap:6px;width:100%;margin-bottom:15px}
+.pane-network-label{font-size:11px;font-weight:680;letter-spacing:.1px;color:#a6c7b1}
+.pane-network-field{display:flex;align-items:center;gap:9px;min-width:0;width:100%;border:1px solid #365344;border-radius:10px;background:#10251b;padding:7px 10px}
+.pane-network-select{flex:1;min-width:0;width:100%;background:transparent;color:var(--text);border:0;outline:0;font-size:12px;font-weight:650;cursor:pointer}
+.pane-network-select option{background:var(--panel);color:var(--text)}
+.pane-network-field:focus-within{outline:2px solid var(--green);outline-offset:2px}
+.pane-network-select:disabled{opacity:.65;cursor:not-allowed}
+.sidebar-column .mining-pane{min-height:160px;justify-content:flex-start}
+.sidebar-column .mining-pane .pane-network-control{margin-bottom:12px}
+@media(max-width:460px){.network-shell{padding-top:12px}.pane-network-field{padding:8px 9px}}
+
+/* Sensitive wallet fields are masked visually, but are not HTML login/password
+   fields. This avoids Chrome treating an imported key as a saved credential. */
+.secret-input{-webkit-text-security:disc}
+
+/* v2.6 · Slate interface. Green is an active state, not a wallpaper. */
+:root{--bg:#0c1119;--panel:#171f2b;--surface:#1e2935;--surface2:#253241;--muted:#a1b0c1;--text:#edf3f9;--line:#344153;--green:#79d99b;--action:#168a65;--action-hover:#229e77;--amber:#f2cc8f;--red:#f29a9d}
+.container{max-width:1620px;padding:24px 30px 32px}.masthead{margin:6px 0 22px}.logo{background:linear-gradient(135deg,#176a56,#5cb77b);box-shadow:none}.brand{letter-spacing:-.8px}
+.network-shell{background:transparent;border:0;border-radius:0;box-shadow:none;margin:0;padding:0}
+.layout{grid-template-columns:minmax(292px,372px) minmax(0,1fr);align-items:start;gap:18px}
+.pane{background:var(--panel);border-color:var(--line);box-shadow:0 5px 20px #070b1450}
+.wallet-workspace{display:grid;grid-template-columns:minmax(230px,300px) minmax(0,1fr);gap:16px;align-items:stretch;min-width:0}
+.wallet-workspace .wallets-pane{min-height:520px;display:flex;flex-direction:column;padding:20px}
+.wallet-workspace .wallet-list{min-height:130px;flex:1}
+.wallet-workspace .add-wallet{margin-top:14px}
+.wallet-workspace .balance-pane{min-height:520px;padding:26px}
+.miners-pane{padding:18px;min-height:520px}
+.miners-title{font-size:16px;font-weight:710;display:flex;align-items:center;gap:9px;margin:3px 0 14px}
+.mining-cards{display:flex;flex-direction:column;gap:10px}
+.mining-card{background:#1d2835;border:1px solid #354458;border-radius:12px;padding:13px 13px 12px;min-width:0}
+.mining-card.is-active{border-color:#316c57;background:#1c2d34}
+.mining-card-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.mining-card-name{font-size:13px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mining-card-controls{display:flex;gap:7px;align-items:center;flex-shrink:0}
+.mining-card .mine-toggle[aria-checked="false"]{background:#2b3847;border-color:#4a5a6e}
+.mining-card .mine-toggle[aria-checked="true"]{background:#178f68;border-color:#4bbb89}
+.mining-card .small-gear{font-size:19px;width:31px;height:31px;border-radius:9px}
+.mining-card .small-gear:hover{background:#324458}
+.mining-card-status{display:flex;align-items:center;gap:8px;margin-top:9px;min-width:0}
+.mining-card-status .activity-message{font-size:11px;color:var(--muted);flex:1;min-width:0}
+.mining-card.is-active .mining-card-status .activity-message{color:#b7ddc7}
+.mining-card-status .block-count{border-left:1px solid var(--line);color:var(--text);font-size:12px}
+.miner-tile-hint{font-size:11px;color:var(--muted);margin:15px 3px 0;line-height:1.6}
+.wallet-item{background:#202c39;border-color:#38495c}.wallet-item:hover{background:#2a3948}.wallet-item.selected{border-color:#48a77e;background:#203b39;box-shadow:inset 3px 0 0 var(--green)}
+.add-wallet{border-color:#546476;color:#d0deed}.add-wallet:hover{background:var(--surface2)}
+.pane-network-label{color:var(--muted)}.pane-network-field{background:#202c39;border-color:var(--line)}
+.balance{color:var(--green)}.balance.unknown{color:var(--muted)}
+.btn{background:#263544;border-color:#3a5060;color:var(--text)}.btn:hover{background:#32485a}
+.modal,.modal-header{background:#17202b}.modal{border-color:#435165}.modal-close{background:#283746}
+.input,.select{background:#222f3d;border-color:#405167}.input:focus,.select:focus{border-color:#5bbb8b}
+.radio-row{background:#202d3a}.radio-row:has(input:checked){background:#1b3435;border-color:#469b79}
+.settings-section{border-bottom-color:var(--line)}details.settings-section{padding:0}details{background:#1e2936}.logbox{background:#101722;border-color:var(--line);color:#c7d8e8}
+.explorer-metric{background:#202d3a;border-color:var(--line)}.modal .notice{background:#292b31}
+.pill{background:#1a2a30;border-color:#2c6850;color:#b2dfc3}.dim-dot{background:#778595}
+.balance-hint:empty{display:none}.wallet-workspace .balance-hint{color:var(--muted)}
+@media(max-width:1270px){.layout{grid-template-columns:minmax(275px,350px) minmax(0,1fr)}.wallet-workspace{grid-template-columns:minmax(0,1fr)}.wallet-workspace .wallets-pane{min-height:260px}.wallet-workspace .balance-pane{min-height:280px}}
+@media(max-width:820px){.layout{grid-template-columns:1fr}.wallet-workspace{grid-template-columns:minmax(0,1fr)}.miners-pane{min-height:0}.wallet-workspace .wallets-pane{min-height:220px}.wallet-workspace .balance-pane{min-height:280px}.container{padding:16px 14px 24px}}
+@media(max-width:460px){.mining-card{padding:11px}.balance{font-size:29px}.wallet-workspace .balance-pane{padding:21px 17px}}
+
+/* v2.7 · estructura unificada, grafito neutral y controles discretos.
+   El color de acento es funcional; no hay degradados ni sombras decorativas. */
+:root{--bg:#101417;--panel:#1b2024;--surface:#242b2f;--surface2:#2b3439;
+      --muted:#9daab1;--text:#e9edef;--line:#343e43;--green:#56c58d;
+      --action:#278b65;--action-hover:#309b73;--amber:#dbb874;--red:#dd8a8c;--radius:13px}
+html,body{background:var(--bg);color:var(--text)}
+.container{max-width:1630px;padding:22px 29px 26px}
+.masthead{margin:4px 2px 23px}.brand{font-size:25px;letter-spacing:-.65px}
+.logo{background:#287e5f;border-radius:12px;box-shadow:none}
+.pill{background:#1d2926;border-color:#3e6557;color:#b5dbc6}
+.dot{background:var(--green);box-shadow:none}.dim-dot{background:#737f85;box-shadow:none}
+.layout{grid-template-columns:minmax(320px,390px) minmax(0,1fr);align-items:stretch;gap:18px}
+.pane{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:none}
+.miners-pane{min-height:612px;padding:18px 17px;display:flex;flex-direction:column}
+.miners-title{margin:1px 1px 17px;font-size:17px;letter-spacing:-.2px}
+.mining-cards{gap:10px}
+.mining-card{background:#232a2e;border:1px solid #3a464b;border-radius:10px;padding:14px 13px 12px}
+.mining-card.is-active{background:#24332e;border-color:#457764}
+.mining-card-name{font-size:13px;font-weight:650;letter-spacing:0}
+.mining-card-status{margin-top:10px;gap:9px}
+.mining-card .small-gear{color:#a5b5bd;border:0;background:transparent}
+.mining-card .small-gear:hover{background:#394248;color:#f3f6f7}
+.mining-card .mine-toggle[aria-checked="false"]{background:#394349;border-color:#64747a}
+.mining-card .mine-toggle[aria-checked="true"]{background:#258a62;border-color:#369e74}
+.mining-card .mine-toggle .thumb{background:#e4e9e7}
+.mining-card.is-active .mining-card-status .activity-message{color:#bddecf}
+.mining-card-status .block-count{border-left-color:#465158;color:#dbe2e5}
+.mining-card-event{display:none}
+.mining-card-event[data-kind="found"]{color:#b7dcbc}
+.mining-card-event[data-kind="error"],.mining-card-event[data-kind="stale"]{color:#e6bc7f}
+.wallet-dashboard{min-height:612px;display:flex;flex-direction:column;min-width:0}
+.wallet-dashboard-head{display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:22px 24px;border-bottom:1px solid var(--line);min-height:79px}
+.wallet-dashboard-title{display:flex;align-items:center;gap:11px;font-size:18px;
+  font-weight:700;letter-spacing:-.25px;margin:0;white-space:nowrap}
+.wallet-head-icon{font-size:19px;line-height:1;color:#aab8bf}
+.wallet-head-controls{display:flex;align-items:center;gap:12px;min-width:0}
+.wallet-network-label{color:var(--muted);font-size:12px;font-weight:550}
+.wallet-head-controls .pane-network-field{width:180px;min-width:140px;margin:0;padding:9px 11px;
+  border-radius:8px;background:#252e33;border-color:#435056}
+.wallet-head-controls .pane-network-select{font-size:13px;font-weight:620}
+.wallet-head-controls .pane-network-select option{background:#252e33}
+.wallet-manage.btn{padding:9px 12px;font-size:12px;font-weight:600;white-space:nowrap;
+  background:#293237;border-color:#48565c;border-radius:8px}
+.wallet-manage.btn:hover{background:#354146}
+.wallet-dashboard-body{display:grid;grid-template-columns:minmax(205px,29%) minmax(0,1fr);flex:1;min-height:0}
+.wallet-list-column{display:flex;flex-direction:column;min-width:0;padding:22px 19px 20px;
+  border-right:1px solid var(--line)}
+.wallet-list-title{margin:0 0 16px;font-size:14px;font-weight:660;letter-spacing:-.1px}
+.wallet-list-column .wallet-list{display:flex;flex-direction:column;gap:9px;flex:1;min-height:100px}
+.wallet-item{background:#252d31;border:1px solid #3b484e;border-radius:9px;padding:12px 11px}
+.wallet-item:hover{background:#2c383d}
+.wallet-item.selected{background:#24372f;border-color:#49916c;box-shadow:inset 3px 0 0 var(--green)}
+.wallet-item strong{font-size:12px;line-height:1.45;overflow-wrap:anywhere}
+.wallet-item small{font-size:11px;color:#a5b3b9;line-height:1.4}
+.wallet-item-icon{color:#83c9a2;font-size:18px}
+.wallet-list-column .add-wallet{margin-top:20px;background:transparent;border:1px dashed #536167;
+ color:#cbd6d8;border-radius:9px;font-size:12px}
+.wallet-list-column .add-wallet:hover{background:#293238}
+.wallet-detail-column{padding:26px 28px 20px;min-width:0}
+.eyebrow{font-size:10px;letter-spacing:1.1px;color:#9aabb3}
+.wallet-name{margin-top:10px;font-size:16px;overflow-wrap:anywhere}
+.wallet-detail-column .help-text{font-size:12px;color:#aab7bd;overflow-wrap:anywhere}
+.balance{font-size:36px;color:#91d7ae;margin:24px 0 9px;word-break:break-word}
+.balance.unknown{color:#a6b1b7}
+.action-row{margin-top:26px;gap:12px}
+.btn{background:#303b42;border:1px solid #48575e;border-radius:9px;color:var(--text)}
+.btn:hover{background:#394951}
+.btn.primary{background:var(--action);border-color:#39976f}.btn.primary:hover{background:var(--action-hover)}
+.input,.select{background:#273238;border-color:#46555c}
+.pane-network-field{background:#252e33;border-color:#435056}
+.modal,.modal-header{background:#1c2327;border-color:#465158}
+.modal{box-shadow:0 20px 64px #0008}
+.modal-close{background:#303a3e;border-color:#48565c}
+.settings-section{border-bottom-color:#3e494e}
+.radio-row{background:#273035}.radio-row:has(input:checked){background:#263a32;border-color:#598b72}
+details{background:#242d31;border-color:#3f4c52}
+.logbox{background:#141b1e;border-color:#3e4b52;color:#d0dadd}
+.footer{margin:16px 4px 0;color:#8e9ca3}
+@media(max-width:1270px){
+  .layout{grid-template-columns:minmax(300px,350px) minmax(0,1fr);gap:14px}
+  .wallet-dashboard-head{flex-wrap:wrap;align-items:flex-start}
+  .wallet-head-controls{margin-left:auto}
+  .wallet-dashboard-body{grid-template-columns:minmax(185px,33%) minmax(0,1fr)}
+  .wallet-list-column{padding:19px 13px}
+  .wallet-detail-column{padding:23px 20px}
+}
+@media(max-width:1030px){
+  .layout{grid-template-columns:minmax(0,1fr)}
+  .miners-pane{min-height:0}
+  .mining-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .wallet-dashboard{min-height:510px}
+  .wallet-dashboard-head{flex-wrap:nowrap;align-items:center}
+  .wallet-dashboard-body{grid-template-columns:minmax(220px,30%) minmax(0,1fr)}
+}
+@media(max-width:680px){
+  .container{padding:16px 12px 24px}
+  .masthead{margin-bottom:18px}
+  .mining-cards{grid-template-columns:minmax(0,1fr)}
+  .wallet-dashboard{min-height:0}
+  .wallet-dashboard-head{padding:18px;align-items:flex-start;flex-direction:column;gap:15px}
+  .wallet-head-controls{width:100%;margin:0;gap:8px}
+  .wallet-head-controls .pane-network-field{flex:1;min-width:0}
+  .wallet-network-label{display:none}
+  .wallet-dashboard-body{grid-template-columns:minmax(0,1fr)}
+  .wallet-list-column{border-right:0;border-bottom:1px solid var(--line);padding:18px}
+  .wallet-list-column .wallet-list{min-height:0}
+  .wallet-list-column .add-wallet{margin-top:14px}
+  .wallet-detail-column{padding:22px 18px 24px}
+  .balance{font-size:29px}
+}
+@media(max-width:380px){.wallet-head-controls{flex-wrap:wrap}.wallet-manage.btn{flex:1}}
+
+/* v2.7.2 · jerarquía reducida: sin encabezado general, dos módulos alineados. */
+.container{padding:20px 29px 28px}
+.network-shell{margin:0;padding:0;background:transparent;border:0;box-shadow:none}
+.layout{align-items:stretch}
+.miners-pane{padding:0 17px 18px}
+.miners-title{height:66px;margin:0 -17px 15px;padding:0 21px;display:flex;align-items:center;border-bottom:1px solid var(--line);font-size:18px;line-height:1.25;font-weight:700}
+.wallet-dashboard-head{min-height:66px;padding:0 22px}
+.wallet-dashboard-title{font-size:18px;line-height:1.25;font-weight:700}
+.wallet-list-column{padding-top:22px}
+.wallet-list-column .wallet-list{min-height:0}
+.wallet-detail-column{padding-top:23px}
+.wallet-detail-column .wallet-name{margin-top:0}
+@media(max-width:1270px){.wallet-dashboard-head{min-height:66px;padding:10px 20px}.wallet-list-column{padding-top:19px}.wallet-detail-column{padding-top:20px}}
+@media(max-width:1030px){.miners-title{height:66px}.wallet-dashboard-head{min-height:66px}}
+@media(max-width:680px){.container{padding:14px 12px 22px}.wallet-dashboard-head{padding:15px 18px;gap:12px}.wallet-list-column{padding:18px}.wallet-detail-column{padding:18px}}
+
+/* v2.7.13.3 · Estado compacto y acción MAX sin modificar la altura de tarjetas. */
+.mining-card-status{min-height:17px}
+.mining-card-status .activity-message{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;line-height:17px}
+.send-amount-row{display:flex;align-items:stretch;gap:7px}
+.send-amount-row .input{min-width:0;flex:1}
+.send-amount-row .send-max-button{flex:0 0 auto;min-width:54px;padding:0 10px;font-size:12px}
+
+/* v2.7.10 · Administrador de billeteras: cinco grupos colapsables, sin alterar formularios. */
+.wallet-manager-section{margin:0 0 10px;background:#232c30;border:1px solid #465157;border-radius:10px;overflow:clip}
+.wallet-manager-section>summary{padding:16px 17px;font-size:14px;color:var(--text)}
+.wallet-manager-section[open]>summary{border-bottom:1px solid #404d52}
+.wallet-manager-section>.details-body{padding:17px 17px 18px}
+.wallet-manager-section .details-body>details{background:#1c2529}
+.wallet-manager-list{display:flex;flex-direction:column;gap:8px;margin:0 0 12px}
+.wallet-manager-item{display:flex;flex-direction:column;gap:4px;text-align:left;padding:11px 13px;width:100%;color:var(--text);background:#293338;border:1px solid #435158;border-radius:9px;cursor:pointer}
+.wallet-manager-item:hover{background:#344046}
+.wallet-manager-item.selected{border-color:#4b9975;background:#253931}
+.wallet-manager-item span{font-size:11px;color:var(--muted)}
+.managed-wallet-detail{padding-top:15px;margin-top:13px;border-top:1px solid var(--line)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* QR de recepción generado localmente, sin servicios externos. */
+.receive-qr-shell{display:flex;justify-content:center;margin:0 0 20px}
+.receive-qr{background:#fff;padding:13px;border-radius:13px;width:230px;height:230px;display:flex;align-items:center;justify-content:center}
+.receive-qr img,.receive-qr canvas{display:block;width:204px;height:204px;image-rendering:pixelated}
+.send-result-head{text-align:center;margin:12px auto 24px}
+.send-result-icon{display:flex;justify-content:center;align-items:center;margin:0 auto 10px;width:54px;height:54px;border-radius:50%;border:2px solid var(--green);color:var(--green);font-size:27px;font-weight:700}
+.send-result-icon.is-warning{border-color:var(--amber);color:var(--amber)}
+.send-result-icon.is-error{border-color:var(--red);color:var(--red)}
+.send-result-head h3{font-size:21px;margin:0 0 9px}
+.send-result-head p{color:var(--muted);font-size:13px;line-height:1.5;margin:0 auto;max-width:510px}
+.send-result-amount{text-align:center;font-weight:700;font-size:27px;margin:0 0 20px}
+.send-result-grid{display:grid;grid-template-columns:130px minmax(0,1fr);gap:12px 13px;margin:16px 0}
+.send-result-grid .key{color:var(--muted);font-size:12px}
+.send-result-grid .value{overflow-wrap:anywhere;font-size:13px}
+.send-txid-row{display:flex;align-items:center;gap:8px;min-width:0}
+.send-txid-link{font-family:Consolas,monospace;font-size:12px;color:#80d5ad;word-break:break-all}
+.copy-txid-icon{background:#2e393e;color:var(--text);border:1px solid #43535a;border-radius:7px;min-width:34px;min-height:34px;display:inline-flex;align-items:center;justify-content:center;flex:none;cursor:pointer}
+.copy-txid-icon:hover{background:#405057}
+@media(max-width:480px){.send-result-grid{grid-template-columns:1fr;gap:5px}.send-result-grid .key{margin-top:8px}}
+
+
+/* v2.7.13.1: balance legible en pantallas pequeñas, estado por icono en vez de texto técnico. */
+.wallet-balance-label{color:var(--muted);font-size:12px;margin-top:22px}
+.wallet-balance-row{display:flex;align-items:center;gap:11px;min-width:0}
+.wallet-balance-row .balance{margin:6px 0 0;min-width:0}
+.wallet-balance-breakdown{display:grid;gap:8px;margin-top:18px;max-width:610px}
+.wallet-balance-detail{display:flex;flex-wrap:wrap;justify-content:flex-start;align-items:baseline;gap:4px;color:var(--muted);font-size:12px}
+.wallet-balance-detail strong{color:var(--text);font-weight:650;font-variant-numeric:tabular-nums}
+.wallet-connection-status{display:inline-block;position:relative;width:13px;height:13px;flex:none;border-radius:50%;background:#88959c}
+.wallet-connection-status.is-connected{background:var(--green);box-shadow:0 0 0 3px #56c58d1a}
+.wallet-connection-status.is-offline{background:var(--red)}
+.wallet-connection-status.is-connecting,.wallet-connection-status.is-syncing{width:17px;height:17px;border:2px solid #5e788b;border-top-color:#62bafb;background:transparent;animation:wallet-spin 0.85s linear infinite}
+.wallet-connection-status.is-syncing{border-color:#37664d;border-top-color:var(--green)}
+@keyframes wallet-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.wallet-connection-status.is-connecting,.wallet-connection-status.is-syncing{animation:none}}
+.wallet-balance-breakdown[hidden],.wallet-balance-detail[hidden],.wallet-connection-status[hidden]{display:none}
+.wallet-head-controls .network-indicator{display:none}
+@media(max-width:480px){.wallet-balance-detail{font-size:11px}.wallet-balance-row .balance{font-size:27px}.wallet-balance-row{gap:8px}}
+
+
+/* v2.8.2: total por red y recepción visible, sin un diálogo ni botones extra. */
+.wallet-aggregate{border-bottom:1px solid var(--line);margin:0 0 18px;padding:0 2px 17px;display:flex;flex-direction:column;gap:5px;min-width:0}
+.wallet-aggregate>span{color:var(--muted);font-size:12px}
+.wallet-aggregate strong{font-weight:700;font-size:21px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.wallet-aggregate small{font-size:11px;color:var(--muted);min-height:0}
+.wallet-aggregate.is-partial strong{opacity:.65}
+.wallet-receive-inline{margin:8px 0 0;display:flex;flex-direction:column;align-items:center;gap:10px;min-width:0}
+.wallet-receive-inline[hidden]{display:none}
+.wallet-receive-inline .receive-qr-shell{margin:0 0 2px}
+.wallet-receive-inline .receive-qr{width:204px;height:204px;padding:12px}
+.wallet-receive-inline .receive-qr img,.wallet-receive-inline .receive-qr canvas{width:180px;height:180px}
+.wallet-receive-address{width:100%;max-width:520px;background:transparent;border:0;color:#a5dfb7;font:12px/1.6 Consolas,monospace;text-align:center;overflow-wrap:anywhere;word-break:break-all;padding:7px;cursor:pointer;border-radius:6px}
+.wallet-receive-address:hover,.wallet-receive-address:focus-visible{background:#2a4038;outline:1px solid #527761}
+.wallet-copied{color:var(--green);font-size:11px;min-height:14px;line-height:14px}
+/* v2.8.3.1: compact reception and a one-line send action; no change to payment flow. */
+.wallet-receive-section{margin:10px 0 0;min-width:0}
+.wallet-receive-section[hidden],.wallet-send-inline[hidden]{display:none}
+.wallet-receive-section .wallet-receive-inline{margin:0;gap:3px}
+.wallet-receive-section .receive-qr-shell{margin:0}
+.wallet-receive-section .wallet-receive-address{padding:4px 6px}
+.wallet-receive-section .wallet-copied{min-height:0}
+.wallet-send-inline{border:1px solid #3b4b51;background:#202a2e;border-radius:13px;padding:15px 18px 17px;margin-top:14px;min-width:0}
+.wallet-send-inline .field-label{font-size:12px}
+.wallet-send-inline .send-address-field{margin:0 0 12px}
+.wallet-send-controls{display:grid;grid-template-columns:minmax(175px,1fr) auto minmax(70px,94px) 118px;align-items:center;gap:9px;min-width:0}
+.wallet-send-controls .send-amount-row{min-width:0}
+.wallet-send-controls .send-amount-row .input{min-width:0}
+.wallet-send-controls .send-fee-label{font-size:12px;line-height:1.3;color:var(--muted);white-space:nowrap;margin:0}
+.wallet-send-controls .send-fee-label span{display:block}
+.wallet-send-controls .send-fee-input{min-width:0;text-align:center}
+.wallet-send-controls .send-action{width:100%;height:100%;min-height:44px;padding:10px 12px}
+.wallet-send-inline .radio-row{margin:12px 0 0}
+@media(max-width:1150px){.wallet-send-controls{grid-template-columns:minmax(160px,1fr) auto 78px}.wallet-send-controls .send-action{grid-column:1/-1;height:auto}}
+@media(max-width:550px){.wallet-send-inline{padding:13px;margin-top:12px}.wallet-send-controls{grid-template-columns:minmax(0,1fr) 98px}.wallet-send-controls .send-amount-row{grid-column:1/-1}.wallet-send-controls .send-fee-label{grid-column:1}.wallet-send-controls .send-fee-input{grid-column:2}.wallet-send-controls .send-action{grid-column:1/-1}}
+
+@media(max-width:460px){.wallet-aggregate strong{font-size:19px}.wallet-receive-inline .receive-qr{width:190px;height:190px}.wallet-receive-inline .receive-qr img,.wallet-receive-inline .receive-qr canvas{width:166px;height:166px}.wallet-receive-address{font-size:11px}}
+
+
+/* v2.9: a small paged address list, loaded only when requested. */
+.wallet-addresses-panel{margin:13px 0 18px;padding:13px;border:1px solid var(--line);border-radius:12px;background:#1d2529;min-width:0}
+.wallet-addresses-panel[hidden]{display:none}
+.wallet-addresses-summary{color:#adbec6;font-size:12px;margin-bottom:12px}
+.wallet-addresses-scroll{max-height:440px;overflow-y:auto;scrollbar-width:thin;padding-right:3px}
+.wallet-addresses-branch{font-size:13px;margin:15px 0 8px;color:#9fe0bd}
+.wallet-address-row{display:flex;gap:9px;align-items:center;justify-content:space-between;padding:9px 0;border-top:1px solid #354247;min-width:0}
+.wallet-address-info{flex:1;min-width:0}
+.wallet-address-index{color:#bccdd3;font-size:12px;margin-bottom:3px}
+.wallet-address-value{font-size:12px;color:#9fe0bd;overflow-wrap:anywhere;word-break:break-word}
+.wallet-address-amount{font-size:12px;color:#dce9df;margin-top:4px;overflow-wrap:anywhere}
+.wallet-address-copy{flex-shrink:0;padding:7px 10px}
+.wallet-addresses-pager{display:flex;align-items:center;justify-content:space-between;gap:9px;font-size:12px;color:#bac8ce;margin-top:14px;flex-wrap:wrap}
+@media(max-width:480px){.wallet-addresses-panel{padding:9px}.wallet-addresses-pager{justify-content:center}}
+/* v2.9: wallet-specific settings live inside the wallet's detail pane. */
+.wallet-title-row{display:flex;justify-content:space-between;align-items:center;gap:12px;min-width:0}
+.wallet-title-row .wallet-name{margin:0;min-width:0;flex:1;font-weight:700}
+.wallet-settings-toggle{flex:0 0 34px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;
+ background:transparent;border:1px solid transparent;border-radius:8px;color:#a8bac2;cursor:pointer;font-size:21px;line-height:1}
+.wallet-settings-toggle:hover,.wallet-settings-toggle[aria-pressed="true"]{background:#2f3b40;border-color:#4b5b60;color:var(--text)}
+.wallet-settings-toggle:focus-visible{outline:2px solid #74c09a;outline-offset:2px}
+.wallet-settings-toggle[hidden],#walletNormalContent[hidden],#walletSettingsContent[hidden]{display:none}
+.wallet-settings-inline{min-width:0;padding:4px 0 12px}
+.wallet-settings-details .inline-code{overflow-wrap:anywhere;word-break:break-all;font-size:12px;color:#9cdbbc}
+.wallet-settings-details>.help-text:first-child{margin-top:3px}
+.wallet-settings-details .btn-line{flex-wrap:wrap}
+.wallet-settings-details .field .btn-line{align-items:stretch}
+.wallet-settings-details .field .btn-line .input{flex:1}
+@media(max-width:550px){.wallet-settings-details .field .btn-line .input{min-width:0!important;width:100%}}
+
+
+/* v2.9.1: device inventory generated from the engine detector. */
+.hardware-device{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 2px;border-bottom:1px solid var(--line)}
+.hardware-device:last-child{border-bottom:0}
+.hardware-device>span:first-child{min-width:0;flex:1}
+.hardware-device strong{display:block;font-size:13px;overflow-wrap:anywhere}
+.hardware-device small{display:block;color:var(--muted);font-size:11px;margin-top:5px;line-height:1.4}
+.hardware-state{font-size:11px;color:var(--muted);white-space:normal;text-align:right}
+.hardware-state.ok{color:var(--green)}
+.hardware-value{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.hardware-value span{color:var(--muted);font-size:11px;white-space:nowrap}
+.hardware-value .input{width:88px;text-align:center;padding:10px}
+@media(max-width:500px){.hardware-device{align-items:flex-start;flex-direction:column}.hardware-value{align-self:stretch;justify-content:space-between}}
+
+/* v2.11: compact language selector, independent numeric preferences in Manage. */
+.wallet-head-controls .language-select{height:36px;width:51px;flex:0 0 51px;padding:0 5px;background:#263238;color:var(--text);border:1px solid var(--line);border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;text-align:center}
+.wallet-head-controls .language-select option{background:var(--panel);color:var(--text)}
+@media(max-width:680px){.wallet-head-controls .language-select{flex-basis:49px;width:49px}}
+
+/* v2.11: unobtrusive fiat estimates; controls remain compact on mobile. */
+.wallet-head-controls .fiat-currency-select{width:69px;flex:0 0 69px;height:36px;padding:0 4px;background:#263238;color:var(--text);border:1px solid var(--line);border-radius:8px;font-size:11px;font-weight:700;text-align:center;cursor:pointer}
+.wallet-head-controls .fiat-currency-select option{background:var(--panel);color:var(--text)}
+.fiat-estimate{font-size:12px;font-weight:500;line-height:1.5;color:#a2b9af;letter-spacing:0;overflow-wrap:anywhere}
+.fiat-estimate.fiat-main-balance{display:block;margin:0 0 7px;font-size:13px}
+.fiat-estimate.fiat-total{display:block;margin-top:4px;font-size:11px}
+.wallet-item .fiat-estimate{display:block;font-size:10px;margin-top:3px;color:#90aca0}
+.wallet-balance-detail .fiat-estimate{font-size:11px}
+.wallet-address-amount .fiat-estimate{font-size:11px;margin-left:5px}
+.fiat-age{font-size:10px;font-weight:500;color:#99a1a9;white-space:nowrap;cursor:help}
+.fiat-age:focus-visible{outline:1px solid #9ccab8;outline-offset:2px;border-radius:2px}
+.fiat-degraded{color:#b9b1a2;font-size:11px}
+.fiat-send-hint{font-size:11px;margin:5px 0 0;min-height:0;color:#9ab2aa}
+.fiat-send-hint:empty{display:none}
+@media(max-width:680px){.wallet-head-controls .fiat-currency-select{width:60px;flex-basis:60px}.fiat-estimate.fiat-main-balance{font-size:12px}}
+@media(max-width:480px){.wallet-head-controls .wallet-manage{font-size:0;padding:8px 11px;flex:0 0 38px}.wallet-head-controls .wallet-manage span{font-size:16px}}
+/* v2.11.1: stable one-line balances and a compact send amount unit. */
+.wallet-aggregate strong{white-space:nowrap;overflow-wrap:normal;font-size:clamp(13px,1.52vw,21px);letter-spacing:-.025em;overflow:visible;max-width:100%}
+.wallet-balance-row .balance{white-space:nowrap;word-break:normal;overflow-wrap:normal;font-size:clamp(20px,2.3vw,36px);letter-spacing:-.035em;overflow:visible;max-width:none}
+.wallet-balance-row{max-width:100%;min-width:0}
+.send-amount-row .send-unit-select{flex:0 0 63px;width:63px;min-width:0;padding:0 5px;color:var(--text);background:#303b42;border:1px solid #46555c;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;text-align:center}
+.send-amount-row .send-unit-select[hidden]{display:none}
+.send-unit-select option{background:var(--panel);color:var(--text)}
+@media(max-width:1270px){.wallet-aggregate strong{font-size:clamp(12px,1.5vw,18px)}.wallet-balance-row .balance{font-size:clamp(20px,2.3vw,32px)}}
+@media(max-width:680px){.wallet-aggregate strong{font-size:clamp(16px,4.7vw,21px)}.wallet-balance-row .balance{font-size:clamp(22px,6.7vw,30px)}}
+@media(max-width:430px){.send-amount-row .send-unit-select{flex-basis:58px;width:58px}.send-amount-row .send-max-button{min-width:47px;padding:0 6px}}
+/* v2.11.3: true text fitting, no balance scroll; mobile switches views without unmounting them. */
+.mobile-view-tabs{display:none}
+.fiat-one-bch-rate{font-size:11px;line-height:1.25;color:#a2b9af;white-space:nowrap;font-variant-numeric:tabular-nums}
+.fiat-one-bch-rate .fiat-estimate{display:inline;font-size:11px;white-space:nowrap;overflow-wrap:normal}
+.fiat-one-bch-rate[hidden]{display:none}
+@media(max-width:1270px){.wallet-head-controls{flex-wrap:wrap;justify-content:flex-end}}
+@media(max-width:1030px){
+ .mobile-view-tabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:12px;padding:4px;background:#222c30;border:1px solid var(--line);border-radius:11px}
+ .mobile-view-tab{min-height:39px;padding:8px 12px;border:1px solid transparent;border-radius:8px;background:transparent;color:#b4c5ca;font-size:13px;font-weight:650}
+ .mobile-view-tab[aria-selected="true"]{background:#294138;border-color:#438866;color:#d7f9e5}
+ .layout[data-view="wallet"]>.miners-pane{display:none}
+ .layout[data-view="miner"]>.wallet-dashboard{display:none}
+ .wallet-dashboard-head{flex-wrap:wrap}
+}
+@media(max-width:680px){
+ .wallet-head-controls{justify-content:flex-start;flex-wrap:wrap}
+ .fiat-one-bch-rate{flex-basis:100%;width:100%;text-align:right;order:1}
+}
+/* v2.11.4: wallet-only compact layout in narrow windows. Desktop unchanged. */
+.mobile-wallet-picker{display:none}
+.wallet-detail-short{display:none}
+@media(max-width:680px){
+ .wallet-dashboard-head{padding:11px 15px 10px;gap:0;min-height:0}
+ .wallet-dashboard-title{display:none}
+ .wallet-head-controls{gap:7px}
+ .wallet-list-column{padding:11px 16px 12px}
+ .wallet-aggregate{margin:0 0 9px;padding:0 0 9px;gap:3px}
+ .wallet-list-column .wallet-list{display:none}
+ .mobile-wallet-picker{display:block;width:100%;height:37px;min-width:0;padding:6px 29px 6px 11px;
+   color:var(--text);background:#263238;border:1px solid #46565b;border-radius:8px;
+   font-size:12px;font-weight:620;text-overflow:ellipsis;white-space:nowrap;cursor:pointer}
+ .mobile-wallet-picker option{background:#263238;color:var(--text)}
+ .mobile-wallet-picker:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+ .wallet-detail-column{position:relative;padding:12px 16px 20px}
+ .wallet-title-row{position:absolute;right:14px;top:11px;margin:0;z-index:1}
+ .wallet-title-row .wallet-name{display:none}
+ .wallet-balance-row{padding-right:36px}
+ .wallet-balance-row .balance{margin-top:0}
+ .wallet-balance-breakdown{display:flex;flex-wrap:wrap;align-items:baseline;gap:3px 12px;margin-top:7px;max-width:100%}
+ .wallet-balance-detail{display:inline-flex;align-items:baseline;flex-wrap:nowrap;gap:3px;font-size:11px}
+ .wallet-detail-long{display:none}
+ .wallet-detail-short{display:inline}
+}
+/* v2.11.5: separate receive/send views only for narrow wallets, preserving both forms in the DOM. */
+.mobile-wallet-action-tabs{display:none}
+@media(max-width:680px){
+ .mobile-wallet-action-tabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin:0 42px 11px 0;padding:3px;
+  background:#222c30;border:1px solid var(--line);border-radius:10px}
+ .mobile-wallet-action-tab{min-height:35px;padding:7px 8px;border:1px solid transparent;border-radius:7px;
+  color:#b4c5ca;background:transparent;font-size:12px;font-weight:650;cursor:pointer}
+ .mobile-wallet-action-tab[aria-selected="true"]{background:#294138;border-color:#438866;color:#d7f9e5}
+ .mobile-wallet-action-tab:focus-visible{outline:2px solid var(--green);outline-offset:1px}
+ .wallet-detail-column[data-wallet-action="receive"] #walletSendSection{display:none}
+ .wallet-detail-column[data-wallet-action="send"] #walletReceiveSection{display:none}
+ .wallet-detail-column[data-wallet-action="send"] #walletBalanceBreakdown{display:none}
+ .wallet-detail-column[data-wallet-action="send"] #balanceHelp{display:none}
+}
+
+/* Compatibilidad de la serie CashMiner v2.11: CSS y navegación sin cambios funcionales. */
+/* v2.12: compacto, un solo panel de destinos colapsable. */
+.reward-rows{display:flex;flex-direction:column;gap:10px}
+.reward-row{padding:9px 10px;border:1px solid var(--line);border-radius:9px;min-width:0}
+.reward-head{display:flex;align-items:center;gap:7px;min-width:0}
+.reward-row-number{font-size:12px;font-weight:650;white-space:nowrap}
+.reward-kind{flex:1;min-width:75px;max-width:190px}
+.reward-head .select,.reward-head .input{padding:8px 7px;font-size:12px}
+.reward-pct{width:64px;flex-shrink:0;text-align:right;font-variant-numeric:tabular-nums}
+.reward-percent-sign{font-size:12px;color:var(--muted)}
+.reward-remove{border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:18px;line-height:1;padding:5px;min-width:20px}
+.reward-remove:hover{color:var(--text)}
+.reward-remove:disabled{visibility:hidden;cursor:default}
+.reward-address-row{display:flex;gap:6px;margin-top:7px;min-width:0}
+.reward-address-row>.input{min-width:0;flex:1;padding:9px;font-size:12px}
+.reward-wallet-picker{position:relative;min-width:0;flex:1;height:41px}
+.reward-wallet-picker .reward-wallet-native{position:absolute;inset:0;width:100%;height:100%;z-index:1;opacity:0;cursor:pointer}
+.reward-wallet-picker:focus-within .reward-wallet-label{border-color:var(--green)}
+.reward-wallet-label{display:flex;align-items:center;gap:5px;border:1px solid #405167;background:#222f3d;color:var(--text);padding:0 10px;border-radius:9px;height:41px;overflow:hidden;pointer-events:none}
+.reward-wallet-label-text{font-size:12px;min-width:0;flex:1;white-space:nowrap;overflow:hidden;font-family:Consolas,monospace}
+.reward-wallet-label-chevron{flex-shrink:0;font-size:11px;color:var(--muted)}
+.reward-copy{flex-shrink:0;padding:8px 11px;font-size:12px}
+.reward-total-line{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:11px 0 0;font-size:13px;font-weight:650}
+.reward-total-line strong{font-variant-numeric:tabular-nums;margin-left:auto}
+.reward-total-line .btn{white-space:nowrap}
+.reward-total-line strong.invalid{color:#e8bf6c}
+@media(max-width:460px){.reward-row{padding:8px 7px}.reward-head{gap:5px}.reward-row-number{font-size:11px}.reward-pct{width:54px}.reward-copy{padding:7px 9px}}
+</style>
+</head><body>
+<div class="container">
+
+<main class="network-shell">
+ <nav class="mobile-view-tabs" role="tablist" aria-label="Vista principal">
+  <button id="viewWalletTab" class="mobile-view-tab" type="button" role="tab" aria-controls="walletDashboard" aria-selected="true">Billetera</button>
+  <button id="viewMinerTab" class="mobile-view-tab" type="button" role="tab" aria-controls="minersPane" aria-selected="false">Minero</button>
+ </nav>
+ <div class="layout" id="appLayout" data-view="wallet">
+  <section id="minersPane" class="pane miners-pane" aria-label="Minería por red">
+   <div class="miners-title"><span aria-hidden="true">⛏</span> Minería</div>
+   <div id="minerCards" class="mining-cards" aria-label="Controles independientes de los mineros"></div>
+  </section>
+  <section id="walletDashboard" class="pane wallet-dashboard" aria-label="Billeteras">
+   <div class="wallet-dashboard-head">
+    <h2 class="wallet-dashboard-title"><span class="wallet-head-icon" aria-hidden="true">▣</span> Billeteras</h2>
+    <div class="wallet-head-controls">
+     <label class="wallet-network-label" for="walletNetworkSelect">Red</label>
+     <div class="pane-network-field"><span class="network-indicator" id="networkDot" aria-hidden="true"></span><select id="walletNetworkSelect" aria-label="Red de billeteras" class="pane-network-select"></select></div>
+     <select id="languageSelect" class="language-select" aria-label="Idioma / Language" title="Idioma / Language"><option value="es">ES</option><option value="en">EN</option></select>
+     <select id="fiatCurrencySelect" class="fiat-currency-select" aria-label="Moneda fiat" title="Moneda fiat"><option>USD</option></select>
+     <span id="fiatOneBchRate" class="fiat-one-bch-rate" aria-label="Cotización de 1 BCH" hidden></span>
+     <button class="btn wallet-manage" id="walletGear" aria-label="Administrar billeteras" title="Administrar billeteras"><span aria-hidden="true">⚙</span> Administrar</button>
+    </div>
+   </div>
+   <div class="wallet-dashboard-body">
+    <div class="wallet-list-column">
+     <div id="walletAggregate" class="wallet-aggregate" aria-live="polite"><span>Saldo total disponible</span><strong id="walletAggregateAmount">—</strong><div id="walletAggregateFiat" class="fiat-live fiat-total" data-fiat-network="mainnet"></div><small id="walletAggregateStatus"></small></div>
+     <select id="mobileWalletPicker" class="mobile-wallet-picker" aria-label="Seleccionar billetera" title="Seleccionar billetera"><option value="">Preparando billeteras…</option></select>
+     <div id="walletList" class="wallet-list"><div class="wallet-empty">Preparando billeteras…</div></div>
+    </div>
+    <section class="wallet-detail-column" aria-label="Billetera seleccionada">
+     <div class="wallet-title-row"><div id="walletTitle" class="wallet-name">Todavía no hay una billetera</div><button id="walletSettingsToggle" type="button" class="wallet-settings-toggle" hidden aria-label="Configurar billetera" aria-pressed="false" title="Configurar billetera"><span aria-hidden="true">⚙</span></button></div>
+     <div id="walletNormalContent">
+     <nav class="mobile-wallet-action-tabs" role="tablist" aria-label="Acción de billetera">
+      <button type="button" id="walletReceiveTab" class="mobile-wallet-action-tab" role="tab" aria-selected="true" aria-controls="walletReceiveSection">Recibir</button>
+      <button type="button" id="walletSendTab" class="mobile-wallet-action-tab" role="tab" aria-selected="false" aria-controls="walletSendSection">Enviar</button>
+     </nav>
+     <div id="walletMeta" class="help-text wallet-technical-meta" hidden>Formato y ruta de derivación</div>
+     <div class="wallet-balance-row"><div id="balance" class="balance unknown">Sin saldo sincronizado</div><span id="balanceStatus" class="wallet-connection-status is-connecting" role="status" aria-label="Conectando" title="Conectando"></span></div>
+     <div id="balanceFiat" class="fiat-live fiat-main-balance" data-fiat-network="mainnet"></div>
+     <div id="balanceHelp" class="help-text" hidden></div>
+     <div class="wallet-balance-breakdown" id="walletBalanceBreakdown" hidden>
+      <div class="wallet-balance-detail"><span class="wallet-detail-long">Saldo total:</span><span class="wallet-detail-short">Total:</span><strong id="balanceTotal">—</strong></div>
+      <div class="wallet-balance-detail" id="immatureRow" hidden><span class="wallet-detail-long">Recompensas inmaduras:</span><span class="wallet-detail-short">Inmaduras:</span><strong id="balanceImmature">—</strong></div>
+     </div>
+     <section id="walletReceiveSection" class="wallet-receive-section" aria-label="Recibir" hidden>
+      <div id="walletReceiveInline" class="wallet-receive-inline" hidden>
+       <div class="receive-qr-shell"><div class="receive-qr" id="walletReceiveQr" role="img" aria-label="Código QR de la dirección de recepción"></div></div>
+       <button type="button" id="walletReceiveAddress" class="wallet-receive-address" title="Tocá para copiar la dirección" aria-label="Copiar dirección de recepción"></button>
+       <span class="wallet-copied" id="walletCopied" role="status" aria-live="polite"></span>
+      </div>
+     </section>
+     <section id="walletSendSection" class="wallet-io-card wallet-send-inline" aria-label="Enviar" hidden>
+      <div class="field send-address-field"><label class="field-label" for="sendAddress">Enviar a Dirección CashAddr (con prefijo):</label><input class="input" id="sendAddress" autocomplete="off" spellcheck="false" placeholder="bchtest:…"></div>
+      <div class="wallet-send-controls">
+       <div class="send-amount-row"><input class="input" id="sendAmount" type="text" inputmode="decimal" placeholder="Monto tBCH" aria-label="Monto tBCH"><select id="sendUnit" class="send-unit-select" aria-label="Unidad del importe" title="Unidad del importe" hidden><option value="bch">BCH</option><option value="fiat">USD</option></select><button type="button" class="btn ghost send-max-button" id="sendMax" title="Enviar todos los UTXO rentables, descontando la comisión">MAX</button></div>
+       <label class="send-fee-label" for="sendFeeRate">Comisión <span>(sat/byte)</span></label>
+       <input class="input send-fee-input" id="sendFeeRate" type="text" inputmode="decimal" autocomplete="off" value="1" aria-label="Comisión en satoshis por byte" placeholder="1">
+       <button id="sendPrepare" type="button" class="btn primary send-action" disabled>Enviar</button>
+      </div>
+      <div id="sendFiatHint" class="fiat-send-hint" aria-live="polite"></div>
+     </section>
+     <div class="balance-hint" id="balanceHint"></div>
+     </div>
+     <section id="walletSettingsContent" class="wallet-settings-inline" aria-label="Configuración de la billetera seleccionada" hidden></section>
+    </section>
+   </div>
+  </section>
+ </div>
+</main><div class="footer"><div class="footer-left"><div class="footer-info">CashMiner v2.17.1 · Made by <a id="cashriderCredit" href="https://munia.cash/profile/cashrider" rel="noopener noreferrer" style="color:inherit;text-decoration:none">CashRider</a></div></div></div>
+</div>
+<div class="modal-overlay" id="modalOverlay" hidden><div class="modal" id="modalDialog" role="dialog" aria-modal="true"><div class="modal-header"><div id="modalTitle" class="modal-title">Configuración</div><button class="modal-close" id="closeModal" aria-label="Cerrar">×</button></div><div class="modal-body" id="modalBody"></div></div></div>
+<div class="toast hidden" id="toast" role="status"></div>
+<div class="decision-overlay" id="decisionOverlay" hidden><div class="decision-dialog" role="dialog" aria-modal="true" aria-labelledby="decisionTitle" aria-describedby="decisionMessage"><div class="decision-title" id="decisionTitle"></div><div class="decision-message" id="decisionMessage"></div><label class="decision-options hidden" id="decisionPeerOption"><input type="checkbox" id="decisionOnePeer"><span>Permitir operación experimental.</span></label><div id="decisionPasswordField" class="field hidden" style="margin-top:16px"><label class="field-label" for="decisionPassword">Contraseña de la billetera</label><input id="decisionPassword" type="text" autocomplete="off" class="input secret-input" data-lpignore="true"></div><div class="decision-actions"><button class="btn ghost" id="decisionCancel" type="button">Cancelar</button><button class="btn primary" id="decisionAccept" type="button">Continuar</button></div></div></div>
+<script src="/assets/qrcode.min.js"></script>
+<script src="/assets/i18n.js"></script>
+<script src="/assets/fiat.js"></script>
+<script>
+'use strict';
+const TOKEN='__CASHMINER_SESSION_TOKEN__';const seenMinerEvents=new Map();const minerEventTimers=new Map();const pendingMinerToggles=new Set();const recentMinerToggles=new Map();let current=null;let minerViewNetwork=null;let modalKind='';let walletSettingsMode=false;let walletSettingsKey=null;let peerLogCursor=0;let selectedMinerLog=null;let manuallySelectedLog=false;let seenMiningRun=null;let minerLogStart=0;let minerLogEnd=0;let logFontSize=11;let logReadBusy=false;let sessionsLastRead=0;let timer=null;let logCachedView=null;let logUiRestored=false;let logPersistTimer=null;let lastSearchOffset=null;let deleteArmed=false;let peerSelected=null;let peerSelectedHtml='';let peerTableUpdating=false;let peerTableLastAt=0;let peerLogUpdating=false;let peerDetailAt=0;let authHeaders={'X-CashMiner-Session':TOKEN};
+const $=(id)=>document.getElementById(id);const esc=(t)=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function setFiatValue(id,sats,network){const el=$(id);if(!el)return;el.dataset.fiatNetwork=network;el.dataset.fiatSats=(sats===null||sats===undefined)?'':String(sats);el.hidden=network!=='mainnet'||sats===null||sats===undefined;el.innerHTML=el.hidden?'':CMFiat.html(sats,network)}
+let selectedMobileWalletAction='receive';
+function setMobileWalletAction(action){
+ selectedMobileWalletAction=action==='send'?'send':'receive';
+ document.querySelector('.wallet-detail-column').dataset.walletAction=selectedMobileWalletAction;
+ $('walletReceiveTab').setAttribute('aria-selected',String(selectedMobileWalletAction==='receive'));
+ $('walletSendTab').setAttribute('aria-selected',String(selectedMobileWalletAction==='send'));
+}
+let selectedMobileView='wallet';
+function setMobileView(view){
+ selectedMobileView=view==='miner'?'miner':'wallet';
+ $('appLayout').dataset.view=selectedMobileView;
+ $('viewWalletTab').setAttribute('aria-selected',String(selectedMobileView==='wallet'));
+ $('viewMinerTab').setAttribute('aria-selected',String(selectedMobileView==='miner'));
+ requestAnimationFrame(fitWalletBalances);
+}
+// Measure the real rendered text, then reduce only if it exceeds its available line.
+// The balance elements must never become scroll containers.
+function fitWalletBalances(){
+ function fit(el,available){
+  if(!el||available<=0||!el.getClientRects().length)return;
+  el.style.fontSize='';
+  const original=parseFloat(getComputedStyle(el).fontSize);
+  if(!Number.isFinite(original))return;
+  const range=document.createRange();range.selectNodeContents(el);
+  const measured=range.getBoundingClientRect().width;
+  range.detach?.();
+  if(measured>available){el.style.fontSize=Math.max(9,Math.floor(original*(available-2)/measured))+'px';}
+ }
+ const row=$('balance')?.parentElement;
+ if(row&&row.clientWidth){
+  const badge=$('balanceStatus');
+  const gap=parseFloat(getComputedStyle(row).columnGap)||11;
+  fit($('balance'),row.clientWidth-(badge&&!badge.hidden?badge.offsetWidth+gap:0));
+ }
+ const aggregate=$('walletAggregate');
+ if(aggregate&&aggregate.clientWidth)fit($('walletAggregateAmount'),aggregate.clientWidth-4);
+}
+function updateOneBchRate(network){
+ const el=$('fiatOneBchRate');
+ if(!el)return;
+ el.hidden=network!=='mainnet';
+ el.innerHTML=el.hidden?'':'1 BCH '+CMFiat.html('100000000','mainnet');
+}
+let sendUnitMode='bch',sendFiatQuote=null,sendFiatSats=null,sendFiatInputValue='';
+function sendUnitIsFiat(){return sendUnitMode==='fiat'&&current?.network==='mainnet'}
+function resetFiatEntry(){sendFiatQuote=null;sendFiatSats=null;sendFiatInputValue=''}
+function bchEntryFromSats(sats){return CMI18n.formatSats(sats,{min:0,max:8})}
+function captureFiatEntry(){
+ const raw=$('sendAmount').value;
+ sendFiatInputValue=raw;
+ if(!raw.trim()||raw.trim().toUpperCase()==='MAX'){sendFiatSats=null;return}
+ if(!sendFiatQuote)sendFiatQuote=CMFiat.getQuote();
+ try{sendFiatSats=sendFiatQuote?CMFiat.fiatToSats(raw,sendFiatQuote):null}
+ catch{sendFiatSats=null}
+}
+function sendAmountPlaceholder(){
+ const unit=sendUnitIsFiat()?CMFiat.getCurrency():coinUnit(current?.network);
+ const text=(CMI18n.getLanguage()==='en'?'Amount ':'Monto ')+unit;
+ $('sendAmount').placeholder=text;$('sendAmount').setAttribute('aria-label',text);
+ $('sendUnit').options[1].textContent=CMFiat.getCurrency();
+ $('sendUnit').hidden=current?.network!=='mainnet';$('sendUnit').value=sendUnitMode;
+}
+function updateSendFiat(){
+ const el=$('sendFiatHint');if(!el||!current||current.network!=='mainnet'){if(el)el.textContent='';return}
+ if(sendMaxMode){el.textContent='';return}
+ if(sendUnitIsFiat()){
+   const raw=$('sendAmount').value.trim();
+   if(!raw){el.textContent='';return}
+   if(!sendFiatQuote){el.textContent=CMI18n.t('Cotización no disponible. Usá BCH.');return}
+   if(sendFiatSats===null||sendFiatInputValue!==$('sendAmount').value){el.textContent=CMI18n.t('Importe fiat inválido.');return}
+   const s=BigInt(sendFiatSats);
+   el.textContent='≈ '+bchEntryFromSats(sendFiatSats)+' BCH';
+   const age=CMFiat.quoteAge(sendFiatQuote);
+   if(age.stale){const span=document.createElement('span');span.className='fiat-age';span.title=age.info;span.setAttribute('aria-label',age.info);span.textContent=' ◷ '+age.text;el.appendChild(span)}
+   if(s<546n){el.append(' · '+CMI18n.t('Mínimo 546 sats'));}
+   return;
+ }
+ let sats=null;
+ try{sats=CMFiat.inputToSats($('sendAmount').value)}catch{}
+ el.innerHTML=sats===null?'':CMFiat.html(sats,'mainnet','compact');
+}
+function setSendUnit(next){
+ if(!current||current.network!=='mainnet')return;
+ if(next!=='bch'&&next!=='fiat')return;
+ if(next===sendUnitMode)return;
+ const el=$('sendAmount');const raw=el.value.trim();
+ if(next==='fiat'){
+   const quote=CMFiat.getQuote();
+   if(!quote){$('sendUnit').value='bch';notice(CMI18n.t('Cotización no disponible. Usá BCH.'),true);return}
+   let sats=null;
+   if(!sendMaxMode&&raw){
+     try{sats=CMFiat.inputToSats(raw)}catch{}
+     if(sats===null){$('sendUnit').value='bch';notice(CMI18n.t('Importe BCH inválido.'),true);return}
+   }
+   sendUnitMode='fiat';resetFiatEntry();sendFiatQuote=quote;
+   if(sats!==null){el.value=CMFiat.fiatFromSats(sats,quote);sendFiatSats=sats;sendFiatInputValue=el.value}
+ }else{
+   const sats=sendFiatSats;
+   sendUnitMode='bch';resetFiatEntry();
+   if(!sendMaxMode)el.value=sats!==null?bchEntryFromSats(sats):'';
+ }
+ sendAmountPlaceholder();updateSendFiat();
+}
+function ensureFiatAmountPrepared(){
+ if(!sendUnitIsFiat())return CMI18n.normalizeInput($('sendAmount').value);
+ if(!sendFiatQuote||sendFiatQuote.currency!==CMFiat.getCurrency()||!sendFiatSats||sendFiatInputValue!==$('sendAmount').value){
+   throw Error(CMI18n.t('Cotización no disponible o importe fiat inválido.'));
+ }
+ return CMFiat.satsToBch(sendFiatSats);
+}
+function handleFiatCurrencyChange(){
+ // A currency switch must never reinterpret the old numeric input as the new currency.
+ if(sendUnitIsFiat()){
+   const sats=sendFiatSats;
+   sendUnitMode='bch';resetFiatEntry();
+   $('sendAmount').value=sats!==null?bchEntryFromSats(sats):'';
+ }
+ if(current){sendAmountPlaceholder();updateSendFiat()}
+}
+
+
+async function api(path,body=null){const options={headers:{...authHeaders}};if(body!==null){options.method='POST';options.headers['Content-Type']='application/json';options.body=JSON.stringify(body)}const r=await fetch(path,options);const raw=await r.text();let value;try{value=JSON.parse(raw)}catch{value={error:raw.slice(0,200)}};if(!r.ok)throw new Error(value.error||'Error '+r.status);return value}
+let toastTimeout;function notice(t,error=false){const item=$('toast');item.textContent=t;item.className='toast'+(error?' error':'');clearTimeout(toastTimeout);toastTimeout=setTimeout(()=>item.className='toast hidden',5000)}
+async function act(task){try{return await task()}catch(e){notice(e.message,true);return null}}
+function modal(title,html,wide=false){const previousSecret=$('recoverySeed');if(previousSecret)previousSecret.textContent='';modalKind=title;$('modalTitle').textContent=title;$('modalDialog').className='modal'+(wide?' wide':'');$('modalBody').innerHTML=html;$('modalOverlay').hidden=false;$('closeModal').focus()}
+function closeModal(){if($('minerLog')){captureLogView();resetDeleteButton()}const secret=$('recoverySeed');if(secret)secret.textContent='';const imported=$('importMnemonic');if(imported)imported.value='';const legacy=$('importHex');if(legacy)legacy.value='';const privateKey=$('importPrivateKey');if(privateKey)privateKey.value='';modalKind='';$('modalOverlay').hidden=true}
+let decisionResolver=null;
+function finishDecision(ok){
+ const result=ok?( $('decisionPasswordField').classList.contains('hidden')
+   ? {approved:true}
+   : {approved:true,password:$('decisionPassword').value}):null;
+ $('decisionPassword').value='';$('decisionOverlay').hidden=true;
+ const resolve=decisionResolver;decisionResolver=null;
+ if(resolve)resolve(result);
+}
+function askDecision(title,message,options={}){
+ if(decisionResolver)throw Error('Ya hay una confirmación abierta');
+ $('decisionTitle').textContent=title;$('decisionMessage').textContent=message;
+ $('decisionPeerOption').classList.toggle('hidden',options.kind!=='mining');
+ $('decisionPasswordField').classList.toggle('hidden',options.kind!=='password');
+ $('decisionOnePeer').checked=false;$('decisionPassword').value='';
+ $('decisionAccept').textContent=options.accept||'Continuar';
+ $('decisionOverlay').hidden=false;
+ if(options.kind==='password')$('decisionPassword').focus();else $('decisionCancel').focus();
+ return new Promise(resolve=>{decisionResolver=resolve});
+}
+$('decisionAccept').onclick=()=>finishDecision(true);
+$('decisionCancel').onclick=()=>finishDecision(false);
+$('decisionOverlay').addEventListener('click',e=>{if(e.target===$('decisionOverlay'))finishDecision(false)});
+$('decisionPassword').addEventListener('keydown',e=>{if(e.key==='Enter')finishDecision(true)});
+$('closeModal').onclick=closeModal;$('modalOverlay').addEventListener('click',e=>{if(e.target===$('modalOverlay'))closeModal()});document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!$('decisionOverlay').hidden)finishDecision(false);else closeModal()}});
+const receiveCache=new Map();let receiveInFlight=null;let receiveCopyTimer=null;
+function receiveKey(c,w){return c.network+':'+w.id+':'+Number(w.receive_used_count||0)}
+async function updateReceive(c,w){
+ const pane=$('walletReceiveInline');
+ if(!w){pane.hidden=true;return}
+ pane.hidden=false;
+ const key=receiveKey(c,w);
+ if(pane.dataset.key===key)return;
+ const cached=receiveCache.get(key);
+ if(cached){showReceive(key,cached);return}
+ if(receiveInFlight===key)return;
+ receiveInFlight=key;
+ pane.dataset.key='';$('walletReceiveQr').textContent='';$('walletReceiveAddress').disabled=true;
+ $('walletReceiveAddress').textContent='Cargando dirección…';$('walletCopied').textContent='';
+ try{
+   const info=await api('/api/wallet/receive',{id:w.id,network:c.network});
+   receiveCache.set(key,info.address);
+   if(current&&current.network===c.network&&current.selected_wallet===w.id&&
+      receiveKey(current,walletSelected())===key)showReceive(key,info.address);
+ }catch(error){
+   if(current&&current.network===c.network&&current.selected_wallet===w.id){
+     $('walletReceiveAddress').textContent='No se pudo cargar la dirección';
+     $('walletReceiveAddress').disabled=true;
+   }
+ }finally{if(receiveInFlight===key)receiveInFlight=null}
+}
+function showReceive(key,address){
+ const pane=$('walletReceiveInline');
+ if(pane.dataset.key===key)return;
+ $('walletReceiveQr').replaceChildren();
+ $('walletReceiveAddress').disabled=false;
+ $('walletReceiveAddress').textContent=address;
+ $('walletCopied').textContent='';
+ try{
+   if(typeof QRCode!=='function')throw Error('QR local no disponible');
+   new QRCode($('walletReceiveQr'),{text:address,width:180,height:180,
+     colorDark:'#000000',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});
+ }catch(error){$('walletReceiveQr').textContent='QR no disponible';console.error(error)}
+ pane.dataset.key=key;
+}
+$('walletReceiveAddress').onclick=async()=>{
+ const w=walletSelected();if(!w||!current)return;
+ const address=receiveCache.get(receiveKey(current,w));if(!address)return;
+ try{
+   await navigator.clipboard.writeText(address);
+   $('walletCopied').textContent='¡Copiada!';
+   clearTimeout(receiveCopyTimer);
+   receiveCopyTimer=setTimeout(()=>$('walletCopied').textContent='',1000);
+ }catch(error){notice('No se pudo copiar la dirección',true)}
+};
+function walletSelected(){return current?.wallets?.find(w=>w.id===current.selected_wallet)||null}
+function coinUnit(network){return network==='mainnet'?'BCH':'tBCH'}
+function walletPathLabel(w){return w?.derivation_path?(w.derivation_path+' · P2PKH'):(w?.kind==='legacy'?'P2PKH · una dirección':'P2PKH')}
+function currentLabel(){const w=walletSelected();return w?w.name:'Ninguna billetera'}
+async function openMinerSettingsFor(net){
+ // Local UI context only: opening a settings dialog cannot stop an explorer,
+ // reassign a miner, or write any persisted network preference.
+ if(!current?.networks?.some(n=>n.key===net))throw Error('Red desconocida');
+ if(minerViewNetwork!==net){
+  minerViewNetwork=net;
+  seenMiningRun=null;selectedMinerLog=null;manuallySelectedLog=false;
+  minerLogStart=minerLogEnd=0;logCachedView=null;peerSelected=null;peerSelectedHtml='';
+ }
+ await refresh();
+ if(current.miner_network!==net)throw Error('No se pudo abrir la configuración de esa red');
+ openMineConfig();
+}
+function renderMinerCards(c){
+ const slots=c.mining_sessions||{};
+ $('minerCards').innerHTML=c.networks.map(net=>{
+   const m=slots[net.key]||{};
+   const phase=m.mining_activity?.phase||(m.mining?'starting':'stopped');
+   const message=m.mining_activity?.message||'Minería detenida';
+   const eventMessage=m.mining_activity?.event_message||'';
+   const eventId=m.mining_activity?.event_id||0;
+   const running=!!m.mining;
+   const showingEvent=running&&phase==='hashing'&&eventMessage&&eventId&&seenMinerEvents.get(net.key)!==eventId;
+   if(showingEvent)seenMinerEvents.set(net.key,eventId);
+   const statusText=showingEvent?eventMessage:message;
+   if(showingEvent){
+     if(minerEventTimers.has(net.key))clearTimeout(minerEventTimers.get(net.key));
+     minerEventTimers.set(net.key,setTimeout(()=>{
+       const card=Array.from(document.querySelectorAll('[data-miner-card]')).find(el=>el.dataset.minerCard===net.key);
+       const el=card?.querySelector('.activity-message');
+       if(el&&seenMinerEvents.get(net.key)===eventId){el.textContent=message;el.title=message;}
+       minerEventTimers.delete(net.key);
+     },900));
+   }
+   const stopping=m.miner_state==='Deteniendo';
+   return `<div class="mining-card ${running?'is-active':''}" data-miner-card="${esc(net.key)}">
+    <div class="mining-card-top"><span class="mining-card-name">${esc(net.label)}</span>
+    <div class="mining-card-controls"><button type="button" class="mine-toggle ${stopping?'busy':''}" role="switch" aria-checked="${running?'true':'false'}" aria-label="${running?'Detener':'Iniciar'} minería en ${esc(net.label)}" title="${running?'Detener':'Iniciar'} minería en ${esc(net.label)}" data-miner-toggle="${esc(net.key)}" ${stopping?'disabled':''}><span class="thumb" aria-hidden="true"></span></button>
+    <button class="small-gear" title="Configurar minería · ${esc(net.label)}" aria-label="Configurar minería · ${esc(net.label)}" data-miner-gear="${esc(net.key)}">⚙</button></div></div>
+    <div class="mining-card-status" data-phase="${esc(phase)}"><span class="dot ${['stopped','error'].includes(phase)?'dim-dot':''}"></span><span class="activity-message" title="${esc(statusText)}">${esc(statusText)}</span><span class="block-count" title="Bloques propios observados en cadena (esta sesión; no son confirmaciones irreversibles)">${m.blocks_in_chain??0}</span></div></div>`;
+ }).join('');
+ document.querySelectorAll('[data-miner-gear]').forEach(b=>b.onclick=()=>act(async()=>{
+   const net=b.dataset.minerGear;
+   await openMinerSettingsFor(net);
+ }));
+ document.querySelectorAll('[data-miner-toggle]').forEach(b=>b.onclick=()=>{
+   const net=b.dataset.minerToggle;
+   const now=Date.now();
+   if(pendingMinerToggles.has(net)||(now-(recentMinerToggles.get(net)||0))<650)return;
+   pendingMinerToggles.add(net);recentMinerToggles.set(net,now);
+   b.disabled=true;
+   act(async()=>{
+     const m=current.mining_sessions?.[net];
+     if(m?.mining){await api('/api/miner/stop',{network:net})}
+     else{
+       try{await api('/api/miner/start',{network:net})}
+       catch(e){
+         // Un segundo clic sobre un minero ya iniciado no abre ajustes.
+         if(e.message.includes('Minería ya activa')){
+           notice('La minería ya está activa · '+net);await refresh();return;
+         }
+         await openMinerSettingsFor(net);throw e;
+       }
+     }
+     await refresh();
+   }).finally(()=>pendingMinerToggles.delete(net));
+ });
+}
+function draw(){if(!current)return;
+ const c=current,w=walletSelected(),s=c.settings;
+ $('walletNetworkSelect').innerHTML=c.networks.map(n=>`<option value="${esc(n.key)}" ${n.key===c.network?'selected':''}>${esc(n.key==='mainnet'?'Mainnet':n.label)}</option>`).join('');
+ renderMinerCards(c);
+
+ $('networkDot').className='network-indicator'+(['conectado','sincronizando'].includes(c.wallet_electrum?.status)?' online':'');
+ const aggregate=c.wallet_total||{};
+ const totalFormat=v=>CMI18n.formatBch(v,coinUnit(c.network),{min:2,max:8});
+ $('walletAggregateAmount').textContent=aggregate.wallets_known?totalFormat(aggregate.available_sats):
+   (aggregate.wallets_total===0?totalFormat(0):'—');
+ setFiatValue('walletAggregateFiat', aggregate.wallets_known?aggregate.available_sats:(aggregate.wallets_total===0?0:null),c.network);
+ updateOneBchRate(c.network);
+ $('walletAggregate').classList.toggle('is-partial',!aggregate.complete);
+ $('walletAggregateStatus').textContent=aggregate.wallets_total&&!aggregate.complete?'Verificando saldos…':'';
+ $('walletList').innerHTML=c.wallets.length?c.wallets.map(w=>`<button class="wallet-item ${w.id===c.selected_wallet?'selected':''}" data-wallet="${esc(w.id)}"><span class="wallet-item-icon">▣</span><span><strong>${esc(w.name)}</strong><small>${esc(walletKindLabel(w))}${w.available_sats!==null?' · '+CMI18n.formatBch(w.available_sats,coinUnit(c.network),{min:2,max:8}):''}${w.available_sats!==null?CMFiat.html(w.available_sats,c.network,'compact'):''}</small></span></button>`).join(''):'<div class="wallet-empty">No hay billeteras para esta red. Usá Administrar para crear o importar.</div>';
+ document.querySelectorAll('[data-wallet]').forEach(b=>b.onclick=()=>act(async()=>{await api('/api/wallet/select',{id:b.dataset.wallet===current.selected_wallet?null:b.dataset.wallet});await refresh()}));
+ const picker=$('mobileWalletPicker');
+ picker.innerHTML=(c.wallets.length?
+   (!c.selected_wallet?'<option value="" selected>Elegí una billetera</option>':'')+
+   c.wallets.map(v=>`<option data-cm-no-translate value="${esc(v.id)}" ${v.id===c.selected_wallet?'selected':''}>${esc(v.name)}</option>`).join(''):
+   '<option value="" selected>Sin billeteras</option>');
+ picker.disabled=!c.wallets.length;
+ picker.title=w?w.name:'Seleccionar billetera';
+ $('walletTitle').textContent=w?w.name:'Todavía no hay una billetera';
+ renderWalletSettingsState(c,w);
+ $('walletMeta').textContent=w?(walletKindLabel(w)+' · '+walletPathLabel(w)):'Formato y ruta de derivación';
+ const ws=c.wallet_electrum||{};
+ const known=w?.available_sats!==null&&w?.available_sats!==undefined;
+ // A live Electrum session can refresh *another* wallet without making
+ // this wallet's already verified spendable UTXOs stale.
+ const fresh=known&&w.scan_state==='synced'&&(ws.status==='conectado'||ws.status==='sincronizando');
+ const formatMoney=v=>CMI18n.formatBch(v,coinUnit(c.network),{min:2,max:8});
+ $('balance').textContent=w?(known?formatMoney(w.available_sats):'Sin saldo sincronizado'):'Sin billetera seleccionada';
+ setFiatValue('balanceFiat',known?w.available_sats:null,c.network);
+ $('balance').classList.toggle('unknown',!fresh);$('balance').style.opacity=fresh?'1':'0.58';
+ const state=!w?'offline':ws.status==='sincronizando'||(ws.status==='conectado'&&w.scan_state!=='synced')?'syncing':
+   fresh?'connected':ws.status==='conectando'||ws.status==='reintentando'?'connecting':'offline';
+ const stateLabel={connected:'Conectada y sincronizada',connecting:'Conectando',syncing:'Sincronizando',offline:'Sin conexión o datos desactualizados'}[state];
+ const statusIcon=$('balanceStatus');
+ statusIcon.className='wallet-connection-status is-'+state;
+ statusIcon.setAttribute('aria-label',stateLabel);
+ statusIcon.title=stateLabel+(ws.error?' · '+ws.error:'');
+ statusIcon.hidden=!w;
+ $('networkDot').title=stateLabel;
+ $('walletBalanceBreakdown').hidden=!known;
+ if(known){
+   $('balanceTotal').textContent=formatMoney(w.total_sats);
+   // Keep the existing BCH figures authoritative and unmodified.
+   const totalParent=$('balanceTotal');let fiatTotal=$('balanceTotalFiat');
+   if(!fiatTotal){fiatTotal=document.createElement('span');fiatTotal.id='balanceTotalFiat';fiatTotal.className='fiat-live';totalParent.insertAdjacentElement('afterend',fiatTotal)}
+   setFiatValue('balanceTotalFiat',w.total_sats,c.network);
+   const immature=Number(w.immature_sats||0);
+   $('immatureRow').hidden=immature<=0;
+   $('balanceImmature').textContent=formatMoney(immature);
+   const immatureParent=$('balanceImmature');let fiatImmature=$('balanceImmatureFiat');
+   if(!fiatImmature){fiatImmature=document.createElement('span');fiatImmature.id='balanceImmatureFiat';fiatImmature.className='fiat-live';immatureParent.insertAdjacentElement('afterend',fiatImmature)}
+   setFiatValue('balanceImmatureFiat',immature,c.network);
+ }
+ $('balanceHelp').textContent='';
+ updateReceive(c,w);
+ $('walletReceiveSection').hidden=!w;
+ $('walletSendSection').hidden=!w;
+ const context=c.network+':'+(w?.id||'');
+ if(sendFormContext!==context){
+   sendFormContext=context;
+   sendMaxMode=false;sendUnitMode='bch';resetFiatEntry();
+   $('sendAddress').value='';
+   $('sendAmount').value='';
+   $('sendFeeRate').value='1';
+ }
+ $('sendAddress').placeholder=c.network==='mainnet'?'bitcoincash:…':'bchtest:…';
+ if(c.network!=='mainnet'&&sendUnitMode!=='bch'){sendUnitMode='bch';resetFiatEntry()}
+ sendAmountPlaceholder();
+ $('sendPrepare').disabled=!(w&&fresh&&ws.status==='conectado'&&Number(w.available_sats)>546&&c.wallet_capabilities?.send);
+ updateSendFiat();
+ $('balanceHint').textContent=w?'':'Elegí una billetera o creá una nueva para comenzar.';
+
+ const rate=$('configRateValue');if(rate)rate.textContent=c.hashrate_mhs===null?'—':CMI18n.formatNumber(c.hashrate_mhs)+' MH/s';
+ const height=$('configHeightValue');if(height)height.textContent=c.height===null?'—':CMI18n.formatNumber(c.height);
+ const blocks=$('configBlocksValue');if(blocks)blocks.textContent=c.blocks_session;
+ const chain=$('configChainValue');if(chain)chain.textContent=c.mined_chain?.in_chain??0;const out=$('configOutsideValue');if(out)out.textContent=c.mined_chain?.outside??0;const pending=$('configPendingValue');if(pending)pending.textContent=c.mined_chain?.pending??0;
+ const mode=$('configMiningState');if(mode)mode.textContent=c.miner_state;
+ updateExplorerStatus(c);
+ fitWalletBalances();
+
+}
+let localeHydrated=false;
+async function refresh(){const r=await api('/api/state'+(minerViewNetwork?'?miner_network='+encodeURIComponent(minerViewNetwork):''));
+ if(!localeHydrated){
+   CMI18n.hydrate(r.settings?.ui_language,r.settings?.number_format);
+   CMFiat.hydrate(r.settings?.fiat_currency);
+   localeHydrated=true;
+ }
+
+ if(seenMiningRun===null)seenMiningRun=r.mining_run;
+ else if(r.mining_run!==seenMiningRun){
+  seenMiningRun=r.mining_run;manuallySelectedLog=false;selectedMinerLog=null;
+  minerLogStart=minerLogEnd=0;lastSearchOffset=null;logCachedView=null;
+ }
+ current=r;draw();
+ if(r.network==='mainnet')CMFiat.refresh();
+ const alert=$('minerStartupError');
+ if(alert){alert.textContent=r.last_error?'Error de proceso: '+r.last_error:'';alert.classList.toggle('hidden',!r.last_error)}
+}
+$('mobileWalletPicker').addEventListener('change',async e=>{
+ const id=e.target.value||null;
+ const old=current?.selected_wallet||'';
+ const result=await act(()=>api('/api/wallet/select',{id}));
+ if(result){await refresh()}else e.target.value=old;
+});
+$('walletNetworkSelect').addEventListener('change',async e=>{const net=e.target.value;const old=current.network;const r=await act(()=>api('/api/wallet/network',{network:net}));if(r){await refresh()}else $('walletNetworkSelect').value=old});
+function explorerTransactionUrl(network,txid){
+ if(!/^[0-9a-f]{64}$/i.test(txid||''))return null;
+ // Never open a mainnet explorer for a testnet transaction.
+ const base={mainnet:'https://bchexplorer.cash/tx/',testnet3:'https://tbch.loping.net/tx/',
+   testnet4:'https://tbch4.loping.net/tx/', chipnet:'https://chipnet.chaingraph.cash/tx/'}[network];
+ return base?base+txid.toLowerCase():null;
+}
+function showSendResult(out){
+ const state=['sent','rejected','uncertain'].includes(out.status)?out.status:'uncertain';
+ const title=state==='sent'?'Transacción enviada':state==='rejected'?'El servidor rechazó el envío':'Resultado del envío incierto';
+ const icon=state==='sent'?'✓':state==='rejected'?'×':'?';
+ const extra=state==='sent'?'La transacción fue aceptada para difusión. Puede seguir sin confirmar.':
+   (out.message||'El envío podría haberse difundido. No se reintentó automáticamente.');
+ const network=out.network||current.network;
+ const dest=out.destination||'';
+ const txid=String(out.txid||'');
+ const url=explorerTransactionUrl(network,txid);
+ const txidHtml=url?`<a class="send-txid-link" id="openBroadcastTxid" href="${esc(url)}" title="Consultar transacción">${esc(txid)}</a>`:
+   `<span class="send-txid-link">${esc(txid)}</span>`;
+ const amount=CMI18n.formatSats(out.amount_sats,{min:8,max:8});
+ const fee=CMI18n.formatSats(out.fee_sats,{min:8,max:8});
+ modal(title,`<div class="send-result-head"><div class="send-result-icon ${state==='sent'?'':state==='rejected'?'is-error':'is-warning'}" aria-hidden="true">${icon}</div><h3>${esc(title)}</h3><p>${esc(extra)}</p></div>
+ <div class="send-result-amount">${amount} ${coinUnit(network)}</div>${network==='mainnet'?`<div class="fiat-send-hint">${CMFiat.html(out.amount_sats,network)}</div>`:''}
+ <div class="send-result-grid"><span class="key">Red</span><span class="value">${esc(current.network_label)}</span>
+ <span class="key">Destinatario</span><span class="value inline-code">${esc(dest)}</span>
+ <span class="key">Comisión</span><span class="value">${fee} ${coinUnit(network)} (${out.fee_sats} sats)</span>
+ <span class="key">TXID</span><div class="send-txid-row">${txidHtml}<button type="button" class="copy-txid-icon" id="copyBroadcastTxid" aria-label="Copiar TXID" title="Copiar TXID"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg></button></div></div>
+ ${out.warning?`<div class="notice">${esc(out.warning)}</div>`:''}
+ <div class="btn-line"><button type="button" class="btn primary" id="sendResultDone">Volver a billetera</button></div>`);
+ $('copyBroadcastTxid').onclick=()=>navigator.clipboard.writeText(txid).then(()=>notice('TXID copiado'),()=>notice('No se pudo copiar el TXID',true));
+ const explorerLink=$('openBroadcastTxid');
+ if(explorerLink)explorerLink.onclick=async event=>{
+   event.preventDefault();
+   try{await api('/api/external/transaction',{network,txid});}
+   catch(error){notice('No se pudo abrir el explorador en el navegador predeterminado: '+error.message,true)}
+ };
+ $('sendResultDone').onclick=closeModal;
+}
+let sendMaxMode=false;
+let sendFormContext=null;
+$('sendMax').onclick=()=>{sendMaxMode=true;resetFiatEntry();$('sendAmount').value='MAX';updateSendFiat()};
+$('sendAmount').addEventListener('input',()=>{sendMaxMode=false;if(sendUnitIsFiat())captureFiatEntry();else resetFiatEntry();updateSendFiat()});
+$('sendUnit').addEventListener('change',()=>setSendUnit($('sendUnit').value));
+function prepareInlineSend(){return act(async()=>{
+   const w=walletSelected();if(!w)throw Error('Elegí una billetera para enviar');
+   if(w.scan_state!=='synced'||current.wallet_electrum?.status!=='conectado')throw Error('Primero sincronizá y conectá la billetera');
+   const requestedNetwork=current.network, requestedWallet=w.id;
+   const button=$('sendPrepare');button.disabled=true;
+   let preview;
+   try{preview=await api('/api/wallet/send/prepare',{id:w.id,destination:$('sendAddress').value.trim(),amount_bch:sendMaxMode?'':ensureFiatAmountPrepared(),fee_rate:CMI18n.normalizeInput($('sendFeeRate').value),send_max:sendMaxMode});}
+   finally{button.disabled=!(current.network===requestedNetwork&&current.selected_wallet===requestedWallet);}
+   if(current.network!==requestedNetwork||current.selected_wallet!==requestedWallet)throw Error('La red o la billetera cambió. Revisá de nuevo el envío');
+   const amount=CMI18n.formatSats(preview.amount_sats,{min:8,max:8});
+   const fee=CMI18n.formatSats(preview.fee_sats,{min:8,max:8});
+   const fiatOrigin=sendUnitIsFiat()&&!sendMaxMode?{text:$('sendAmount').value,currency:sendFiatQuote?.currency,quote:sendFiatQuote,sats:sendFiatSats}:null;
+   modal('Confirmar envío · '+current.network_label,`<div class="notice">Última revisión. Esta operación difundirá una transacción irreversible si es aceptada por la red. No requiere contraseña.</div><p>Destinatario</p><div class="inline-code" style="overflow-wrap:anywhere">${esc(preview.destination)}</div>${preview.send_max?'<p><strong>Enviar todo (MAX)</strong></p>':''}${fiatOrigin?`<p>${esc(CMI18n.t('Importe ingresado:'))} <strong>${esc(fiatOrigin.text)} ${esc(fiatOrigin.currency)}</strong>${CMFiat.quoteAge(fiatOrigin.quote).stale?` <span class="fiat-age" title="${esc(CMFiat.quoteAge(fiatOrigin.quote).info)}">◷ ${esc(CMFiat.quoteAge(fiatOrigin.quote).text)}</span>`:''}</p>`:''}<p>Importe: <strong>${amount} ${coinUnit(current.network)}</strong></p>${current.network==='mainnet'?`<p class="fiat-send-hint">${CMFiat.html(preview.amount_sats,current.network)}</p>`:''}<p>Comisión: <strong>${fee} ${coinUnit(current.network)} (${preview.fee_sats} sats)</strong></p><p>Cambio: ${CMI18n.formatSats(preview.change_sats,{min:8,max:8})} ${coinUnit(current.network)} · ${preview.inputs} entradas</p>${preview.skipped_count?`<p class="help-text">Quedan sin gastar ${preview.skipped_count} UTXO no rentables (${preview.skipped_sats} sats).</p>`:''}<p class="help-text">TXID previsto: ${esc(preview.txid)}</p><div class="btn-line"><button id="sendConfirm" class="btn primary">Transmitir ahora</button><button id="sendCancel" class="btn ghost">Cancelar</button></div>`);
+   $('sendCancel').onclick=closeModal;
+   $('sendConfirm').onclick=async()=>{
+      // The confirmation is single-use: no retry, including after an error.
+      $('sendConfirm').disabled=true;
+      modal('Transmitiendo · '+current.network_label,`<div class="send-result-head"><div class="send-result-icon is-warning">…</div><h3>Enviando transacción</h3><p>Esperando la respuesta del servidor Electrum.</p></div>`);
+      let out;
+      try{
+        out=await api('/api/wallet/send/broadcast',{id:w.id,token:preview.token});
+      }catch(error){
+        // A failed HTTP response is not proof that a network broadcast failed.
+        // The signed transaction may already have reached Electrum.
+        out={status:'uncertain',txid:preview.txid,network:current.network,
+          destination:preview.destination,amount_sats:preview.amount_sats,fee_sats:preview.fee_sats,
+          message:'CashMiner no pudo conocer el resultado del envío: '+error.message};
+      }
+      try{await refresh()}catch(error){console.warn('Actualización de billetera pendiente',error)}
+      showSendResult(out);
+   };
+ });
+}
+$('sendPrepare').onclick=prepareInlineSend;
+$('walletGear').onclick=openWalletManager;
+$('walletSettingsToggle').onclick=()=>{
+ if(!walletSelected())return;
+ walletSettingsMode=!walletSettingsMode;
+ if(!walletSettingsMode){walletSettingsKey=null;$('walletSettingsContent').replaceChildren();}
+ renderWalletSettingsState(current,walletSelected());
+};
+function walletManagerContent(){const w=walletSelected();return `
+<details class="wallet-manager-section" id="wmDisplay"><summary>Preferencias de visualización</summary><div class="details-body">
+<div class="field"><label class="field-label" for="numberFormat">Formato numérico</label><select id="numberFormat" class="select"><option value="auto">Automático según idioma</option><option value="es">1.234,56</option><option value="en">1,234.56</option></select></div>
+<p class="help-text">Los formatos de pantalla no alteran los satoshis ni las direcciones de la red.</p></div></details>
+<details class="wallet-manager-section" id="wmCreate"><summary>Crear billetera</summary><div class="details-body"><h3 class="sr-only">Crear billetera</h3><p class="help-text">Elegí el tipo. Las claves privadas se generan localmente con el generador criptográfico del sistema y se guardan protegidas mediante Windows DPAPI. Conservá el respaldo fuera de esta computadora.</p>
+<div class="field"><label class="field-label" for="newWalletName">Nombre</label><input id="newWalletName" class="input" maxlength="60" placeholder="Mi billetera"></div>
+<div class="field"><label class="field-label" for="newWalletType">Tipo de billetera</label><select id="newWalletType" class="select"><option value="bip39">BIP39 · Frase semilla (HD)</option><option value="raw-bip32">BIP32 · Semilla hexadecimal (HD)</option><option value="legacy-hex">Legacy · Clave privada individual</option></select></div>
+<div class="field" id="newWalletBip39Field"><span class="field-label" id="newWalletBip39Label">Cantidad de palabras BIP39</span><div role="group" aria-labelledby="newWalletBip39Label"><label class="radio-row"><input type="radio" name="newWalletBip39Words" value="12" checked>12 palabras (predeterminado)</label><label class="radio-row"><input type="radio" name="newWalletBip39Words" value="15">15 palabras</label><label class="radio-row"><input type="radio" name="newWalletBip39Words" value="18">18 palabras</label><label class="radio-row"><input type="radio" name="newWalletBip39Words" value="21">21 palabras</label><label class="radio-row"><input type="radio" name="newWalletBip39Words" value="24">24 palabras</label></div></div>
+<div class="field hidden" id="newWalletBip32Field"><span class="field-label" id="newWalletBip32Label">Longitud de semilla BIP32</span><div role="group" aria-labelledby="newWalletBip32Label"><label class="radio-row"><input type="radio" name="newWalletSeedBytes" value="32" checked>32 bytes · 64 caracteres hexadecimales</label><label class="radio-row"><input type="radio" name="newWalletSeedBytes" value="64">64 bytes · 128 caracteres hexadecimales</label></div></div>
+<div class="field" id="newWalletAccountField"><label class="field-label" for="newWalletPath">Ruta de derivación BIP44 (cuenta)</label><input id="newWalletPath" class="input" spellcheck="false" autocomplete="off" value="${esc(current.wallet_default_derivation_path)}"><p class="help-text">Ejemplo: m/44'/145'/0'. Las direcciones se derivan agregando /0/0, /0/1, etc. La ruta queda vinculada a esta billetera.</p></div>
+<div class="btn-line"><button class="btn primary" id="createWalletBtn">Crear billetera</button></div></div></details>
+<details class="wallet-manager-section" id="wmImport"><summary>Importar billetera</summary><div class="details-body"><p class="help-text">Elegí el formato original. Una clave individual no se convierte en HD; conserva su dirección. Los secretos nunca deben enviarse a un sitio web externo ni compartirse por chat.</p>
+<details><summary>Frase semilla de 12, 15, 18, 21 o 24 palabras · BIP39</summary><div class="details-body">
+<div class="field"><label class="field-label" for="importWalletName">Nombre</label><input id="importWalletName" class="input" maxlength="60" placeholder="Billetera importada"></div>
+<div class="field"><label class="field-label" for="importMnemonic">Frase de recuperación BIP39</label><textarea id="importMnemonic" class="input" rows="3" autocomplete="off" spellcheck="false" placeholder="Palabras BIP39 en inglés"></textarea></div>
+<div class="field"><label class="field-label" for="importMnemonicPath">Ruta de derivación BIP44</label><input id="importMnemonicPath" class="input" spellcheck="false" autocomplete="off" value="${esc(current.wallet_default_derivation_path)}"></div>
+<div class="field"><label class="field-label" for="importMnemonicExpectedAddress">Primera dirección pública esperada (opcional, muy recomendable)</label><input id="importMnemonicExpectedAddress" class="input" spellcheck="false" autocomplete="off" placeholder="bchtest:… o bitcoincash:…"></div><p class="help-text">Confirmá que la ruta y la primera dirección coinciden con la billetera original. Sin passphrase BIP39 adicional: no importes si la original usa una.</p>
+<button class="btn" id="importMnemonicBtn">Importar frase BIP39</button></div></details>
+<details><summary>BIP32 · semilla hexadecimal HD de 32 o 64 bytes</summary><div class="details-body">
+<div class="field"><label class="field-label" for="importHexName">Nombre</label><input id="importHexName" class="input" maxlength="60" placeholder="Billetera HD importada"></div>
+<div class="field"><label class="field-label" for="importHex">Semilla BIP32 (64 o 128 caracteres hexadecimales)</label><input id="importHex" class="input" spellcheck="false" autocomplete="off" placeholder="64 o 128 caracteres hexadecimales"></div>
+<div class="field"><label class="field-label" for="importHexPath">Ruta de derivación BIP44</label><input id="importHexPath" class="input" spellcheck="false" autocomplete="off" value="${esc(current.wallet_default_derivation_path)}"></div>
+<button id="importHexBtn" class="btn">Importar semilla HD</button></div></details>
+<details id="legacyImportSection"><summary>Legacy · clave privada individual hexadecimal (private_key_hex)</summary><div class="details-body">
+<p class="help-text">Un secreto de 64 caracteres puede representar una clave privada Legacy o una semilla BIP32: <strong>no son intercambiables.</strong> Se calculan ambas direcciones posibles, sin consulta de saldo ni selección automática.</p>
+<div class="field"><label class="field-label" for="importLegacyName">Nombre</label><input id="importLegacyName" class="input" maxlength="60" placeholder="Mi wallet de Tempnet"></div>
+<div class="field"><label class="field-label" for="importPrivateKey">Clave privada hexadecimal (32 bytes)</label><input id="importPrivateKey" class="input secret-input" type="text" spellcheck="false" autocomplete="off" autocapitalize="off" data-lpignore="true" placeholder="64 caracteres hexadecimales"></div>
+<div class="field"><label class="field-label" for="legacyExpectedAddress">Dirección pública esperada (opcional, recomendada)</label><input id="legacyExpectedAddress" class="input" spellcheck="false" autocomplete="off" placeholder="bchtest:... o bitcoincash:..."></div>
+<div class="btn-line"><button id="previewLegacyBtn" class="btn">Comprobar direcciones</button></div>
+<div id="legacyPreview" class="status-line" aria-live="polite">Primero verificá la dirección calculada antes de importar.</div>
+<div class="btn-line"><button id="importLegacyBtn" class="btn primary" disabled>Importar clave Legacy</button></div></div></details></div></details>
+<details class="wallet-manager-section" id="wmDerivation"><summary>Ruta de derivación predeterminada</summary><div class="details-body"><p class="help-text">Esta preferencia sólo afecta futuras creaciones e importaciones; nunca cambia las rutas de billeteras existentes.</p><div class="field"><label class="field-label" for="networkDefaultPath">Ruta BIP44 predeterminada</label><input id="networkDefaultPath" class="input" spellcheck="false" autocomplete="off" value="${esc(current.wallet_default_derivation_path)}"></div><button id="saveDefaultPathBtn" class="btn ghost">Guardar ruta predeterminada</button></div></details>
+<details class="wallet-manager-section" id="wmConnection"><summary>Modo de conexión con la red</summary><div class="details-body"><h3 class="section-title">Electrum · modo normal automático</h3><p class="help-text">Una conexión activa por red para consultar tus direcciones; elige servidores según disponibilidad, rapidez y fallos recientes, y cambia automáticamente si uno falla. No compara saldos entre operadores. Guarda sus métricas de conexión por red, sin claves ni direcciones.</p><p class="help-text">Servidor actual: <strong>${esc(current.wallet_electrum?.server||'Sin conexión')}</strong></p><p class="help-text">Última actividad técnica: ${w?.last_sync?esc(new Date(w.last_sync).toLocaleString(CMI18n.getLocale())):'Sin registrar'}. Estado: ${esc(current.wallet_electrum?.status||'inactivo')}</p><h4 class="section-title">Agregar servidor personalizado</h4><p class="help-text">Los servidores predeterminados se seleccionan automáticamente. TLS y verificación de red obligatorios.</p><div class="grid2"><div class="field"><label class="field-label">Host</label><input class="input" id="electrumHost" placeholder="servidor.ejemplo.org"></div><div class="field"><label class="field-label">Puerto TLS</label><input class="input" id="electrumPort" type="number" min="1" max="65535" value="50002"></div></div>
+<div class="field"><label class="field-label" for="electrumCertPin">Huella SHA-256 del certificado (opcional; solo para confianza explícita)</label><input class="input" id="electrumCertPin" maxlength="95" spellcheck="false" autocomplete="off" placeholder="64 caracteres hexadecimales"></div>
+${current.network==='testnet3'?`<p class="help-text">Alternativo Testnet3: <strong>bch0.kister.net:51002</strong> (certificado autofirmado). No se conecta automáticamente. Para utilizarlo, comprobá su huella SHA-256 mediante una fuente confiable y agregalo con esa huella; CashMiner rechazará certificados distintos.</p><button id="fillElectrumAlternate" class="btn ghost">Completar servidor alternativo</button>`:''}
+<button id="addElectrumBtn" class="btn">Agregar servidor</button><button id="refreshWalletsBtn" class="btn ghost">Sincronizar todas</button><p class="help-text">CashMiner 2.7.13.3 es experimental y no fue auditado. Windows DPAPI no sustituye un respaldo externo. No custodiar BCH reales hasta validar firma, sincronización y envío.</p></div></details>`}
+function walletKindLabel(w){const kind=w.wallet_type||'hd';return kind==='legacy-compressed'?'Legacy · clave comprimida':kind==='legacy-uncompressed'?'Legacy · sin comprimir':kind==='bip39-english'?'HD · BIP39':kind==='raw-bip32'?'HD · semilla hexadecimal':'HD · billetera anterior'}
+
+// 2.9: the selected wallet owns its settings; the general administrator only
+// handles creation/import and network-wide preferences.
+function walletIndividualSettingsContent(w){return `
+ <div class="wallet-settings-details">
+  <p class="help-text">${esc(walletKindLabel(w))} · ${esc(walletPathLabel(w))}</p>
+  <div class="btn-line"><button id="recoveryBtn" class="btn">Ver respaldo privado</button><button id="forceRefreshBtn" class="btn ghost">Actualizar billetera</button><button id="walletHistoryBtn" class="btn ghost">Historial</button><button id="walletAddressesBtn" class="btn ghost" type="button" aria-expanded="false" aria-controls="walletAddressesPanel">Direcciones</button></div>
+  <section id="walletAddressesPanel" class="wallet-addresses-panel" hidden aria-label="Direcciones de la billetera"><div id="walletAddressesBody" aria-live="polite">Cargando direcciones…</div></section>
+  <div class="field" style="margin-top:18px"><label class="field-label" for="renameWalletName">Nombre de esta billetera</label><div class="btn-line"><input class="input" id="renameWalletName" maxlength="60" value="${esc(w.name)}" style="flex:1;min-width:180px"><button id="renameWalletBtn" class="btn">Renombrar billetera</button></div><p class="help-text">Sólo cambia su nombre local. Las claves, direcciones y ruta BIP44 se conservan.</p></div>
+  <div class="btn-line"><button id="deleteWalletBtn" class="btn" style="color:#ffb2b2;border-color:#864646">Eliminar billetera</button></div>
+  <p class="help-text">Elimina la billetera de CashMiner, su vault cifrado y su historial local. No mueve fondos en la red. Guardá antes tu frase o clave privada y su ruta si necesitás recuperarla.</p>
+ </div>`}
+function renderWalletSettingsState(c,w){
+ const key=w?c.network+':'+w.id:null;
+ // Changing wallet or network always returns to the regular screen.
+ if(walletSettingsMode && walletSettingsKey && walletSettingsKey!==key){walletSettingsMode=false;walletSettingsKey=null;}
+ const btn=$('walletSettingsToggle');btn.hidden=!w;
+ btn.setAttribute('aria-pressed',String(Boolean(w&&walletSettingsMode)));
+ btn.setAttribute('aria-label',walletSettingsMode?'Cerrar configuración de billetera':'Configurar billetera');
+ btn.title=walletSettingsMode?'Volver a la billetera':'Configurar billetera';
+ btn.firstElementChild.textContent=walletSettingsMode?'×':'⚙';
+ $('walletNormalContent').hidden=Boolean(w&&walletSettingsMode);
+ $('walletSettingsContent').hidden=!w||!walletSettingsMode;
+ if(!w||!walletSettingsMode){
+  if(walletSettingsKey!==null){walletSettingsKey=null;$('walletSettingsContent').replaceChildren();}
+  return;
+ }
+ if(walletSettingsKey===key)return; // Don't erase edits on the periodic state refresh.
+ walletSettingsKey=key;
+ $('walletSettingsContent').innerHTML=walletIndividualSettingsContent(w);
+ bindIndividualWalletActions(w,c.network,c.network_label);
+}
+function bindIndividualWalletActions(managedWallet,walletNet,walletNetLabel){
+ const walletId=managedWallet.id;
+ const assertWallet=()=>{
+  if(!current||current.network!==walletNet||current.selected_wallet!==walletId||!walletSettingsMode)
+   throw Error('Cambió la billetera. Abrí su configuración nuevamente');
+ };
+ $('renameWalletBtn').onclick=()=>act(async()=>{
+  assertWallet();const name=$('renameWalletName').value.trim();
+  if(!name||name.length>60)throw Error('Nombre de entre 1 y 60 caracteres');
+  if(name===managedWallet.name){notice('Ese ya es el nombre de la billetera');return;}
+  await api('/api/wallet/rename',{id:walletId,network:walletNet,name});
+  walletSettingsKey=null;await refresh();notice('Billetera renombrada');
+ });
+ $('deleteWalletBtn').onclick=()=>act(async()=>{
+  assertWallet();
+  const answer=await askDecision('Eliminar billetera · '+managedWallet.name,
+   'Se quitará de CashMiner la billetera '+managedWallet.name+' ('+walletNetLabel+'), incluyendo el secreto cifrado DPAPI y los registros locales. Los fondos no se mueven. La recuperación posterior requiere tu respaldo externo y la ruta de derivación '+(managedWallet.derivation_path||'Legacy')+'. Esta acción no se puede deshacer desde la aplicación.',
+   {accept:'Eliminar definitivamente'});
+  if(!answer)return;
+  assertWallet();
+  const result=await api('/api/wallet/delete',{id:walletId,network:walletNet,
+       expected_name:managedWallet.name,expected_address:managedWallet.first_address});
+  walletSettingsMode=false;walletSettingsKey=null;await refresh();
+  notice(result.cleanup_warning||'Billetera eliminada localmente',Boolean(result.cleanup_warning));
+ });
+ $('recoveryBtn').onclick=()=>act(async()=>{
+  assertWallet();
+  const answer=await askDecision('Revelar secreto privado','El secreto aparecerá en pantalla. Evitá capturas, grabaciones y compartirlo.',{accept:'Mostrar'});
+  if(!answer)return;
+  assertWallet();
+  const result=await api('/api/wallet/recovery',{id:walletId});showRecoverySeed(result);
+ });
+ $('forceRefreshBtn').onclick=()=>act(async()=>{assertWallet();await api('/api/wallet/refresh',{id:walletId});notice('Sincronización solicitada')});
+ $('walletAddressesBtn').onclick=()=>{
+  const panel=$('walletAddressesPanel'),button=$('walletAddressesBtn');
+  if(!panel.hidden){panel.hidden=true;button.setAttribute('aria-expanded','false');return;}
+  panel.hidden=false;button.setAttribute('aria-expanded','true');
+  showWalletAddressPage(walletId,walletNet,1,assertWallet);
+ };
+ $('walletHistoryBtn').onclick=()=>act(async()=>{
+  assertWallet();const res=await api('/api/wallet/history?id='+encodeURIComponent(walletId));
+  const list=(res.history||[]).slice(0,150);
+  modal('Movimientos · '+managedWallet.name,`<div class="notice">Altura 0 o negativa = sin confirmar. Este historial conserva TXID y altura, no el valor neto de cada movimiento.</div><div class="status-line">${list.length?list.map(h=>`<p class="inline-code" style="overflow-wrap:anywhere">${esc(h.txid)} · ${h.height>0?'Bloque '+h.height:'0-conf'}</p>`).join(''):'Sin historial completo para esta billetera.'}</div>`);
+ });
+}
+
+// v2.9: read the existing SQLite address cache, without deriving or scanning.
+// Never recreate this panel during the periodic wallet-state redraw.
+let walletAddressRequestId=0;
+async function showWalletAddressPage(walletId,network,page,assertWallet){
+ const panel=$('walletAddressesPanel'),body=$('walletAddressesBody');
+ if(!panel||panel.hidden||!body)return;
+ const requestId=++walletAddressRequestId;
+ body.textContent='Cargando direcciones…';
+ try{
+  assertWallet();
+  const params='id='+encodeURIComponent(walletId)+'&network='+encodeURIComponent(network)+'&page='+page;
+  const data=await api('/api/wallet/addresses?'+params);
+  if(requestId!==walletAddressRequestId||panel!==$('walletAddressesPanel')||panel.hidden)return;
+  assertWallet();
+  const rows=data.addresses||[];
+  const satText=n=>CMI18n.formatBch(n,coinUnit(network),{min:0,max:8});
+  const sections=[];
+  let previousBranch=null;
+  for(const a of rows){
+   if(a.branch!==previousBranch){
+    previousBranch=a.branch;
+    sections.push('<h4 class="wallet-addresses-branch">'+(a.branch===0?'Recepción':'Cambio')+' · Rama '+a.branch+'</h4>');
+   }
+   const status=!a.status_known?'—':a.used?'Usada':a.issued?'Emitida':'Sin actividad';
+   const money=a.total_sats===null?'—':satText(a.available_sats);
+   const extra=a.total_sats!==null&&a.immature_sats>0?' · Inmaduro: '+satText(a.immature_sats):'';
+   const token=a.total_sats!==null&&a.token_locked_sats>0?' · Tokens: '+satText(a.token_locked_sats):'';
+   sections.push(`<div class="wallet-address-row"><div class="wallet-address-info"><div class="wallet-address-index">#${a.index} · ${esc(status)}</div><div class="wallet-address-value">${esc(a.address)}</div><div class="wallet-address-amount">${esc(money)}${esc(extra+token)}${a.total_sats!==null&&network==='mainnet'?` <span class="fiat-live" data-fiat-network="mainnet" data-fiat-sats="${esc(String(a.available_sats))}">${CMFiat.html(a.available_sats,network,'compact')}</span>`:''}</div></div><button class="btn ghost wallet-address-copy" type="button" data-address-copy="${esc(a.address)}" aria-label="Copiar dirección #${a.index}" title="Copiar dirección">⧉</button></div>`);
+  }
+  const prev=data.page>1;
+  const next=data.page<data.pages;
+  body.innerHTML=`<div class="wallet-addresses-summary">Recepción: ${data.counts.receive} · Cambio: ${data.counts.change} · Total: ${data.total}</div>`+
+    (rows.length?'<div class="wallet-addresses-scroll">'+sections.join('')+'</div>':'<p class="help-text">Todavía no hay direcciones registradas.</p>')+
+    `<div class="wallet-addresses-pager"><button id="walletAddressesPrev" class="btn ghost" ${prev?'':'disabled'}>Anterior</button><span>Página ${data.page} de ${data.pages}</span><button id="walletAddressesNext" class="btn ghost" ${next?'':'disabled'}>Siguiente</button></div>`;
+  body.querySelectorAll('[data-address-copy]').forEach(button=>button.onclick=()=>act(async()=>{
+   assertWallet();await navigator.clipboard.writeText(button.dataset.addressCopy);notice('Dirección copiada');
+  }));
+  $('walletAddressesPrev').onclick=()=>{if(prev)showWalletAddressPage(walletId,network,data.page-1,assertWallet)};
+  $('walletAddressesNext').onclick=()=>{if(next)showWalletAddressPage(walletId,network,data.page+1,assertWallet)};
+ }catch(error){
+  if(requestId===walletAddressRequestId&&panel===$('walletAddressesPanel')&&!panel.hidden){
+   body.textContent='No se pudo leer la lista local: '+error.message;
+  }
+ }
+}
+
+function showRecoverySeed(res){
+ const phrase=res.recovery_phrase||res.mnemonic||res.seed_hex||res.private_key_hex||'';
+ const isMnemonic=Boolean(res.recovery_phrase||res.mnemonic);
+ const isLegacy=Boolean(res.private_key_hex);
+ const kindLabel=isMnemonic?'Frase BIP39':isLegacy?'Clave privada Legacy de una dirección':'Semilla HD BIP32';
+ modal('Respaldo privado · '+esc(current.network_label),`<div class="notice"><strong>${kindLabel}</strong>. Quien tenga ${isMnemonic?'estas palabras':'este secreto'} puede gastar los fondos de esta billetera. ${isLegacy?'No confundas esta clave con una semilla HD.':''} No la compartas, fotografíes ni guardes solamente en la PC. ${res.derivation_path?'Ruta: '+esc(res.derivation_path)+'.':''}</div><div class="inline-code" style="user-select:all;overflow-wrap:anywhere;font-size:15px;line-height:1.8" id="recoverySeed">${esc(phrase)}</div><button class="btn" id="copyRecovery">Copiar al portapapeles</button>`);
+ $('copyRecovery').onclick=()=>navigator.clipboard.writeText(phrase).then(()=>notice('Secreto copiado. El portapapeles contiene información privada.'));
+}
+function openWalletManager(){const walletNet=current.network, walletNetLabel=current.network_label;
+ modal('Mis billeteras · '+walletNetLabel,walletManagerContent());
+ const formatControl=$('numberFormat');formatControl.value=CMI18n.getNumberFormat();
+ formatControl.onchange=()=>CMI18n.setNumberFormat(formatControl.value,true);
+ const readPath=id=>{
+  const value=$(id).value.trim(), match=/^m\/44'\/(\d+)'\/(\d+)'$/.exec(value);
+  if(!match||!Number.isSafeInteger(Number(match[1]))||Number(match[1])>=2147483648||
+     !Number.isSafeInteger(Number(match[2]))||Number(match[2])>1000)
+      throw Error("Ruta inválida. Usá m/44'/145'/0' (formato BIP44 con cuenta de 0 a 1000)");
+  return value;
+ };
+ function updateCreateForm(){const type=$('newWalletType').value;$('newWalletBip39Field').classList.toggle('hidden',type!=='bip39');$('newWalletBip32Field').classList.toggle('hidden',type!=='raw-bip32');$('newWalletAccountField').classList.toggle('hidden',type==='legacy-hex')}
+ $('newWalletType').onchange=updateCreateForm;updateCreateForm();
+ $('saveDefaultPathBtn').onclick=()=>act(async()=>{
+   const derivation_path=readPath('networkDefaultPath');
+   const prior=current.wallet_default_derivation_path;
+   await api('/api/wallet/derivation/default',{network:walletNet,derivation_path});
+   await refresh();
+   for(const id of ['newWalletPath','importMnemonicPath','importHexPath']){
+     if($(id)?.value===prior)$(id).value=derivation_path;
+   }
+   notice('Ruta por defecto de '+walletNetLabel+' actualizada. No se modificaron las billeteras existentes.');
+ });
+ $('createWalletBtn').onclick=()=>act(async()=>{const name=$('newWalletName').value.trim(),type=$('newWalletType').value;if(!name)throw Error('Escribí un nombre');const derivation_path=type==='legacy-hex'?null:readPath('newWalletPath');const answer=await askDecision('Crear billetera · '+walletNetLabel,'Se generará un secreto nuevo. Su respaldo aparecerá una sola vez después de la creación; guardalo fuera de esta PC.',{accept:'Crear'});if(!answer)return;const options={name,network:walletNet,wallet_type:type,derivation_path};if(type==='bip39')options.bip39_words=Number(document.querySelector('input[name="newWalletBip39Words"]:checked').value);if(type==='raw-bip32')options.seed_bytes=Number(document.querySelector('input[name="newWalletSeedBytes"]:checked').value);const result=await api('/api/wallet/create',options);await refresh();showRecoverySeed(result)});
+ $('importMnemonicBtn').onclick=()=>act(async()=>{const name=$('importWalletName').value.trim(),mnemonic=$('importMnemonic').value.trim(),derivation_path=readPath('importMnemonicPath'),expected_address=$('importMnemonicExpectedAddress').value.trim()||undefined;if(!name)throw Error('Escribí un nombre');if(!mnemonic)throw Error('Ingresá las palabras de recuperación');await api('/api/wallet/import',{name,mnemonic,network:walletNet,derivation_path,expected_address});$('importMnemonic').value='';closeModal();await refresh();notice('Frase BIP39 importada en '+walletNetLabel)});
+ $('importHexBtn').onclick=()=>act(async()=>{const name=$('importHexName').value.trim(),seed=$('importHex').value.trim(),derivation_path=readPath('importHexPath');if(!name)throw Error('Escribí un nombre');if(!/^(?:[0-9a-fA-F]{64}|[0-9a-fA-F]{128})$/.test(seed))throw Error('La semilla BIP32 debe tener 64 o 128 caracteres hexadecimales');await api('/api/wallet/import',{name,seed_hex:seed,network:walletNet,derivation_path});$('importHex').value='';closeModal();await refresh();notice('Semilla BIP32 importada en '+walletNetLabel)});
+ let legacyPreview=null;
+ function invalidateLegacy(){legacyPreview=null;$('importLegacyBtn').disabled=true;$('legacyPreview').textContent='Volvé a comprobar las direcciones antes de importar.'}
+ $('importPrivateKey').oninput=invalidateLegacy;
+ $('legacyExpectedAddress').oninput=()=>{if(legacyPreview){$('importLegacyBtn').disabled=true;$('legacyPreview').textContent='La dirección esperada cambió. Volvé a comprobar.';legacyPreview=null}};
+ $('previewLegacyBtn').onclick=()=>act(async()=>{
+  const key=$('importPrivateKey').value.trim(),expected=$('legacyExpectedAddress').value.trim();
+  const result=await api('/api/wallet/legacy/preview',{network:walletNet,private_key_hex:key});
+  const matches=result.candidates.filter(c=>!expected||c.address===expected);
+  legacyPreview={key,choices:result.candidates,expected};
+  $('legacyPreview').innerHTML=`<div class="help-text" style="margin:10px 0">Elegí la versión que corresponde a tu dirección original. <strong>No se consultaron saldos.</strong></div>`+result.candidates.map((c,i)=>`<label class="radio-row"><input type="radio" name="legacyCandidate" value="${i}" ${matches.length===1&&c.address===matches[0].address?'checked':''}><span><strong>${esc(c.label)}</strong><span class="inline-code" style="display:block;overflow-wrap:anywhere">${esc(c.address)}</span></span></label>`).join('')+(expected&&!matches.length?'<div class="notice">Ninguna dirección calculada coincide con la esperada. No importes esta clave.</div>':'');
+  $('importLegacyBtn').disabled=expected&&!matches.length;
+  if(!expected||matches.length!==1)$('importLegacyBtn').disabled=true;
+  document.querySelectorAll('input[name="legacyCandidate"]').forEach(input=>input.onchange=()=>{const candidate=legacyPreview.choices[Number(input.value)];$('importLegacyBtn').disabled=Boolean(expected&&candidate.address!==expected)});
+ });
+ $('importLegacyBtn').onclick=()=>act(async()=>{
+  if(!legacyPreview||legacyPreview.key!==$('importPrivateKey').value.trim())throw Error('La clave cambió: comprobá otra vez');
+  const name=$('importLegacyName').value.trim();if(!name)throw Error('Escribí un nombre');
+  const selected=document.querySelector('input[name="legacyCandidate"]:checked');if(!selected)throw Error('Seleccioná la variante de dirección');
+  const choice=legacyPreview.choices[Number(selected.value)];const expected=$('legacyExpectedAddress').value.trim();
+  if(expected&&choice.address!==expected)throw Error('La dirección elegida no coincide con la dirección esperada');
+  const answer=await askDecision('Importar clave Legacy · '+walletNetLabel,'Confirmá que reconocés la dirección pública '+choice.address+' y que esta wallet corresponde a la red '+walletNetLabel+'. No se moverán fondos.',{accept:'Importar'});if(!answer)return;
+  await api('/api/wallet/import',{name,network:walletNet,private_key_hex:legacyPreview.key,compressed:choice.compressed,expected_address:choice.address});
+  $('importPrivateKey').value='';legacyPreview=null;closeModal();await refresh();notice('Clave Legacy importada · '+choice.address.slice(0,18)+'…');
+ });
+ $('refreshWalletsBtn').onclick=()=>act(async()=>{await api('/api/wallet/refresh',{});notice('Sincronización solicitada')});
+ if($('fillElectrumAlternate'))$('fillElectrumAlternate').onclick=()=>{ $('electrumHost').value='bch0.kister.net';$('electrumPort').value='51002';$('electrumCertPin').focus();};
+ $('addElectrumBtn').onclick=()=>act(async()=>{await api('/api/wallet/server/add',{host:$('electrumHost').value,port:Number($('electrumPort').value),cert_sha256:$('electrumCertPin').value.trim()||null});notice('Servidor guardado')});
+}
+function openMineConfig(){const s=current.settings,w=walletSelected();const hardwareNetwork=current.miner_network;
+ const initialReward=(s.reward_destinations&&s.reward_destinations.length)?s.reward_destinations:
+   (s.mining_target_mode==='address'||!current.miner_wallets.length?
+      [{type:'address',address:s.fixed_address||'',percent:'100'}]:
+      [{type:'wallet',wallet_id:current.mining_wallet||current.miner_wallets[0].id,percent:'100'}]);
+ let rewardDraft=initialReward.map((r,i)=>({localId:i+1,type:r.type,wallet_id:r.wallet_id||'',address:r.address||'',percent:r.percent||'100'}));
+ let nextRewardId=rewardDraft.length+1;
+ modal('Minería · '+current.miner_network_label,`
+<details class="settings-section" id="miningRewardDetails"><summary>Destino de recompensas</summary><div class="details-body">
+<div id="rewardPoolNotice" class="help-text" hidden>En Stratum los pagos los controla el pool.</div>
+<div id="rewardRows" class="reward-rows"></div>
+<div class="btn-line"><button type="button" id="addRewardDestination" class="btn small">+ Agregar destino</button></div>
+<div class="reward-total-line"><span>Total</span><strong id="rewardTotalValue">100 %</strong><button type="button" id="saveRewardDistribution" class="btn small">Guardar destinos</button></div>
+</div></details>
+<div class="settings-section"><h3 class="section-title">Actividad e historial de minería</h3><div class="diagnostic-overview"><span>Estado <strong id="configMiningState">${esc(current.miner_state)}</strong></span><span>Potencia informada <strong id="configRateValue">${current.hashrate_mhs===null?'—':esc(current.hashrate_mhs)+' MH/s'}</strong></span><span>Altura observada <strong id="configHeightValue">${current.height??'—'}</strong></span><span>Soluciones PoW halladas <strong id="configBlocksValue">${current.blocks_session}</strong></span><span>En cadena observada <strong id="configChainValue">${current.mined_chain?.in_chain??0}</strong></span><span>Fuera de cadena <strong id="configOutsideValue">${current.mined_chain?.outside??0}</strong></span><span>Pendientes de verificar <strong id="configPendingValue">${current.mined_chain?.pending??0}</strong></span></div><p class="help-text">La pertenencia se basa en las cabeceras de peers y la mejor rama conocida; no supone validación independiente del bloque completo ni recompensa definitiva. «Pendiente» significa falta de evidencia suficiente, no rechazo. Se actualizan con la sincronización normal del motor; al detenerse conservan el último estado conocido.</p>
+<details><summary>Sesiones y bloques propios</summary><div class="details-body"><div class="btn-line"><button id="refreshMineHistory" class="btn small">Actualizar historial</button></div><div id="mineHistoryList" class="status-line">Cargando sesiones…</div></div></details></div>
+<details class="settings-section" id="miningModeDetails"><summary>Red y modalidad de minería</summary><div class="details-body">
+<p class="help-text">Red activa: ${esc(current.miner_network_label)}. P2P verifica cabeceras y no sustituye a un nodo completo. Sin una preferencia guardada, la referencia P2P predeterminada es nativa; se respetan las elecciones guardadas por red. P2P nativo es experimental y no requiere Electrum: mina bloques sólo con coinbase, sin comisiones de transacciones. Electrum asistido sigue disponible donde corresponda; Mainnet con Electrum asistido sigue siendo experimental. En Regtest, configurá tu nodo local y el mínimo de peers según tu entorno.</p>
+<div class="field"><label class="field-label" for="miningModeSelect">Modalidad</label><select id="miningModeSelect" class="select">${current.mining_allowed_modes.map(m=>`<option value="${m}" ${m===current.mining_mode?'selected':''}>${m==='p2p-tip'?'P2P directo':m==='rpc'?'RPC · getblocktemplate / submitblock':'Pool · Stratum'}</option>`).join('')}</select></div>
+<div id="miningTipSourceFields" class="field"><label class="field-label">Referencia de punta P2P</label>${current.mining_tip_sources.length>1
+ ? `<select id="miningTipSourceSelect" class="select">${current.mining_tip_sources.map(src=>`<option value="${src}" ${src===current.mining_tip_source?'selected':''}>${src==='electrum_assisted'?'Electrum asistido':'P2P nativo (experimental)'}</option>`).join('')}</select>`
+ : `<span class="help-text">${current.mining_tip_source==='electrum_assisted'?'Electrum asistido':current.mining_tip_source==='native'?'P2P nativo (experimental)':'No disponible'}</span>`}
+</div>
+<div id="miningPeerSourceFields" class="field"><label class="field-label" for="miningPeerSourceSelect">Fuente de peers P2P</label>
+<select id="miningPeerSourceSelect" class="select">${current.mining_peer_source==='legacy'?'<option value="legacy" selected disabled>Actual · compatibilidad con versiones anteriores</option>':''}${current.mining_peer_sources.map(src=>`<option value="${src}" ${src===current.mining_peer_source?'selected':''}>${src==='dns'?'DNS seeds':src==='sqlite'?'Base de datos SQLite':'DNS seeds + SQLite'}</option>`).join('')}</select>
+<p class="help-text">Se guarda para esta red y se aplica al próximo arranque. SQLite exclusivo no usa DNS ni bootstrap de respaldo. En el modo combinado se consultan ambas fuentes. Los candidatos no se actualizan durante la minería.${current.mining_peer_source==='legacy'?' Hasta elegir una fuente se conserva el comportamiento anterior.':''}${!current.mining_dns_available?' Esta red no tiene DNS seeds configuradas.':''}</p></div>
+<div id="miningRpcFields"><div class="field"><label class="field-label">URL de tu nodo RPC</label><input id="minerRpcUrl" class="input" placeholder="http://127.0.0.1:8332" autocomplete="off"></div><div class="option-grid"><div class="field"><label class="field-label">Usuario RPC</label><input id="minerRpcUser" class="input" autocomplete="off"></div><div class="field"><label class="field-label">Contraseña RPC</label><input id="minerRpcPassword" class="input secret-input" type="text" autocomplete="new-password"></div></div></div>
+<div id="miningPoolFields"><div class="field"><label class="field-label">Servidor Stratum</label><input id="minerPoolUrl" class="input" placeholder="stratum+ssl://host:puerto" autocomplete="off"></div><div class="option-grid"><div class="field"><label class="field-label">Usuario / worker del pool</label><input id="minerPoolUser" class="input" autocomplete="off"></div><div class="field"><label class="field-label">Contraseña Stratum</label><input id="minerPoolPassword" class="input secret-input" type="text" value="x" autocomplete="new-password"></div></div><p class="help-text">El pool controla los pagos mediante tu usuario/worker, no mediante la dirección de coinbase seleccionada abajo.</p></div>
+<p class="help-text">${current.mining_connection_note||'La conexión RPC/Stratum debe configurarse para esta sesión. No guardamos contraseñas en disco.'}</p>
+<button class="btn" id="saveMiningConnection">Guardar modalidad y conexión</button>
+</div></details>
+<details class="settings-section" id="miningHardwareDetails"><summary>Hardware</summary><div class="details-body"><p class="help-text">Cada dispositivo compatible tiene su porcentaje independiente. Inicial: CPU 0 %, GPU 25 %. Cero desactiva ese dispositivo. Los cambios se aplican en el próximo arranque de minería.</p>
+<div id="hardwareDevices" class="hardware-list" aria-live="polite">Detectando CPU y GPU locales…</div><div class="btn-line"><button class="btn small" id="refreshHardwareBtn" type="button">Volver a detectar hardware</button></div>
+<div class="btn-line"><button id="saveMineSettings" class="btn primary">Guardar configuración</button></div>
+<div class="status-line">Bibliotecas incluidas: ${esc(current.native_libraries.join(', ')||'ninguna')}</div>
+</div></details>
+<details class="settings-section" id="minPeersDetails"><summary>Conexiones para minar</summary><div class="details-body">
+<p class="help-text">Este ajuste pertenece al motor, no al explorador. Cambia el mínimo para iniciar la minería; el motor sigue verificando por sí mismo la cadena y las cabeceras.</p>
+<div class="field" style="max-width:440px"><label class="field-label" for="minPeersMining">Mínimo de peers compatibles para minar</label>
+<input class="input" type="number" id="minPeersMining" min="1" max="80" step="1" inputmode="numeric" value="${esc(s.min_peers_mining??2)}" required>
+<p class="help-text">Se aplica al próximo arranque en modalidad P2P-tip. Entero de 1 a 80; 2 es el valor inicial, 1 es experimental y 0 no está permitido. Si la red no ofrece suficientes peers compatibles, no se inicia la minería.</p></div>
+<button class="btn" id="saveMinPeersBtn">Guardar mínimo para minería</button>
+</div></details>
+${['testnet3','testnet4','chipnet'].includes(current.miner_network)?`<details id="miningElectrumDetails"><summary>Servidores Electrum de minería · ${esc(current.miner_network_label)}</summary><div class="details-body">
+<p class="help-text">Exclusivos del minero P2P-tip; no modifican los servidores de tus billeteras. Conexiones TLS con certificado verificado y coincidencia de red obligatoria. Si falla uno, prueba el siguiente. Sólo se aplica en el próximo arranque.</p>
+<div class="field"><label class="field-label" for="miningElectrumPreferred">Servidor preferido</label><select class="select" id="miningElectrumPreferred"><option value="">Automático (usar el más prioritario disponible)</option>${[...(current.miner_electrum_defaults||[]),...(s.electrum_custom||[])].map(v=>`<option value="${esc(v)}" ${s.electrum_preferred===v?'selected':''}>${esc(v)}${(s.electrum_custom||[]).includes(v)?' · Personalizado':''}</option>`).join('')}</select></div>
+<button class="btn" id="saveMiningElectrumPreferred">Guardar preferencia</button>
+<div class="field" style="margin-top:12px"><label class="field-label" for="newMiningElectrum">Agregar servidor TLS (host:puerto)</label><div class="btn-line"><input id="newMiningElectrum" class="input" style="flex:1;min-width:160px" placeholder="servidor.testnet:50002"><button class="btn" id="addMiningElectrum">Agregar</button></div></div>
+${(s.electrum_custom||[]).length?`<div class="status-line">Personalizados:</div>${(s.electrum_custom||[]).map(v=>`<div class="btn-line" style="margin-top:5px"><span style="flex:1;overflow-wrap:anywhere">${esc(v)}</span><button class="btn small ghost" type="button" data-remove-mining-electrum="${esc(v)}">Eliminar</button></div>`).join('')}`:''}
+</div></details>`:''}
+<details id="logDetails"><summary>Diagnóstico del minero · Logs originales</summary><div class="details-body">
+<p class="help-text">Registro original del motor, guardado en archivos por ejecución. Incluye las respuestas P2P, anuncios de bloques y verificación de cabeceras; no se borra al detener ni cerrar CashMiner.</p>
+<div class="eyebrow" style="margin:12px 0 5px">LOG DEL MINERO</div>
+<div class="notice hidden" id="minerStartupError" role="status"></div><div class="log-tools"><select id="minerLogSession" class="select log-session-select" aria-label="Elegir sesión de minería"><option value="">Buscando sesiones...</option></select><button class="btn small" id="logFontDown" title="Reducir letra">A−</button><button class="btn small" id="logFontUp" title="Aumentar letra">A+</button><button class="btn small" id="logCopyAll">Copiar todo</button><button class="btn small" id="logDownload">Exportar log</button></div>
+<div class="log-summary" id="logSummary">Cargando historial...</div>
+<div class="log-tools"><input class="input log-search-input" id="logSearchInput" aria-label="Buscar texto o hash en el log completo" placeholder="Buscar texto, altura, hash o error..."><button class="btn small" id="logSearchPrev" title="Buscar anterior">↑ Anterior</button><button class="btn small" id="logSearchNext" title="Buscar siguiente">Siguiente ↓</button></div>
+<div class="log-tools log-retention"><label for="logLimit">Retención FIFO (MiB)</label><input id="logLimit" class="input" type="number" min="1" max="10240" value="50" aria-label="Límite de almacenamiento de logs en MiB"><button id="logSaveLimit" class="btn small">Aplicar límite</button><span id="logUsage" class="log-summary"></span><button id="logDelete" class="btn small" title="Eliminar sesión seleccionada">Eliminar sesión</button><button id="logDeleteCancel" class="btn small hidden">Cancelar</button></div>
+<div class="log-tools"><button class="btn small" id="logOlder" hidden>Cargar líneas anteriores</button><button class="btn small" id="logToEnd" hidden>Volver al presente ↓</button></div>
+<pre class="logbox" id="minerLog" tabindex="0" role="region" aria-label="Registro original del minero"></pre>
+</div></details>
+<hr class="hr" aria-hidden="true">
+<details id="explorerDetails"><summary><span class="explorer-summary-label" id="explorerNetworkTitle">Peer Explorer · ${esc(current.explorer_state==='Detenido'?current.miner_network_label:(current.explorer_network_label||current.miner_network_label))}</span><span id="explorerHeaderState" class="explorer-summary-state" role="status" aria-live="polite">Detenido</span></summary><div class="details-body">
+<p class="help-text">Explora endpoints por DNS y getaddr, guarda antecedentes en SQLite y funciona de forma independiente del minero. El minero incorpora otras observaciones a la misma base, sin usar puntuaciones como autoridad de consenso.</p>
+<div class="explorer-head"><div><div class="explorer-phase" id="explorerStateText">Estado: ${esc(current.explorer_state)}</div><div class="explorer-dates" id="explorerTimes">Esperando actividad…</div></div>
+<div class="btn-line" style="flex-wrap:wrap;justify-content:flex-end">
+<button class="btn small" id="explorerAutoToggle" type="button" aria-pressed="true">Automática: encendida</button>
+<button class="btn primary" id="explorerToggle" type="button" aria-pressed="false">Activar continua</button>
+</div></div>
+<div class="explorer-metrics" aria-label="Progreso de la exploración">
+<div class="explorer-metric"><b id="explorerCandidates">0</b><span>Candidatos del ciclo</span></div>
+<div class="explorer-metric"><b id="explorerProcessed">0</b><span>Sondeos finalizados</span></div>
+<div class="explorer-metric"><b id="explorerHandshakes">0</b><span>Handshakes correctos</span></div>
+<div class="explorer-metric"><b id="explorerFailures">0</b><span>Sondeos fallidos</span></div>
+<div class="explorer-metric"><b id="explorerCompatible">0</b><span>Checkpoint coincidente</span></div>
+<div class="explorer-metric"><b id="explorerIncompatible">0</b><span>Checkpoint incompatible</span></div>
+<div class="explorer-metric"><b id="explorerAddresses">0</b><span>Direcciones anunciadas (getaddr)</span></div>
+<div class="explorer-metric"><b id="explorerNew">0</b><span>Peers nuevos en el ciclo</span></div>
+<div class="explorer-metric"><b id="explorerKnown">${current.peer_counts?.peers??0}</b><span>Peers conocidos en SQLite</span></div>
+<div class="explorer-metric"><b id="explorerRound">0</b><span>Tandas de este ciclo</span></div>
+</div>
+<div class="explorer-progress-track" role="progressbar" id="explorerProgress" aria-label="Sondeos completados" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="explorer-progress-fill" id="explorerProgressFill"></div></div>
+<div class="status-line" id="explorerProgressLabel">Sin ronda iniciada</div>
+<p class="help-text">La identidad de bifurcación sólo se comprueba donde hay checkpoint disponible. No equivale a validación completa del consenso.</p>
+<div class="status-line" id="explorerLastError" hidden></div>
+<details id="explorerSettings"><summary>Configuración de exploración</summary><div class="details-body">
+<div class="option-grid"><div class="field"><label for="peerBatch" class="field-label">Peers por tanda (0 = sin límite lógico)</label><input class="input" type="number" min="0" id="peerBatch" value="${esc(s.peers_per_round)}"></div>
+<div class="field"><label for="peerConcurrent" class="field-label">Conexiones simultáneas</label><input class="input" type="number" min="1" id="peerConcurrent" value="${esc(s.peer_concurrency)}"></div>
+<div class="field"><label for="peerInterval" class="field-label">Intervalo entre rondas (segundos)</label><input class="input" type="number" min="1" id="peerInterval" value="${esc(s.explorer_interval)}"></div>
+<div class="field"><label for="peerTimeout" class="field-label">Timeout de conexión (segundos)</label><input class="input" type="number" min="1" id="peerTimeout" value="${esc(s.peer_timeout)}"></div></div>
+<p class="help-text">Los ajustes guardados se aplican en las próximas operaciones, no reinician la ronda en curso.</p>
+<button class="btn" id="saveExplorerSettingsBtn">Guardar configuración de exploración</button>
+</div></details>
+<details id="knownPeersDetails"><summary><span>Peers conocidos</span><span id="knownPeersCount" class="peer-known-counter">${current.peer_counts?.peers??0} en SQLite</span></summary><div class="details-body">
+<p class="help-text">Se actualiza automáticamente mientras esta sección está abierta, incluso cuando sólo está minando. Conectividad y cadena son observaciones diferentes. Los nuevos candidatos pueden utilizarse desde el próximo arranque del minero.</p>
+<div class="field"><label for="newPeer" class="field-label">Agregar endpoint (IP:puerto o DNS:puerto)</label><div class="btn-line"><input id="newPeer" class="input" style="flex:1;min-width:180px" placeholder="tempnet.kth.cash:48333"><button class="btn" id="addPeerBtn">Agregar peer</button></div></div>
+<div class="peer-table-wrap" id="peerTableScroll"><table class="peer-table"><thead><tr><th>Peer</th><th>Conectividad</th><th>Cadena</th><th>Score</th><th>OK</th><th>Fallos</th><th>Eventos minero</th><th>Detalles</th></tr></thead><tbody id="peerRows"><tr><td colspan="8" class="muted">Cargando peers…</td></tr></tbody></table></div>
+</div></details>
+<details id="peerActivityDetails"><summary>Actividad detallada del Peer Explorer</summary><div class="details-body">
+<div class="explorer-log-head"><p class="help-text">Últimas 2.500 líneas del explorador en memoria. El registro original del minero se consulta por separado en «Diagnóstico del minero».</p><button type="button" class="btn small" id="copyExplorerLog">Copiar todo</button></div>
+<pre class="logbox" id="peerLog" tabindex="0" aria-label="Actividad del Peer Explorer"></pre>
+</div></details>
+<details id="explorerGlobalDetails"><summary>Estado global de exploraciones · todas las redes</summary><div class="details-body">
+<p class="help-text">Resumen complementario. Cada Peer Explorer conserva sus propios controles, métricas, historial y base de datos.</p>
+<div class="option-grid">
+  <div class="field"><label class="field-label">Maestro automático</label><button class="btn" type="button" id="explorerAutoMaster">Activado</button></div>
+  <div class="field"><label class="field-label">Maestro de exploración continua</label><button class="btn" type="button" id="explorerContinuousMaster">Activado</button></div>
+</div>
+<p class="help-text">Los maestros suspenden o reanudan su modalidad sin modificar los interruptores individuales. Regtest tiene ambas modalidades apagadas por defecto.</p>
+<div class="peer-table-wrap"><table class="peer-table"><thead><tr><th>Red</th><th>Estado</th><th>Progreso</th><th>Próxima automática</th></tr></thead><tbody id="explorerGlobalRows"></tbody></table></div>
+</div></details>
+</div></details>
+<details id="p2pStorageDetails"><summary>Datos P2P · almacenamiento compartido</summary><div class="details-body">
+<p class="help-text">SQLite por red, compartida por Peer Explorer y minero. Este límite no es el FIFO de los logs originales ni configura las conexiones P2P.</p>
+<div class="field" style="max-width:450px"><label for="maxDb" class="field-label">Límite de base por red (MiB)</label><input id="maxDb" class="input" type="number" min="1" value="${esc(s.max_db_mib)}"></div>
+<button class="btn" id="saveDbLimitBtn">Guardar límite de SQLite</button>
+<div class="status-line" id="p2pDatabaseSummary">Peers: ${current.peer_counts?.peers??0} · Fuentes: ${current.peer_counts?.peer_sources??0} · Eventos: ${current.peer_counts?.peer_events??0} · Tamaño: ${((current.p2p_database_bytes||0)/1048576).toFixed(2)} MiB</div>
+</div></details>
+
+`,true);
+ function syncMiningConnectionFields(){const mode=$('miningModeSelect').value;
+  $('miningTipSourceFields').classList.toggle('hidden',mode!=='p2p-tip');
+  $('miningPeerSourceFields').classList.toggle('hidden',mode!=='p2p-tip');
+  $('miningRpcFields').classList.toggle('hidden',mode!=='rpc');
+  $('miningPoolFields').classList.toggle('hidden',mode!=='pool');
+ }
+ $('miningModeSelect').onchange=syncMiningConnectionFields;syncMiningConnectionFields();
+ // La lista conserva direcciones completas. Sólo el texto visible se abrevia si no entra.
+ const rewardRows=$('rewardRows');
+ const rewardWallets=current.miner_wallets;
+ function formatRewardPercentUnits(value){
+   if(!/^(?:0|[1-9][0-9]{0,2})(?:\.[0-9]{1,4})?$/.test(value))return null;
+   const p=value.split('.');return Number(p[0])*10000+Number((p[1]||'').padEnd(4,'0'));
+ }
+ function currentRewardAddress(r){
+   if(r.type==='address')return r.address;
+   const wallet=rewardWallets.find(w=>w.id===r.wallet_id);
+   // Guardado = dirección anclada; una nueva selección utiliza la dirección minera actual.
+   return r.address||(wallet?.mining_address||wallet?.address||'');
+ }
+ function shortenRewardWallet(el,name,address){
+   if(!el)return;
+   const width=el.clientWidth;
+   if(width<=0)return;
+   const ctx=document.createElement('canvas').getContext('2d');
+   ctx.font=getComputedStyle(el).font;
+   const fits=text=>ctx.measureText(text).width<=width-1;
+   const original=name+' · '+address;
+   if(fits(original)){el.textContent=original;return;}
+   // El recorte se hace en el centro del CashAddr, nunca en el valor real.
+   let start=0,end=address.length, prefix=name+' · ';
+   let suffixLength=Math.min(8,Math.floor(address.length/2));
+   const candidate=(n)=>prefix+address.slice(0,n)+'…'+address.slice(-suffixLength);
+   if(!fits(candidate(0))){
+      while(name.length>3&&!fits(name+'… · '+address.slice(0,2)+'…'+address.slice(-suffixLength)))name=name.slice(0,-1);
+      prefix=name+'… · ';
+      while(suffixLength>2&&!fits(candidate(0)))suffixLength--;
+   }
+   while(start<end){const mid=Math.ceil((start+end)/2);if(fits(candidate(mid)))start=mid;else end=mid-1;}
+   el.textContent=candidate(start);
+ }
+ function updateRewardLabels(){
+   rewardRows.querySelectorAll('[data-reward-label]').forEach(el=>{
+     const row=rewardDraft.find(r=>String(r.localId)===el.dataset.rewardLabel);
+     const wallet=rewardWallets.find(w=>w.id===row?.wallet_id);
+     if(!row||!wallet)return;
+     shortenRewardWallet(el,wallet.name,currentRewardAddress(row));
+   });
+ }
+ const resizeRewards=new ResizeObserver(updateRewardLabels);resizeRewards.observe(rewardRows);
+ function renderRewardRows(){
+   rewardRows.innerHTML=rewardDraft.map((r,index)=>{
+     const opts=rewardWallets.map(w=>`<option value="${esc(w.id)}" ${w.id===r.wallet_id?'selected':''}>${esc(w.name)} · ${esc(r.address&&w.id===r.wallet_id?r.address:(w.mining_address||w.address||''))}</option>`).join('');
+     return `<div class="reward-row" data-reward-row="${r.localId}">
+       <div class="reward-head"><span class="reward-row-number">${esc(CMI18n.t('Destino'))} ${index+1}:</span>
+         <select class="select reward-kind" data-reward-type="${r.localId}" aria-label="Tipo de destino ${index+1}">
+           <option value="wallet" ${r.type==='wallet'?'selected':''}>Billetera</option>
+           <option value="address" ${r.type==='address'?'selected':''}>Externa</option></select>
+         <input class="input reward-pct" data-reward-percent="${r.localId}" type="text" inputmode="decimal" autocomplete="off" value="${esc(r.percent)}" aria-label="Porcentaje destino ${index+1}">
+         <span class="reward-percent-sign">%</span><button type="button" class="reward-remove" data-remove-reward="${r.localId}" aria-label="Quitar destino ${index+1}" ${rewardDraft.length===1?'disabled':''}>×</button>
+       </div><div class="reward-address-row">${r.type==='wallet'?
+         `<div class="reward-wallet-picker"><select class="select reward-wallet-native" data-reward-wallet="${r.localId}" aria-label="Billetera del destino ${index+1}" title="Elegir billetera">${opts||'<option value="">Sin billeteras</option>'}</select>
+           <div class="reward-wallet-label"><span class="reward-wallet-label-text" data-reward-label="${r.localId}" data-cm-no-translate="1"></span><span class="reward-wallet-label-chevron">▾</span></div></div>
+           <button class="btn small reward-copy" type="button" data-copy-reward="${r.localId}" title="Copiar dirección completa" aria-label="Copiar dirección completa">⧉</button>`:
+         `<input class="input" data-reward-address="${r.localId}" value="${esc(r.address)}" autocomplete="off" spellcheck="false" data-cm-no-translate="1" placeholder="${current.miner_network==='mainnet'?'bitcoincash:':'bchtest:'}...">`}
+       </div></div>`;
+   }).join('');
+   rewardRows.querySelectorAll('[data-reward-type]').forEach(el=>el.onchange=()=>{
+     const row=rewardDraft.find(r=>r.localId===Number(el.dataset.rewardType));
+     row.type=el.value;
+     if(row.type==='wallet'){
+       row.wallet_id=rewardWallets[0]?.id||'';
+       row.address=rewardWallets[0]?.mining_address||rewardWallets[0]?.address||'';
+     }else{row.wallet_id='';row.address='';}
+     renderRewardRows();
+   });
+   rewardRows.querySelectorAll('[data-reward-wallet]').forEach(el=>el.onchange=()=>{
+     const row=rewardDraft.find(r=>r.localId===Number(el.dataset.rewardWallet));
+     row.wallet_id=el.value;
+     const w=rewardWallets.find(w=>w.id===row.wallet_id);
+     row.address=w?.mining_address||w?.address||'';
+     renderRewardRows();
+   });
+   rewardRows.querySelectorAll('[data-reward-address]').forEach(el=>el.oninput=()=>{
+     const row=rewardDraft.find(r=>r.localId===Number(el.dataset.rewardAddress));row.address=el.value;
+   });
+   rewardRows.querySelectorAll('[data-reward-percent]').forEach(el=>el.oninput=()=>{
+     const row=rewardDraft.find(r=>r.localId===Number(el.dataset.rewardPercent));row.percent=el.value;updateRewardTotal();
+   });
+   rewardRows.querySelectorAll('[data-remove-reward]').forEach(el=>el.onclick=()=>{
+     if(rewardDraft.length<=1)return;
+     rewardDraft=rewardDraft.filter(r=>r.localId!==Number(el.dataset.removeReward));renderRewardRows();
+   });
+   rewardRows.querySelectorAll('[data-copy-reward]').forEach(el=>el.onclick=async()=>{
+     const row=rewardDraft.find(r=>r.localId===Number(el.dataset.copyReward));
+     const address=currentRewardAddress(row);
+     try{await navigator.clipboard.writeText(address);notice('Dirección copiada');}catch{notice('No se pudo copiar la dirección');}
+   });
+   rewardRows.querySelectorAll('[data-reward-label]').forEach(el=>{
+     const row=rewardDraft.find(r=>String(r.localId)===el.dataset.rewardLabel);
+     el.title=currentRewardAddress(row);
+   });
+   updateRewardTotal();
+   requestAnimationFrame(updateRewardLabels);
+ }
+ function pendingRewardPlan(){
+   const plan=rewardDraft.map(r=>({type:r.type,wallet_id:r.type==='wallet'?r.wallet_id:undefined,address:currentRewardAddress(r),percent:r.percent}));
+   const units=plan.map(r=>formatRewardPercentUnits(r.percent));
+   if(units.some(v=>v===null||v<=0)||units.reduce((sum,v)=>sum+v,0)!==1000000)
+     throw Error('Los destinos deben sumar exactamente 100 %, con porcentajes positivos (hasta cuatro decimales).');
+   if(plan.length>16)throw Error('Máximo 16 destinos');
+   return plan;
+ }
+ $('saveRewardDistribution').onclick=()=>act(async()=>{
+   const plan=pendingRewardPlan();
+   const kind=plan[0].type;
+   await api('/api/settings',{network:current.miner_network,reward_destinations:plan,
+       mining_target_mode:kind==='wallet'?'wallet':'address',
+       fixed_address:kind==='address'?plan[0].address:(s.fixed_address||'')});
+   if(kind==='wallet')await api('/api/miner/select-wallet',{network:current.miner_network,id:plan[0].wallet_id});
+   await refresh();notice('Destinos guardados para el próximo arranque de minería.');
+ });
+ function updateRewardTotal(){
+   const values=rewardDraft.map(r=>formatRewardPercentUnits(r.percent));
+   const total=values.every(v=>v!==null)?values.reduce((n,v)=>n+v,0):null;
+   const label=$('rewardTotalValue');
+   label.textContent=(total===null?'—':String(Number((total/10000).toFixed(4))))+' %';
+   label.classList.toggle('invalid',total!==1000000||values.some(v=>v<=0));
+ }
+ $('addRewardDestination').onclick=()=>{
+   if(rewardDraft.length>=16){notice('Máximo 16 destinos');return;}
+   const w=rewardWallets[0];rewardDraft.push({localId:nextRewardId++,type:w?'wallet':'address',wallet_id:w?.id||'',address:w?.mining_address||w?.address||'',percent:'0'});
+   renderRewardRows();
+ };
+ $('rewardPoolNotice').hidden=current.mining_mode!=='pool';
+ renderRewardRows();
+ $('saveMiningConnection').onclick=()=>act(async()=>{
+   const mode=$('miningModeSelect').value;
+   await api('/api/miner/connection',{network:current.miner_network,mode,
+     tip_source:$('miningTipSourceSelect')?.value||current.mining_tip_source,
+     peer_source:$('miningPeerSourceSelect').value,
+     rpc_url:$('minerRpcUrl').value.trim(),rpc_user:$('minerRpcUser').value.trim(),rpc_password:$('minerRpcPassword').value,
+     pool_url:$('minerPoolUrl').value.trim(),pool_user:$('minerPoolUser').value.trim(),pool_password:$('minerPoolPassword').value});
+   $('minerRpcPassword').value='';$('minerPoolPassword').value='';
+   await refresh();notice('Modalidad guardada. La fuente P2P se conserva por red; las credenciales sólo viven en esta sesión.');
+ });
+ // Guardar el hardware también conserva la distribución configurada.
+ let hardwareInventory=null;
+ // Re-detecting hardware must not erase the percentages just typed in the modal.
+ async function showDetectedHardware(force=false){
+   const node=$('hardwareDevices');
+   const editedCpu=node.querySelector('[data-cpu-percent]')?.value;
+   const editedGpu=Object.fromEntries([...node.querySelectorAll('[data-gpu-identity]')].map(el=>[el.dataset.gpuIdentity,el.value]));
+   hardwareInventory=null;
+   node.textContent='Detectando hardware local…';
+   $('saveMineSettings').disabled=true;
+   try {
+     const info=await api('/api/hardware'+(force?'?refresh=1':''));
+     if(!$('hardwareDevices')||current.miner_network!==hardwareNetwork)return;
+     hardwareInventory=info;
+     const cpu=info.cpus||[],gpus=info.gpus||[];
+     const css='hardware-device';
+     const saved=s.gpu_identity_overrides||{};
+     // El motor actual representa la CPU como un único dispositivo lógico.
+     const cpuValue=editedCpu??(s.hardware_controls_v2?s.cpu_percent:0);
+     const line=cpu.map(c=>`<div class="${css}"><span><strong>${esc(c.name)}</strong><small>CPU · ${esc(c.logical_threads)} hilos · Nativa</small></span><label class="hardware-value"><input class="input" type="number" min="0" max="100" step="1" value="${esc(cpuValue)}" data-cpu-percent aria-label="Porcentaje de ${esc(c.name)}"><span>%</span></label></div>`).join('');
+     const gpuRows=gpus.map(g=>{
+       const value=Object.prototype.hasOwnProperty.call(editedGpu,g.key)?editedGpu[g.key]:(Object.prototype.hasOwnProperty.call(saved,g.key)?saved[g.key]:25);
+       return `<div class="${css}"><span><strong>${esc(g.name)}</strong><small>GPU · ${esc(g.backend?g.backend.toUpperCase():'Sin backend compatible')}</small></span>${g.supported?`<label class="hardware-value"><input class="input" type="number" min="0" max="100" step="1" value="${esc(value)}" data-gpu-identity="${esc(g.key)}" aria-label="Porcentaje de ${esc(g.name)}"><span>%</span></label>`:'<span class="hardware-state">Sin motor compatible</span>'}</div>`;
+     }).join('');
+     node.innerHTML=line+(gpuRows||'<p>No se detectaron GPU.</p>');
+     $('saveMineSettings').disabled=cpu.length!==1;
+   } catch(err){
+     if($('hardwareDevices'))node.textContent='No se pudo detectar el hardware: '+err.message;
+   }
+ }
+ $('refreshHardwareBtn').onclick=()=>showDetectedHardware(true);
+ showDetectedHardware();
+ $('saveMineSettings').onclick=()=>act(async()=>{
+ const plan=pendingRewardPlan();
+ const mode=plan[0].type==='wallet'?'wallet':'address';
+ if(!hardwareInventory)throw Error('No se pudo detectar el hardware. Usá «Volver a detectar hardware» antes de guardar.');
+ function percentage(el){
+   if(!el||!el.value.trim()||!el.checkValidity())throw Error('Cada dispositivo compatible necesita un porcentaje entre 0 y 100.');
+   const pct=Number(el.value);
+   if(!Number.isFinite(pct)||pct<0||pct>100)throw Error('Porcentaje inválido para un dispositivo.');
+   return pct;
+ }
+ const identified={};
+ for(const el of $('hardwareDevices').querySelectorAll('[data-gpu-identity]')){
+   identified[el.dataset.gpuIdentity]=percentage(el);
+ }
+ // El motor recibe porcentaje global interno para CUDA/OpenCL como respaldo
+ // en un nuevo dispositivo, pero no hay control global en la interfaz.
+ await api('/api/settings',{network:current.miner_network,mining_target_mode:mode,fixed_address:mode==='address'?plan[0].address:(s.fixed_address||''),reward_destinations:plan,
+     cpu_percent:percentage($('hardwareDevices').querySelector('[data-cpu-percent]')),gpu_percent:25,gpu_overrides:{},gpu_identity_overrides:identified,hardware_controls_v2:true});
+ if(mode==='wallet')await api('/api/miner/select-wallet',{network:current.miner_network,id:plan[0].wallet_id});
+ await refresh();notice('Configuración guardada. Los cambios de hardware se aplican al reiniciar la minería.')});
+ $('saveMinPeersBtn').onclick=()=>act(async()=>{const raw=$('minPeersMining').value.trim();const n=Number(raw);if(!/^[0-9]+$/.test(raw)||!Number.isSafeInteger(n)||n<1||n>80)throw Error('Ingresá un número entero de peers entre 1 y 80');await api('/api/settings',{network:current.miner_network,min_peers_mining:Number($('minPeersMining').value)});notice('Mínimo para minería guardado; se aplica al próximo arranque')});
+ if($('saveMiningElectrumPreferred'))$('saveMiningElectrumPreferred').onclick=()=>act(async()=>{
+   await api('/api/settings',{network:current.miner_network,electrum_preferred:$('miningElectrumPreferred').value});
+   await refresh();notice('Preferencia de servidor guardada para la próxima sesión');
+ });
+ if($('addMiningElectrum'))$('addMiningElectrum').onclick=()=>act(async()=>{
+   const ep=$('newMiningElectrum').value.trim().toLowerCase();
+   await api('/api/settings',{network:current.miner_network,electrum_custom:[...(current.settings.electrum_custom||[]),ep]});
+   closeModal();await refresh();openMineConfig();notice('Servidor TLS agregado para la próxima sesión');
+ });
+ document.querySelectorAll('[data-remove-mining-electrum]').forEach(btn=>btn.onclick=()=>act(async()=>{
+   const endpoint=btn.dataset.removeMiningElectrum;
+   const custom=(current.settings.electrum_custom||[]).filter(v=>v!==endpoint);
+   const preferred=current.settings.electrum_preferred===endpoint?'':current.settings.electrum_preferred;
+   await api('/api/settings',{network:current.miner_network,electrum_custom:custom,electrum_preferred:preferred});
+   closeModal();await refresh();openMineConfig();notice('Servidor eliminado de la lista de minería');
+ }));
+ $('saveExplorerSettingsBtn').onclick=()=>act(async()=>{await api('/api/settings',{network:current.miner_network,peers_per_round:Number($('peerBatch').value),peer_concurrency:Number($('peerConcurrent').value),explorer_interval:Number($('peerInterval').value),peer_timeout:Number($('peerTimeout').value)});notice('Configuración de exploración guardada')});
+ $('saveDbLimitBtn').onclick=()=>act(async()=>{await api('/api/settings',{network:current.miner_network,max_db_mib:Number($('maxDb').value)});notice('Límite de SQLite guardado')});
+ $('explorerAutoToggle').onclick=()=>act(async()=>{
+  const state=current.explorer_all?.[current.miner_network];
+  if(!state)return;
+  await api('/api/peers/mode',{network:current.miner_network,mode:'automatic',enabled:!state.auto_enabled});
+  await refresh();
+ });
+ $('explorerToggle').onclick=()=>act(async()=>{
+  const state=current.explorer_all?.[current.miner_network];
+  if(!state)return;
+  await api('/api/peers/mode',{network:current.miner_network,mode:'continuous',enabled:!state.continuous_enabled});
+  await refresh();
+ });
+ $('explorerAutoMaster').onclick=()=>act(async()=>{
+  await api('/api/peers/global',{mode:'automatic',enabled:!current.explorer_auto_master});await refresh();
+ });
+ $('explorerContinuousMaster').onclick=()=>act(async()=>{
+  await api('/api/peers/global',{mode:'continuous',enabled:!current.explorer_continuous_master});await refresh();
+ });
+ $('addPeerBtn').onclick=()=>act(async()=>{const r=await api('/api/peers/add',{network:current.miner_network,address:$('newPeer').value});notice('Agregados: '+r.added.join(', '));await updatePeerTable()});
+ peerLogCursor=0;peerSelected=null;peerSelectedHtml='';peerTableLastAt=0;
+ $('knownPeersDetails').addEventListener('toggle',()=>{if($('knownPeersDetails')?.open)act(updatePeerTable)});
+ $('peerActivityDetails').addEventListener('toggle',()=>{if($('peerActivityDetails')?.open)act(updatePeerLog)});
+ $('copyExplorerLog').onclick=()=>act(async()=>{
+  // The complete in-memory buffer shown by the explorer, not just the visible scroll viewport.
+  await updatePeerLog();
+  const contents=$('peerLog')?.textContent||'';
+  if(!contents.trim())return notice('El explorador todavía no tiene líneas para copiar');
+  if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(contents);
+  else{
+   const temp=document.createElement('textarea');temp.value=contents;temp.style.position='fixed';temp.style.left='-10000px';document.body.appendChild(temp);temp.select();
+   try{if(!document.execCommand('copy'))throw Error('No se pudo copiar el registro')}finally{temp.remove()}
+  }
+  notice('Registro del Peer Explorer copiado ('+contents.trimEnd().split('\n').length+' líneas)');
+ });
+ initLogs();
+ const refreshHistory=$('refreshMineHistory');if(refreshHistory){refreshHistory.onclick=()=>act(loadMineHistory);act(loadMineHistory)}
+}
+async function loadMineHistory(){
+ const el=$('mineHistoryList');if(!el)return;
+ const r=await api('/api/miner/history?network='+encodeURIComponent(current.miner_network));
+ el.innerHTML=(r.sessions||[]).length?(r.sessions||[]).map(session=>{
+   const blocks=session.blocks||[];
+   const count=blocks.filter(b=>b.in_best_chain===1).length;
+   const pending=blocks.filter(b=>b.in_best_chain===null).length;
+   return `<details><summary>${esc(session.started_at)} · ${count} en cadena / ${blocks.length} hallados · ${pending} por verificar · ${esc(session.status)}</summary><div class="details-body">${blocks.length?blocks.map(b=>{
+      const membership=b.in_best_chain===1?'En cadena observada':b.in_best_chain===0?'Fuera de cadena observada':'Pertenencia no determinada';
+      const reason=b.evidence==='pre_broadcast_stale'?' · No difundido (obsoleto)':b.evidence==='best_chain_excludes_unobserved_hash'?' · Rama competidora':b.evidence==='stronger_chain_excludes_hash'?' · Reorganización':'';
+      const events=(session.events||[]).filter(e=>e.block_hash===b.block_hash);
+      return `<details><summary>${CMI18n.formatNumber(b.height)} · <code>${esc(b.block_hash.slice(0,16))}…</code> · ${esc(membership+reason)}</summary><div class="details-body"><div class="status-line">Hash: <code>${esc(b.block_hash)}</code></div><div class="status-line">Padre: <code>${esc(b.prev_hash)}</code></div>${events.length?events.slice().reverse().map(e=>`<div class="status-line">${esc(e.observed_at)} · ${esc(e.event_type)} · ${esc(e.detail)}</div>`).join(''):'Sin más acontecimientos registrados.'}</div></details>`;
+   }).join(''):'Sin bloques encontrados.'}${session.log_name?`<div class="status-line">Log original: ${esc(session.log_name)}</div>`:''}</div></details>`;
+ }).join(''):'Todavía no hay sesiones registradas en esta versión.';
+}
+function peerDetailHtml(info){
+ const p=info.peer;
+ const origins=(info.sources||[]).map(o=>`<div class="status-line">${esc(o.source_type)}: ${esc(o.source_value)} · ${esc(o.last_seen_at)}</div>`).join('')||'<div class="status-line">Sin procedencia registrada</div>';
+ const events=(info.events||[]).map(e=>{
+  let parsed=null;try{parsed=JSON.parse(e.details||'null')}catch{}
+  const origin=parsed?.origin==='miner_runtime'?'Minero':parsed?.origin?'Origen: '+parsed.origin:'Explorador / registro P2P';
+  return `<div class="status-line">${esc(e.timestamp)} · ${esc(origin)} · <b>${esc(e.event_type)}</b> · ${esc(e.result||'')} ${e.details?`<code>${esc(e.details)}</code>`:''}</div>`;
+ }).join('')||'<div class="status-line">Sin acontecimientos recientes</div>';
+ return `<div class="peer-inline-card" id="peerInlineDetails" tabindex="0">
+  <b>${esc(p.ip)}:${esc(p.port)}</b><p class="help-text">Los resultados de conexión no implican validez de consenso. La compatibilidad de cadena es una observación separada del minero.</p>
+  <div class="status-line">Último handshake satisfactorio: ${esc(p.last_handshake_ok_at||'Nunca')}</div>
+  <div class="status-line">Última observación de compatibilidad: ${esc(p.last_chain_compatible_at||'Sin observar')}</div>
+  <div class="status-line">Última observación de incompatibilidad: ${esc(p.last_chain_incompatible_at||'Sin observar')}</div>
+  <div class="status-line">Última cabecera: ${esc(p.last_header_height??'—')} · <code>${esc(p.last_header_hash||'—')}</code></div>
+  <div class="status-line">Eventos del minero: ${p.runtime_event_count||0}</div>
+  <h3 class="section-title" style="margin-top:15px">Procedencia</h3>${origins}
+  <h3 class="section-title" style="margin-top:15px">Últimas 30 observaciones</h3><div class="peer-events">${events}</div>
+ </div>`;
+}
+async function updatePeerTable(){
+ const wrapper=$('peerTableScroll');if(!wrapper||peerTableUpdating)return;
+ if(logHasSelection(wrapper))return;
+ peerTableUpdating=true;
+ try{
+  const items=await api('/api/peers?network='+encodeURIComponent(current.miner_network));if(!$('peerRows'))return;
+  // No reponer datos del peer seleccionado al cambiar de intervalo de lectura.
+  if(peerSelected && !items.some(p=>p.endpoint===peerSelected)){peerSelected=null;peerSelectedHtml=''}
+  if(peerSelected && Date.now()-peerDetailAt>6500){
+   const detail=await api('/api/peers/detail?network='+encodeURIComponent(current.miner_network)+'&endpoint='+encodeURIComponent(peerSelected));
+   peerSelectedHtml=peerDetailHtml(detail);peerDetailAt=Date.now();
+  }
+  const vertical=wrapper.scrollTop,horizontal=wrapper.scrollLeft;
+  const oldDetails=$('peerInlineDetails');const detailsScroll=oldDetails?.scrollTop||0;
+  $('peerRows').innerHTML=items.length?items.map(p=>{
+   const opened=p.endpoint===peerSelected;
+   const connection=p.connectivity||'Sin verificar';const chain=p.chain_status||'Sin verificar';
+   return `<tr><td>${esc(p.endpoint)}${p.in_miner?' · ⛏':''}</td>
+    <td>${esc(connection)}</td><td class="${chain==='Incompatible observada'?'peer-status-bad':chain==='Compatible observada'?'peer-status-ok':''}">${esc(chain)}</td>
+    <td>${esc(p.score)}</td><td>${esc(p.ok)}</td><td>${esc(p.failed)}</td><td>${esc(p.runtime_count)}</td>
+    <td><button class="btn ghost small" type="button" aria-expanded="${opened}" data-peer-endpoint="${esc(p.endpoint)}">${opened?'Ocultar':'Ver'}</button></td></tr>`+
+    (opened?`<tr class="peer-inline"><td colspan="8">${peerSelectedHtml||'<div class="status-line">Cargando detalles…</div>'}</td></tr>`:'');
+  }).join(''):'<tr><td colspan="8" class="muted">Sin peers conocidos todavía</td></tr>';
+  wrapper.scrollTop=vertical;wrapper.scrollLeft=horizontal;
+  const newDetails=$('peerInlineDetails');if(newDetails)newDetails.scrollTop=detailsScroll;
+  document.querySelectorAll('[data-peer-endpoint]').forEach(btn=>btn.onclick=()=>act(async()=>{
+   const ep=btn.dataset.peerEndpoint;
+   if(peerSelected===ep){peerSelected=null;peerSelectedHtml=''}
+   else{peerSelected=ep;peerSelectedHtml='';peerDetailAt=0}
+   await updatePeerTable();
+  }));
+  peerTableLastAt=Date.now();
+ }finally{peerTableUpdating=false}
+}
+function explorerTime(t){if(!t)return '—';const v=new Date(t);return Number.isNaN(v.getTime())?'—':v.toLocaleTimeString(CMI18n.getLocale())}
+function updateExplorerStatus(c){
+ const title=$('explorerNetworkTitle');
+ if(title)title.textContent='Peer Explorer · '+(c.explorer_state==='Detenido'?c.miner_network_label:c.explorer_network_label||c.miner_network_label);
+ const state=$('explorerStateText');if(!state)return;
+ const own=c.explorer_all?.[c.miner_network]||{};
+ const autoBtn=$('explorerAutoToggle');if(autoBtn){autoBtn.textContent='Automática: '+(own.auto_enabled?'encendida':'apagada');autoBtn.setAttribute('aria-pressed',String(!!own.auto_enabled));}
+ const continuousBtn=$('explorerToggle');if(continuousBtn){continuousBtn.textContent=own.continuous_enabled?'Detener continua':'Activar continua';continuousBtn.setAttribute('aria-pressed',String(!!own.continuous_enabled));continuousBtn.disabled=false;}
+ const autoMaster=$('explorerAutoMaster');if(autoMaster)autoMaster.textContent=c.explorer_auto_master?'Activado':'Suspendido';
+ const continuousMaster=$('explorerContinuousMaster');if(continuousMaster)continuousMaster.textContent=c.explorer_continuous_master?'Activado':'Suspendido';
+ const summary=$('explorerGlobalRows');if(summary){summary.innerHTML=Object.values(c.explorer_all||{}).map(n=>{
+  const total=n.total||0,done=n.processed||0;
+  const ratio=total?Math.min(100,Math.round(100*done/total)):(n.active?100:0);
+  const time=n.auto_effective?(n.next_auto_at?explorerTime(n.next_auto_at):'Pendiente'):'—';
+  return `<tr><td>${esc(n.label)}</td><td>${esc(n.state)}</td><td>${done} / ${total} (${ratio} %)</td><td>${esc(time)}</td></tr>`;
+ }).join('');}
+
+ const p=c.explorer_progress||{};
+ const phase=c.explorer_state==='Deteniendo'?'Deteniendo':c.explorer_state==='Explorando'?p.phase:(own.state||p.phase||c.explorer_state);
+ state.textContent='Estado: '+phase+(p.round?' · Tanda '+p.round:'');
+ const header=$('explorerHeaderState');if(header){
+  const stopped=c.explorer_state==='Detenido',stopping=c.explorer_state==='Deteniendo';
+  header.textContent=stopping?'Deteniendo':stopped?(own.state||'Detenido'):phase==='Preparando'?'Preparando':'Explorando';
+  header.classList.toggle('is-active',!stopped&&!stopping);
+  header.classList.toggle('is-stopping',stopping);
+ }
+ const known=$('knownPeersCount');if(known)known.textContent=CMI18n.formatNumber(c.peer_counts?.peers||0)+' en SQLite';
+
+ for(const [id,value] of Object.entries({explorerCandidates:p.total||0,explorerProcessed:p.processed||0,
+  explorerHandshakes:p.handshake_ok||0,explorerFailures:p.failed||0,
+  explorerCompatible:p.chain_compatible||0,explorerIncompatible:p.chain_incompatible||0,
+  explorerAddresses:p.addresses_received||0,explorerNew:p.new_peers||0,
+  explorerKnown:c.peer_counts?.peers||0,explorerRound:p.round||0})){
+  const el=$(id);if(el)el.textContent=CMI18n.formatNumber(value);
+ }
+ const total=p.total||0,processed=p.processed||0,ratio=total?Math.min(100,100*processed/total):0;
+ const bar=$('explorerProgress');if(bar)bar.setAttribute('aria-valuenow',String(Math.round(ratio)));
+ const fill=$('explorerProgressFill');if(fill)fill.style.width=ratio+'%';
+ const progressLabel=$('explorerProgressLabel');if(progressLabel)progressLabel.textContent=total?`${processed} de ${total} sondeos finalizados (${Math.round(ratio)} %)`:'Sin candidatos en este ciclo';
+ const dates=$('explorerTimes');if(dates)dates.textContent=`Inicio: ${explorerTime(p.started_at)} · Última ronda: ${explorerTime(p.completed_at)} · Próxima: ${explorerTime(p.next_round_at)}`;
+ const error=$('explorerLastError');if(error){error.textContent=p.last_error?'Última incidencia: '+p.last_error:'';error.hidden=!p.last_error}
+ const db=$('p2pDatabaseSummary');if(db)db.textContent=`Peers: ${c.peer_counts?.peers||0} · Fuentes: ${c.peer_counts?.peer_sources||0} · Eventos: ${c.peer_counts?.peer_events||0} · Tamaño: ${((c.p2p_database_bytes||0)/1048576).toFixed(2)} MiB / ${c.settings?.max_db_mib||'—'} MiB`;
+}
+function viewInfo(){const el=$('minerLog');return {name:selectedMinerLog||'',font:logFontSize,scroll:el?Math.max(0,Math.round(el.scrollTop)):0,start:minerLogStart,end:minerLogEnd,expanded:!!$('logDetails')?.open,panel_scroll:Math.max(0,Math.round($('modalDialog')?.scrollTop||0))}}
+function persistLogView(view){if(!view)return;clearTimeout(logPersistTimer);logPersistTimer=setTimeout(()=>act(()=>api('/api/logs/view',view)),350)}
+function captureLogView(){
+ const el=$('minerLog');if(!el)return;
+ const view=viewInfo();logCachedView={...view,text:el.textContent};persistLogView(view);
+}
+function scheduleLogViewSave(){if(!selectedMinerLog)return;persistLogView(viewInfo())}
+function restoreSearchHighlight(el,needle,line){
+ const text=el.textContent;const start=text.indexOf(line.trim().slice(0,60));
+ let at=(start<0?0:start);const candidate=text.toLocaleLowerCase().indexOf(needle.toLocaleLowerCase(),at);
+ if(candidate>=0){
+  el.textContent=text;let node=el.firstChild;if(!node)return;
+  const before=node.splitText(candidate);const after=before.splitText(needle.length);
+  const mark=document.createElement('mark');mark.textContent=before.textContent;
+  el.replaceChild(mark,before);mark.scrollIntoView({block:'center',behavior:'instant'});
+ }
+}
+async function searchMinerLog(reverse=false){
+ const name=selectedMinerLog, q=$('logSearchInput')?.value.trim();if(!name||!q)return notice('Escribí un texto para buscar en el archivo completo');
+ let start=lastSearchOffset===null?(reverse?Number.MAX_SAFE_INTEGER:0):(reverse?lastSearchOffset:lastSearchOffset+1);
+ const r=await api('/api/logs/search?name='+encodeURIComponent(name)+'&q='+encodeURIComponent(q)+'&start='+start+'&reverse='+(reverse?'1':'0'));
+ if(!r.found)return notice('Sin más coincidencias para «'+q+'»');
+ lastSearchOffset=r.offset;
+ const part=await api('/api/logs/chunk?name='+encodeURIComponent(name)+'&mode=around&offset='+r.offset);
+ if(name!==selectedMinerLog||!$('minerLog'))return;
+ const el=$('minerLog');el.textContent=part.text;minerLogStart=part.start;minerLogEnd=part.cursor;
+ restoreSearchHighlight(el,q,r.line);logFileStatus(part);updateLogButtons();scheduleLogViewSave();
+}
+function resetDeleteButton(){deleteArmed=false;const b=$('logDelete');if(b)b.textContent='Eliminar sesión';$('logDeleteCancel')?.classList.add('hidden')}
+async function deleteSelectedSession(){
+ if(!selectedMinerLog)return;
+ if(!deleteArmed){deleteArmed=true;$('logDelete').textContent='Confirmar eliminación';$('logDeleteCancel').classList.remove('hidden');return}
+ const name=selectedMinerLog;await api('/api/logs/delete',{name});resetDeleteButton();
+ selectedMinerLog=null;manuallySelectedLog=false;minerLogStart=minerLogEnd=0;lastSearchOffset=null;logCachedView=null;
+ $('minerLog').textContent='';await loadLogSessions();notice('Sesión eliminada: '+name);scheduleLogViewSave();
+}
+function logNearBottom(el){return el.scrollHeight-el.scrollTop-el.clientHeight<35}
+function logHasSelection(el){const sel=window.getSelection();return !!(sel&&!sel.isCollapsed&&el.contains(sel.anchorNode))}
+function updateLogButtons(){
+ const el=$('minerLog');if(!el)return;
+ const older=$('logOlder');if(older)older.hidden=!selectedMinerLog||minerLogStart<=0;
+ const jump=$('logToEnd');if(jump)jump.hidden=logNearBottom(el);
+}
+function logFileStatus(info=null){
+ const el=$('logSummary');if(!el)return;
+ if(!selectedMinerLog){el.textContent='Todavía no hay archivos de minería. El motor guardará automáticamente uno al iniciarse.';return}
+ const total=info?.bytes??minerLogEnd;
+ const viewed=Math.max(0,minerLogEnd-minerLogStart);
+ el.textContent='Archivo original: '+selectedMinerLog+' · Vista: '+(viewed/1024).toFixed(1)+' KiB de '+(total/1024).toFixed(1)+' KiB'
+     +(minerLogStart>0?' · Hay líneas anteriores disponibles':' · Desde el inicio');
+}
+async function loadSessionTail(name){
+ if(!name||!$('minerLog'))return;
+ const el=$('minerLog');el.textContent='Cargando sesión...';
+ const r=await api('/api/logs/chunk?name='+encodeURIComponent(name)+'&mode=tail');
+ if(selectedMinerLog!==name||!$('minerLog'))return;
+ minerLogStart=r.start;minerLogEnd=r.cursor;el.textContent=r.text;
+ el.scrollTop=el.scrollHeight;logFileStatus(r);updateLogButtons();scheduleLogViewSave();
+}
+function chooseMinerLog(logs, state, selected, manual){
+ const latest=logs.length?logs[0].name:null;
+ const found=!!selected&&logs.some(x=>x.name===selected);
+ if(manual&&found)return selected;
+ const active=state?.active_log_name;
+ if(active&&logs.some(x=>x.name===active))return active;
+ // La sesión nueva está arrancando y no ha creado su archivo:
+ // no dar a entender que el archivo de ayer pertenece a esta sesión.
+ if(state?.mining)return null;
+ return found?selected:latest;
+}
+async function loadLogSessions(){
+ if(!$('minerLogSession'))return;
+ const r=await api('/api/logs/sessions?network='+encodeURIComponent(current.miner_network));const logs=r.sessions||[];
+ if($('logUsage'))$('logUsage').textContent=(r.usage.bytes/1048576).toFixed(1)+' MiB / '+r.limit_mib+' MiB · '+r.usage.count+' sesiones';
+ const select=$('minerLogSession');if(!select)return;
+ const found=logs.some(x=>x.name===selectedMinerLog);
+ let target=chooseMinerLog(logs,current,selectedMinerLog,manuallySelectedLog);
+ if(logUiRestored&&selectedMinerLog&&!found){logCachedView=null;minerLogStart=minerLogEnd=0;lastSearchOffset=null;}
+ select.innerHTML=logs.length?logs.map(x=>'<option value="'+esc(x.name)+'">'+esc(x.name)+' ('+(x.bytes/1024).toFixed(1)+' KiB)</option>').join(''):'<option value="">No hay sesiones guardadas</option>';
+ if(target)select.value=target;else select.selectedIndex=-1;
+ if(target!==selectedMinerLog){selectedMinerLog=target;minerLogStart=0;minerLogEnd=0;lastSearchOffset=null;
+     if(target)await loadSessionTail(target);else{const el=$('minerLog');if(el)el.textContent=current?.mining?'Esperando que el motor cree el log de esta sesión…':'';logFileStatus();}}
+ else if(target&&$('minerLog')&&!$('minerLog').textContent){await loadSessionTail(target);}
+ else updateLogButtons();
+}
+async function readMoreLog(){
+ if(!selectedMinerLog||logReadBusy||!$('minerLog'))return;
+ logReadBusy=true;const name=selectedMinerLog;const pos=minerLogEnd;const el=$('minerLog');const follow=logNearBottom(el)&&!logHasSelection(el);
+ try{const r=await api('/api/logs/chunk?name='+encodeURIComponent(name)+'&mode=after&offset='+pos);
+  if(name!==selectedMinerLog||!$('minerLog')||pos!==minerLogEnd)return;
+  if(r.cursor<pos){await loadSessionTail(name);return}
+  if(r.text){el.appendChild(document.createTextNode(r.text));minerLogEnd=r.cursor;
+   if(follow)el.scrollTop=el.scrollHeight;}
+  logFileStatus(r);updateLogButtons();
+ }finally{logReadBusy=false}
+}
+async function loadOlderLog(){
+ if(!selectedMinerLog||logReadBusy||minerLogStart<=0)return;
+ logReadBusy=true;const name=selectedMinerLog;const pos=minerLogStart;const el=$('minerLog');
+ const oldHeight=el.scrollHeight,oldTop=el.scrollTop;
+ try{const r=await api('/api/logs/chunk?name='+encodeURIComponent(name)+'&mode=before&offset='+pos);
+  if(name!==selectedMinerLog||!$('minerLog')||pos!==minerLogStart)return;
+  if(r.start>=pos){notice('No hay más líneas anteriores.');return}
+  el.insertBefore(document.createTextNode(r.text),el.firstChild);
+  minerLogStart=r.start;el.scrollTop=oldTop+(el.scrollHeight-oldHeight);
+  logFileStatus({bytes:Math.max(minerLogEnd,r.bytes)});updateLogButtons();scheduleLogViewSave();
+ }finally{logReadBusy=false}
+}
+async function downloadOriginalLog(save){
+ if(!selectedMinerLog)throw Error('Todavía no hay un archivo de minería seleccionado');
+ const name=selectedMinerLog;
+ const resp=await fetch('/api/logs/download?name='+encodeURIComponent(name),{headers:{...authHeaders}});
+ if(!resp.ok)throw Error('No se pudo leer el registro original');
+ if(save){const blob=await resp.blob();const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),30000);notice('Log exportado: '+name)}
+ else{const all=await resp.text();await navigator.clipboard.writeText(all);notice('Log completo copiado ('+all.length+' caracteres)')}
+}
+async function updatePeerLog(){
+ const el=$('peerLog');if(!el||peerLogUpdating)return;
+ peerLogUpdating=true;
+ try{
+  const r=await api('/api/logs?kind=peers&after='+peerLogCursor);
+  if(!$('peerLog'))return;
+  const follow=logNearBottom(el)&&!logHasSelection(el);
+  for(const [i,line] of r.lines)el.appendChild(document.createTextNode(line+'\n'));
+  peerLogCursor=r.cursor;
+  if(!logHasSelection(el))while(el.childNodes.length>2500)el.removeChild(el.firstChild);
+  if(follow)el.scrollTop=el.scrollHeight;
+ }finally{peerLogUpdating=false}
+}
+async function initLogs(){
+ const el=$('minerLog');if(!el)return;
+ if(!logUiRestored){
+  const saved=current?.settings?.log_view||{};
+  if(saved.name && !selectedMinerLog){selectedMinerLog=saved.name;manuallySelectedLog=false}
+  if(Number.isFinite(saved.font))logFontSize=Math.min(24,Math.max(9,saved.font));
+  logUiRestored=true;
+ }
+ el.style.fontSize=logFontSize+'px';$('peerLog').style.fontSize=logFontSize+'px';
+ const restore=logCachedView&&logCachedView.name===selectedMinerLog?logCachedView:null;
+ const savedView=current?.settings?.log_view||{};
+ $('logDetails').open=!!(restore?restore.expanded:savedView.expanded);
+ if(restore){el.textContent=restore.text;minerLogStart=restore.start;minerLogEnd=restore.end;}
+ el.addEventListener('scroll',()=>{updateLogButtons();scheduleLogViewSave()});
+ $('logDetails').addEventListener('toggle',()=>{updateLogButtons();scheduleLogViewSave()});
+ $('minerLogSession').onchange=()=>act(async()=>{
+  resetDeleteButton();manuallySelectedLog=true;selectedMinerLog=$('minerLogSession').value||null;
+  lastSearchOffset=null;minerLogStart=0;minerLogEnd=0;logCachedView=null;
+  if(selectedMinerLog)await loadSessionTail(selectedMinerLog);else{el.textContent='';logFileStatus()};scheduleLogViewSave();
+ });
+ $('logFontDown').onclick=()=>{logFontSize=Math.max(9,logFontSize-1);el.style.fontSize=logFontSize+'px';$('peerLog').style.fontSize=logFontSize+'px';updateLogButtons();scheduleLogViewSave()};
+ $('logFontUp').onclick=()=>{logFontSize=Math.min(24,logFontSize+1);el.style.fontSize=logFontSize+'px';$('peerLog').style.fontSize=logFontSize+'px';updateLogButtons();scheduleLogViewSave()};
+ $('logOlder').onclick=()=>act(loadOlderLog);
+ $('logToEnd').onclick=()=>{el.scrollTop=el.scrollHeight;updateLogButtons();scheduleLogViewSave()};
+ $('logCopyAll').onclick=()=>act(()=>downloadOriginalLog(false));
+ $('logDownload').onclick=()=>act(()=>downloadOriginalLog(true));
+ $('logSearchInput').oninput=()=>{lastSearchOffset=null};
+ $('logSearchInput').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();act(()=>searchMinerLog(e.shiftKey))}};
+ $('logSearchPrev').onclick=()=>act(()=>searchMinerLog(true));
+ $('logSearchNext').onclick=()=>act(()=>searchMinerLog(false));
+ $('logDelete').onclick=()=>act(deleteSelectedSession);
+ $('logDeleteCancel').onclick=resetDeleteButton;
+ $('logLimit').value=current?.settings?.log_max_mib??50;
+ $('logSaveLimit').onclick=()=>act(async()=>{
+  const mib=Number($('logLimit').value);if(!Number.isInteger(mib)||mib<1||mib>10240)throw Error('Límite entre 1 y 10240 MiB');
+  await api('/api/settings',{log_max_mib:mib});
+  const r=await api('/api/logs/prune',{});await loadLogSessions();
+  notice('Límite actualizado. '+r.deleted.length+' sesiones antiguas eliminadas.'+(r.over_limit?' La sesión protegida excede el límite.':''));
+ });
+ sessionsLastRead=Date.now();await loadLogSessions();await updatePeerLog();
+ if(restore&&selectedMinerLog===restore.name){
+  // Después de que el modal aparece, restaurar la posición exacta de lectura.
+  requestAnimationFrame(()=>{if($('minerLog')===el){el.scrollTop=restore.scroll;$('modalDialog').scrollTop=restore.panel_scroll||0;updateLogButtons()}});
+ }else if(!restore){
+  const saved=current?.settings?.log_view;
+  if(saved?.name===selectedMinerLog&&saved.end>=saved.start&&saved.end>0&&saved.end-saved.start<=4*1024*1024){
+   const r=await act(()=>api('/api/logs/chunk?name='+encodeURIComponent(selectedMinerLog)+'&mode=range&offset='+saved.start+'&end='+saved.end));
+   if(r&&selectedMinerLog===saved.name){el.textContent=r.text;minerLogStart=r.start;minerLogEnd=r.cursor;
+    requestAnimationFrame(()=>{if($('minerLog')===el){el.scrollTop=saved.scroll;$('modalDialog').scrollTop=saved.panel_scroll||0;updateLogButtons()}});scheduleLogViewSave()}
+  }
+ }
+}
+async function updateLogs(){if(!$('minerLog'))return;
+ if(Date.now()-sessionsLastRead>5000){sessionsLastRead=Date.now();await loadLogSessions()}
+ await readMoreLog();
+}
+async function tick(){try{
+ await refresh();
+ if($('explorerDetails')?.open){
+  if($('knownPeersDetails')?.open&&Date.now()-peerTableLastAt>2400)await updatePeerTable();
+  if($('peerActivityDetails')?.open)await updatePeerLog();
+ }
+ if($('logDetails')?.open)await updateLogs();
+}catch(e){console.error(e)}}
+CMFiat.init(api);
+CMI18n.init();
+// Credits open through Windows' default HTTPS browser, not our isolated app browser.
+// The backend accepts no user-supplied URL for this action.
+$('cashriderCredit').addEventListener('click',async event=>{
+ event.preventDefault();
+ try{await api('/api/external/cashrider',{});}
+ catch(error){notice('No se pudo abrir CashRider en el navegador predeterminado: '+error.message,true)}
+});
+$('walletReceiveTab').addEventListener('click',()=>setMobileWalletAction('receive'));
+$('walletSendTab').addEventListener('click',()=>setMobileWalletAction('send'));
+setMobileWalletAction('receive');
+$('viewWalletTab').addEventListener('click',()=>setMobileView('wallet'));
+$('viewMinerTab').addEventListener('click',()=>setMobileView('miner'));
+let balanceResizeFrame=0;
+window.addEventListener('resize',()=>{
+ if(balanceResizeFrame)cancelAnimationFrame(balanceResizeFrame);
+ balanceResizeFrame=requestAnimationFrame(()=>{balanceResizeFrame=0;fitWalletBalances();});
+});
+window.CashMinerFiatError=e=>notice(e.message||String(e),true);
+document.addEventListener('cashminer:fiat-changed',()=>{handleFiatCurrencyChange();if(current)draw()});
+document.addEventListener('cashminer:fiat-updated',()=>{if(current)draw()});
+document.addEventListener('cashminer:locale-changed',({detail})=>{
+ if(sendUnitIsFiat()&&sendFiatSats!==null&&sendFiatQuote&&!sendMaxMode){$('sendAmount').value=CMFiat.fiatFromSats(sendFiatSats,sendFiatQuote);sendFiatInputValue=$('sendAmount').value}
+ if(current)draw();
+ if(!detail?.persist)return;
+ const patch=detail.kind==='language'?{ui_language:detail.language}:{number_format:detail.numberFormat};
+ act(async()=>{
+   const previous=current?.settings||{};
+   try{
+     await api('/api/settings',patch);
+     if(current?.settings)Object.assign(current.settings,patch);
+   }catch(error){
+     CMI18n.hydrate(previous.ui_language,previous.number_format);
+     throw error;
+   }
+ });
+});
+act(async()=>{await refresh();timer=setInterval(()=>act(tick),2500)});
+</script></body></html>

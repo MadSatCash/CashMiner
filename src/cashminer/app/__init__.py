@@ -1,0 +1,1 @@
+"""Subsistema app de CashMiner."""

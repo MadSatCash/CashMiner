@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cashminer"
+version = "2.17.1"
+description = "CashMiner experimental GUI for BCH mining and P2P exploration"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [{name = "CashRider"}]
+requires-python = ">=3.10"
+dependencies = ["cryptography>=41"]
+
+[project.scripts]
+cashminer = "cashminer.app.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"cashminer.wallet" = ["bip39_english.txt", "bip39_LICENSE.txt"]

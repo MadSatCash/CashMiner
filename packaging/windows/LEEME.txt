@@ -1,0 +1,39 @@
+CashMiner 2.17.1 - Windows x64 - Paquete experimental
+
+ESPAÑOL
+1. Extraé el ZIP completo a una carpeta propia.
+2. Abrí CashMiner.exe. Conservá la carpeta _internal junto al ejecutable.
+3. No hace falta instalar Python. No requiere permisos de administrador.
+
+Objetivo de compatibilidad: Windows 10/11 de 64 bits (Intel/AMD x64).
+Utiliza el navegador instalado para su ventana (Edge, Chrome o Brave; con
+otro navegador puede requerirse el botón Cerrar CashMiner de la interfaz).
+CUDA/OpenCL necesitan los controladores compatibles del fabricante. No se
+incluyen drivers. Si Windows informa que falta VCRUNTIME140.dll, instalá el
+Microsoft Visual C++ Redistributable x64 oficial.
+
+Las billeteras, configuraciones y bases se guardan en AppData/Local/CashMiner
+o en CashMiner2 si ya existe una instalación anterior. El ZIP no contiene
+tus datos. Extraer otra copia no crea billeteras independientes. Antes de
+actualizar, conservá tus frases de recuperación y respaldos.
+
+P2P nativo es experimental: verifica cabeceras y no sustituye un nodo completo.
+Tempnet 2026 tiene fin de minería programado para el 15/11/2026 12:00 UTC.
+No se promete compatibilidad con futuros cambios de consenso de Chipnet.
+El ejecutable no tiene firma digital del editor. Este es un paquete local de
+prueba; el código del proyecto tiene licencia MIT. Los avisos y la trazabilidad
+nativa deben cerrarse antes de publicar los binarios. No incluye instalador.
+
+ENGLISH
+Extract the entire ZIP and open CashMiner.exe. Keep _internal beside it.
+Python is included. Administrator rights are not required.
+Target: Windows 10/11 x64 (Intel/AMD). GPU drivers remain required.
+The application uses your installed browser (Edge/Chrome/Brave preferred).
+Wallets and settings live under Local AppData/CashMiner, or the existing
+CashMiner2 data directory. They are not stored in this ZIP. Keep recovery
+phrases and backups before upgrading.
+Native P2P is experimental header verification, not full-node validation.
+Tempnet mining ends on 2026-11-15 12:00 UTC. Future Chipnet consensus changes
+are not automatically supported. The launcher is not publisher-signed.
+Project code is MIT. Final native redistribution provenance/notices are pending.
+No installer is included at this stage.
