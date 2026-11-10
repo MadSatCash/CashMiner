@@ -73,7 +73,6 @@ class AndroidMinerController:
     def start(self,settings):
         settings.validate()
         if settings.cpu_percent<=0:raise ValueError('CashMiner en Android utiliza CPU: habilitala en Hardware')
-        if settings.cpu_percent>50:raise ValueError('CashMiner en Android admite hasta 50% CPU; empezá con 25%')
         if settings.gpu_percent or any(settings.gpu_overrides.values()):
             raise ValueError('CUDA/OpenCL no están disponibles en CashMiner para Android')
         if not native_libraries():raise RuntimeError('Falta la biblioteca CPU de Android')
@@ -144,7 +143,7 @@ def start_app(context):
     class AndroidHandler(server.CashMinerHandler):
         def send(self,code,data,content='application/json; charset=utf-8',extra=None):
             if content.startswith('text/html') and isinstance(data,str):
-                banner='<div style="padding:9px 14px;background:#18372d;color:#c6efdf;font:13px sans-serif;text-align:center">Android · CPU ≤50% · 1 sesión · Minería en segundo plano / Background mining</div>'
+                banner='<div style="padding:9px 14px;background:#18372d;color:#c6efdf;font:13px sans-serif;text-align:center">Android · CPU 0–100% · 1 sesión · Minería en segundo plano / Background mining</div>'
                 data=data.replace('<body>','<body>'+banner,1)
             return super().send(code,data,content,extra)
     _server=server.LocalServer(_service)

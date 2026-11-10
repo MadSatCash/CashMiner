@@ -8,7 +8,7 @@ android {
         applicationId 'org.cashminer.android'
         minSdk 24
         targetSdk 35
-        versionCode 2170103
+        versionCode 2170104
         versionName '2.17.1'
         ndk { abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86_64' }
         externalNativeBuild { cmake { arguments '-DANDROID_STL=none' } }

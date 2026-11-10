@@ -46,5 +46,10 @@ class InternalDutyTests(unittest.TestCase):
         self.assertEqual(result,'found');self.assertEqual(len(calls),1)
         self.assertAlmostEqual(elapsed,.4);self.assertAlmostEqual(sum(sleeps),.3)
 
+    def test_100_percent_does_not_insert_throttle_sleeps(self):
+        elapsed,sleeps,calls,_=self.run_batches(100)
+        self.assertEqual(len(calls),2);self.assertEqual(sleeps,[])
+        self.assertAlmostEqual(elapsed,.2)
+
 
 if __name__=='__main__':unittest.main()

@@ -31,12 +31,20 @@ class AndroidControllerTests(unittest.TestCase):
 
     def test_rejects_unsupported_resources_before_starting_service(self):
         with patch.object(android,'_gateway') as gateway:
-            for changes in ({'cpu_percent':0,'gpu_percent':25},{'cpu_percent':51},
+            for changes in ({'cpu_percent':0,'gpu_percent':25},{'cpu_percent':101},
                             {'gpu_percent':25},{'gpu_overrides':{0:25}}):
                 with self.subTest(changes=changes):
                     control,_,_=self.controller()
                     with self.assertRaises(ValueError):control.start(config(**changes))
             gateway.start.assert_not_called()
+
+    def test_100_percent_is_passed_to_native_service_without_an_android_cap(self):
+        control,_,_=self.controller()
+        with patch.object(android,'native_libraries',return_value=['libbch_hashscan.so']),patch.object(android,'_gateway') as gateway:
+            gateway.poll.return_value=json.dumps({'type':'exit','code':0,'forced':False})
+            control.start(config(cpu_percent=100));control.wait_for_log_close(2)
+            self.assertEqual(json.loads(gateway.start.call_args.args[2])['cpu_percent'],100)
+            self.assertFalse(control.running())
 
     def test_requires_packaged_native_library(self):
         control,_,_=self.controller()

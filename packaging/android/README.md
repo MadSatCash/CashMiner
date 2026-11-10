@@ -11,7 +11,7 @@ separate APK build; the Windows release and its native DLLs are unchanged.
   peer storage and ranking policy come from the shared source tree.
 - CPU only: the original `native/source/bch_hashscan.c` is compiled with the
   Android NDK and uses its existing internal-thread interface. No CUDA/OpenCL.
-- Initial Android version: 25% CPU by default, maximum 50%, one mining session at once.
+- CPU range is 0–100%, initially 25%, one mining session at once.
   Mining continues when the app is minimized, its Activity is recreated, or the
   screen is locked. The miner uses a foreground notification with a Stop action;
   its partial wake lock is held only while mining and released on stop/exit.

@@ -52,9 +52,9 @@ def main():
                     if directory=='ui' and path.suffix in ('.html','.js'):
                         # The APK uses Android Keystore, never Windows DPAPI.
                         text=path.read_text('utf-8').replace('Windows DPAPI','Android Keystore').replace('cifrado DPAPI','cifrado Android Keystore')
+                        text=text.replace('Inicial: CPU 0 %, GPU 25 %.','Inicial en Android: CPU 25 %, sin minería GPU.')
+                        text=text.replace('Defaults: CPU 0%, GPU 25%.','Android default: CPU 25%, no GPU mining.')
                         if path.name=='index.html':
-                            text=text.replace('max="100" step="1" value="${esc(cpuValue)}" data-cpu-percent',
-                                              'max="50" step="1" value="${esc(cpuValue)}" data-cpu-percent')
                             text=text.replace('gpu_percent:25,gpu_overrides:{}','gpu_percent:0,gpu_overrides:{}')
                         z.writestr(str(path.relative_to(SOURCE)).replace('\\','/'),text)
                     else:z.write(path,path.relative_to(SOURCE))
