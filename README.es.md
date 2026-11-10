@@ -6,7 +6,7 @@
 directa permite empezar sin descargar toda la blockchain ni ejecutar tu
 propio nodo completo.**
 
-[English](README.md) · Versión **2.17.1** · **Windows x64** · **CPU / CUDA / OpenCL**
+[English](README.md) · Versión **2.17.1** · **Windows x64 / Android**
 
 CashMiner es una billetera, minero y explorador de peers experimental de
 CashRider, con licencia MIT. Puede conectarse directamente a la red P2P de
@@ -32,11 +32,20 @@ La minería está detenida en la captura. No se muestran datos del usuario.*
 
 ## Descarga e instalación
 
-**Windows x64 · ZIP candidato** — [Ver releases](https://github.com/MadSatCash/CashMiner/releases).
+Elegí tu paquete en [Releases](https://github.com/MadSatCash/CashMiner/releases).
+La primera publicación experimental se está preparando como borrador privado;
+por ahora sus archivos sólo están disponibles para colaboradores del repositorio.
+El botón verde **Code** descarga el código, no la aplicación lista para usar.
 
-La candidata de Windows está adjunta a un borrador de release mientras se
-completan las comprobaciones de distribución. Todavía no es una descarga
-final publicada. El instalador es el siguiente paso del empaquetado.
+| Sistema | Archivo de la release | Hardware de minería |
+| --- | --- | --- |
+| Windows 10/11 x64 | `CashMiner-Windows.zip` | CPU, NVIDIA CUDA y GPU compatibles con OpenCL |
+| Android 7.0+ | `CashMiner-Android-v2.17.1.apk` | CPU; incluye ARM32, ARM64 y x86-64 |
+
+`SHA256SUMS.txt` contiene los checksums de ambos paquetes. Descargá solamente
+el correspondiente a tu equipo. No se ofrecen paquetes Linux, macOS ni iOS.
+
+### Windows
 
 Para ejecutar **CashMiner-Windows.zip**:
 
@@ -48,9 +57,22 @@ Python está incluido; no necesitás instalarlo por separado. Los controladores
 GPU y un navegador instalado siguen siendo requisitos externos. Ver
 [compatibilidad de Windows](#compatibilidad-de-windows).
 
+### Android
+
+1. Copiá **CashMiner-Android-v2.17.1.apk** al teléfono y abrila desde su gestor de archivos.
+2. Si Android pide permiso, autorizá a ese gestor a instalar esta APK.
+3. Elegí **Instalar** o **Actualizar**. Para conservar las billeteras existentes,
+   actualizá encima de CashMiner sin desinstalar ni borrar los datos de la app.
+4. Elegí red y billetera, configurá el porcentaje de CPU en Hardware, guardá e
+   iniciá la minería. En una instalación nueva comienza en 0%; conserva tus valores guardados.
+
+La APK incluye Python y la biblioteca de hashing CPU. No necesita el ZIP de
+Windows, instalar Python por separado ni un nodo completo para P2P directo.
+Ver [compatibilidad de Android](#compatibilidad-de-android).
+
 ## Funciones
 
-- Minería con CPU, NVIDIA CUDA y GPU compatibles con OpenCL.
+- Minería Windows con CPU, NVIDIA CUDA y GPU compatibles con OpenCL; Android con CPU.
 - Minería P2P directa con verificación nativa de cabeceras; Electrum asistido
   sigue disponible donde está implementado.
 - RPC con un nodo BCH configurado: `getblocktemplate` / `submitblock`.
@@ -137,9 +159,26 @@ Redistributable x64 oficial.
 No ejecutes pruebas contra los datos de tus billeteras reales. Dos copias
 normalmente comparten el directorio de datos; no crean billeteras aisladas.
 
-Windows x64 es el único sistema con una candidata empaquetada en esta versión.
-Todavía no se ofrecen paquetes para Android, Linux, macOS ni iOS. Las
-comprobaciones realizadas y pendientes están en [validación](docs/VALIDATION.md).
+Las comprobaciones realizadas y pendientes están en [validación](docs/VALIDATION.md).
+
+## Compatibilidad de Android
+
+Android 7.0/API 24 o posterior; una APK incluye ARM32, ARM64 y x86-64.
+CPU ajustable entre 0 y 100%; CUDA/OpenCL no están portados a Android.
+Las sesiones por red pueden ejecutarse simultáneamente. La minería continúa
+al minimizar o bloquear la pantalla, con una notificación y acción Detener
+por red. Las políticas de procesos y energía de Android y del fabricante
+pueden afectar la continuidad. Exportar log abre el selector de documentos
+de Android para guardar el registro original completo.
+
+Los valores globales del Explorer coinciden con Windows. Al actualizar las
+primeras APK se restauran una vez sus dos controles globales forzados a apagado;
+después respeta tus cambios. Conserva las opciones por red y porcentajes guardados.
+
+El propietario informó que encontró y comprobó un bloque de Testnet3 desde su
+teléfono Android. Las pruebas controladas en emulador cubren sesiones paralelas,
+shares en segundo plano y exportación de logs. Esto no equivale a probar todos
+los teléfonos o redes.
 
 ## Datos y recuperación
 
@@ -148,10 +187,12 @@ utiliza normalmente `%LOCALAPPDATA%/CashMiner`; una instalación anterior en
 `%LOCALAPPDATA%/CashMiner2` puede seguir utilizándose por compatibilidad.
 El inicio no migra ni copia billeteras silenciosamente.
 
-La protección de billeteras utiliza DPAPI de Windows. Conservá tus frases de
-recuperación y respaldos: copiar el vault cifrado a otra computadora o cuenta
-de Windows no reemplaza la recuperación. Nunca publiques frases, claves,
-vaults ni contraseñas RPC/pool en issues. Ver [migración](docs/MIGRATION.md).
+Windows protege las billeteras con DPAPI; Android utiliza Android Keystore y
+almacenamiento privado de la app. Conservá tus frases y respaldos: copiar vaults
+cifrados entre dispositivos no reemplaza la recuperación. Desinstalar o borrar
+los datos de Android puede eliminar tanto el vault como su clave Keystore.
+Nunca publiques frases, claves, vaults ni contraseñas RPC/pool en issues.
+Ver [migración](docs/MIGRATION.md).
 
 Para pruebas aisladas, configurá `CASHMINER_DATA_DIR` con una carpeta vacía
 independiente antes de iniciar. El ZIP no contiene datos personales.
@@ -173,10 +214,18 @@ aplicación: ejecutá desde el repositorio completo.
 La compilación del ZIP autónomo está documentada en
 [packaging/windows/README.md](packaging/windows/README.md).
 
+El mismo repositorio contiene el código común y la integración/compilación
+Android en [packaging/android](packaging/android/README.md). La procedencia y
+hashes del ZIP Windows conservado y la APK probada se registran por separado
+en [artefactos de distribución](docs/ARTIFACTS.md).
+
 ## Desarrollo y pruebas
 
 El runtime requiere `cryptography`; el paquete Windows también incorpora
 `psutil`. Pillow se utiliza sólo para pruebas de recursos gráficos.
+Android usa Chaquopy/Python 3.11 y `cryptography` 42.0.8, distintos del runtime
+Windows. Sigue pendiente revisar esa dependencia móvil anterior para una
+publicación estable de billetera; ver la documentación y avisos de Android.
 
 ```powershell
 .venv\Scripts\python.exe -m pip install Pillow

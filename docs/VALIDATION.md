@@ -24,8 +24,35 @@ trial, not full-block validation or a completed long-duration stability test.
 
 Still pending before final distribution: automated startup/normal shutdown,
 clean Windows installation, installer, signing/distribution decisions and final
-native toolchain/redistribution notices. No Android/Linux/macOS/iOS package
-has been validated by this release.
+native toolchain/redistribution notices. These results describe the retained
+Windows ZIP, not the Android package below. Linux/macOS/iOS remain deferred.
+
+## Android APK 2170105, 2026-11-10
+
+- Version 2.17.1, package `org.cashminer.android`, versionCode 2170105. Source:
+  `b5b487332006bb2d7f764de6e07795608ff05cfc`. Previous signing certificate retained.
+- Eighteen focused tests passed: eight Android controller, two shared defaults/
+  migration, five desktop device defaults and three internal CPU duty checks.
+- Android 15 x86-64 emulator: Testnet3 and Testnet4 sessions ran simultaneously
+  against independent local Stratum share verifiers, producing 29 and 41 valid
+  shares. They continued after Home with separate notifications. Stopping
+  Testnet3 left Testnet4 mining. These are controlled protocol tests, not public
+  Testnet3/Testnet4 blocks.
+- Save As through Android's document picker produced 8,962 bytes identical to
+  the full original log. The picker may append `.txt` to its `.log` filename.
+- Release build, vital lint, APK signature/ABIs and installation as an update
+  passed. Final DEX/native/manifest and inner payload contents matched the tested
+  APK; native libraries were unchanged.
+- The owner subsequently reported finding and checking a Testnet3 block on
+  their physical Android phone. Earlier phone testing also showed the reward
+  in a PC wallet for the same key. This is owner-reported physical-device
+  evidence, distinct from the controlled tests; a full log of the latest block
+  was not independently reviewed in this packaging step.
+
+This does not establish all-device/all-network coverage or indefinite background
+uptime. Android uses CPU only and Keystore; its cryptography 42.0.8 dependency
+differs from Windows and still needs review before a stable wallet release.
+The complete Windows suite was not repeated for this documentation/upload step.
 
 ## Reproduce tests
 
@@ -63,3 +90,12 @@ Siguen pendientes el cierre de la comprobación automática de inicio/cierre,
 Windows limpio, instalador y los detalles finales de distribución. Para
 reproducir, usá datos aislados y los comandos anteriores. Las pruebas GPU y
 BCHN son optativas y requieren hardware/binarios externos compatibles.
+
+La APK Android 2170105 pasó 18 pruebas específicas y ensayos en emulador de dos
+redes simultáneas, segundo plano, detención independiente y exportación completa
+del log. Los verificadores Stratum locales aceptaron 29 y 41 shares; no son
+bloques de redes públicas. El propietario informó después que encontró y comprobó
+un bloque de Testnet3 en su teléfono. No se revisó independientemente su log
+completo en esta tarea. No implica cobertura de todos los equipos/redes ni
+continuidad indefinida. Sigue pendiente revisar la dependencia criptográfica
+móvil para una publicación estable. Linux, macOS e iOS quedan para después.

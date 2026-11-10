@@ -10,6 +10,8 @@
 | `native` | Distributed Windows x64 hashing libraries and C/CUDA sources / DLL y fuentes |
 | `ui`, `assets` | Local HTML/JS/CSS and artwork / Interfaz y recursos |
 | `packaging/windows` | Private Python runtime build and native launcher / Empaquetado |
+| `packaging/android` | APK, WebView, Keystore and per-network foreground services / Integración Android |
+| `src/cashminer/platform/android_runtime.py` | Android adapter for the shared app and miner / Adaptador Android |
 | `scripts`, `tests` | Manual tools and automated checks / Herramientas y pruebas |
 
 The wallet signs locally. Modern wallet secrets are not passed to mining

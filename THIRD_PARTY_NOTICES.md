@@ -41,6 +41,13 @@ Authors: Marek Palatinus, Pavol Rusnak, Aaron Voisine and Sean Bowe.
   https://www.python.org/downloads/release/python-31410/ — PSF license and
   included component notices. No Python distribution is committed here.
 
+Android uses Chaquopy 17.2.0, its CPython 3.11 runtime, cryptography 42.0.8,
+cffi 1.17.1, pycparser 3.12 and chaquopy-libffi 3.3. Their versions, upstreams
+and licenses are listed in [Android notices](packaging/android/ANDROID_NOTICES.md),
+with redistribution texts under `packaging/android/licenses` and notices in the
+embedded runtime/wheels. The SDK, NDK, JDK, Gradle and emulator are build tools,
+not release assets. Android WebView is supplied by the operating system.
+
 The Windows build collects installed wheel license/notice files, CPython
 notices and MinGW CRT/GCC runtime notices in its `Licenses/` directory.
 The native launcher is built using GCC/MinGW; applicable runtime exceptions
