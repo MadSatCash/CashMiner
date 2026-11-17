@@ -1,3 +1,34 @@
+# Validation — v2.18
+
+The 2.18 shared source suite completed 635 tests without failures/errors,
+with 7 skips and both BCHN optional groups enabled. Fourteen focused Chipnet
+checks were subsequently rerun without failures. The changes include:
+
+- Replay of 9,467 post-checkpoint headers across activation; 9,967 matching
+  comparisons against compiled BCHN ASERT arithmetic, retaining 600 vectors.
+- Branch context, cache revalidation, strict minimum-difficulty thresholds,
+  halvings, coinbase construction and wallet maturity/selection boundaries.
+- An isolated BCHN chain accepting a CashMiner-built block and rejecting a
+  coinbase spend at 100/999 confirmations, accepting it at 1,000.
+- Live Chipnet native/assisted connections and independent server comparisons.
+- Windows ZIP: 322 files verified before/after; CPU, OpenCL and CUDA shares
+  checked by independent local Stratum; ranking process and EXE startup/API 2.18/
+  resources/normal shutdown checked with isolated data.
+- Android signature, version and payload verified; 32 DEX/native/resource entries
+  unchanged. This new APK was not tested on a phone/emulator.
+
+The owner ran Windows Chipnet mining with CUDA/OpenCL after packaging. Logs
+showed hashing and template changes, not a confirmed self-mined public block.
+A public Chipnet block mined and accepted from 2.18 remains untested. Header
+verification is not full transaction/script/UTXO validation. Improvements to
+send latency and GPU batch scheduling remain deferred.
+
+[Details](releases/NOTAS_V2.18.md) · [Artifact provenance](ARTIFACTS.md).
+
+---
+
+## Historical validation — v2.17.1
+
 # Validation / Validación
 
 ## Windows candidate, 2026-11-10

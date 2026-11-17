@@ -1,84 +1,61 @@
-# CashMiner v2.17.1 — Windows & Android
+# CashMiner v2.18 — Chipnet Faster Blocks · Windows & Android
 
-**[⬇️ Windows ZIP](https://github.com/MadSatCash/CashMiner/releases/download/v2.17.1/CashMiner-Windows.zip)** · **[⬇️ Android APK](https://github.com/MadSatCash/CashMiner/releases/download/v2.17.1/CashMiner-Android-v2.17.1.apk)** · [SHA-256](https://github.com/MadSatCash/CashMiner/releases/download/v2.17.1/SHA256SUMS.txt)
+**[Windows ZIP](https://github.com/MadSatCash/CashMiner/releases/download/v2.18/CashMiner-Windows.zip)** · **[Android APK](https://github.com/MadSatCash/CashMiner/releases/download/v2.18/CashMiner-Android-v2.18.apk)** · [SHA-256](https://github.com/MadSatCash/CashMiner/releases/download/v2.18/SHA256SUMS.txt)
 
 ## English
 
-First experimental Windows and Android release of CashMiner, a lightweight
-Bitcoin Cash wallet, miner and peer explorer for learning and experimentation.
+Experimental update for Chipnet's one-minute blocks. Shared code now handles
+branch-local activation, tick-based ASERT and halvings, the current 2.5 tBCH
+base subsidy and 60,000-tick coinbase maturity (1,000 new one-minute blocks).
+Native P2P and Electrum-assisted mining validate upgraded-chain references;
+wallet balances and coin selection use the new maturity rules. BIP34 retains
+raw block heights and Chipnet coinbases use transaction version 2.
 
-| System | Download | Start |
-| --- | --- | --- |
-| Windows 10/11 x64 | [CashMiner-Windows.zip](https://github.com/MadSatCash/CashMiner/releases/download/v2.17.1/CashMiner-Windows.zip) | Extract the entire ZIP; open `CashMiner/CashMiner.exe`. |
-| Android 7.0+ | [CashMiner-Android-v2.17.1.apk](https://github.com/MadSatCash/CashMiner/releases/download/v2.17.1/CashMiner-Android-v2.17.1.apk) | Open the APK on your phone and install/update. |
+Also includes the 2.17.2 amount editor: locale-aware decimal/group separators,
+eight BCH decimals, persistent conversion space and compact validation tooltip.
+Windows includes the shared C-MT CPU duty fix previously absent from its package.
 
-Windows supports CPU, CUDA and compatible OpenCL GPUs. Android includes ARM32,
-ARM64 and x86-64 CPU mining, adjustable 0–100%, independent network sessions and
-background mining with Stop notifications. Update Android over the existing
-installation without uninstalling or clearing data to preserve wallets.
-Python is included in both packages. Direct P2P does not need your own full node;
-RPC needs a configured node and Stratum needs a compatible configured pool.
+Validation: 635 tests completed without failures/errors, 7 skipped; real Chipnet
+header replay and live connections; block acceptance and coinbase maturity checks
+against isolated BCHN; packaged CPU/OpenCL/CUDA shares independently verified
+on local Stratum; EXE startup and normal shutdown with isolated data.
+A self-mined block accepted on public Chipnet remains untested.
 
-Validation includes earlier Windows tests (606, no failures/errors, 5 skipped),
-local CPU/CUDA/OpenCL share verification, 18 focused Android tests and two
-parallel emulator sessions producing independently verified Stratum shares.
-The owner reports finding and checking a Testnet3 block on their Android phone.
-Coverage varies by network/device; these are not universal compatibility claims.
+Windows is rebuilt from the shared sources with its private Python runtime;
+hashing DLLs are retained. Extract the entire ZIP and open CashMiner/CashMiner.exe.
+Android is an incremental Python/UI payload and manifest update (versionCode
+2180000): DEX, resources and native libraries retain their earlier bytes and
+update certificate. This APK has not been tested on a phone/emulator. Install
+over the existing app without uninstalling or clearing data to preserve wallets.
 
-The Android APK is the tested build 2170105 from `b5b487332006bb2d7f764de6e07795608ff05cfc`.
-The Windows runtime is retained from `dce3b1543afc2de86ae3642172dda87ee35fb02f`;
-only MIT/vendor license documents and its manifest were refreshed for publication.
-Its executable/DLLs/application sources are unchanged. It predates the later
-shared C-MT CPU duty fix in the source tree. Checksums cover the packages offered here.
-
-Experimental limits: native P2P verifies headers, not complete blocks, and builds
-coinbase-only blocks. FABLOUS Tempnet mining cuts off at 2026-11-15 12:00 UTC.
-Future Chipnet consensus changes are not automatically supported. Windows uses
-DPAPI; Android uses Keystore. Keep recovery phrases/keys and backups. Windows
-launcher is not publisher-signed; Android is signed with the project's update key.
-Android uses an older cryptography runtime whose review for a stable wallet
-release remains pending. Android/vendor policies may affect background uptime.
-Linux, macOS and iOS packages are not included.
-
-[English guide](https://github.com/MadSatCash/CashMiner#readme) · [Source/build provenance](https://github.com/MadSatCash/CashMiner/blob/main/docs/ARTIFACTS.md) · [Validation](https://github.com/MadSatCash/CashMiner/blob/main/docs/VALIDATION.md)
+Native P2P verifies headers, not all transactions/scripts/UTXOs as a full node
+would. Assisted mining uses a conservative 200,000-byte Chipnet selection cap.
+Future consensus changes still require an update. Existing experimental platform
+and dependency limitations remain; see the linked provenance and validation.
+Send-path latency and GPU batch optimizations are deferred, not part of 2.18.
 
 ## Español
 
-Primera publicación experimental de CashMiner para Windows y Android: una
-billetera, minero y explorador de peers liviano para aprender y experimentar
-con Bitcoin Cash.
+Actualización experimental para Chipnet con bloques de un minuto: activación
+por rama, ASERT y halvings por ticks, subsidio base actual de 2,5 tBCH y madurez
+de coinbase de 60.000 ticks (1.000 bloques nuevos de un minuto). Se actualizan
+P2P nativo, Electrum asistido, referencias de conexión, saldos y selección de
+UTXOs. BIP34 conserva la altura real; la coinbase Chipnet usa versión 2.
 
-| Sistema | Descarga | Inicio |
-| --- | --- | --- |
-| Windows 10/11 x64 | [CashMiner-Windows.zip](https://github.com/MadSatCash/CashMiner/releases/download/v2.17.1/CashMiner-Windows.zip) | Extraer completo y abrir `CashMiner/CashMiner.exe`. |
-| Android 7.0+ | [CashMiner-Android-v2.17.1.apk](https://github.com/MadSatCash/CashMiner/releases/download/v2.17.1/CashMiner-Android-v2.17.1.apk) | Abrir la APK en el teléfono e instalar/actualizar. |
+Incluye el editor de monto de 2.17.2: formato numérico activo, agrupación de
+miles, ocho decimales BCH, espacio fijo para conversión y tooltip discreto.
+Windows incorpora la corrección de control CPU C-MT del código común.
 
-Windows admite CPU, CUDA y GPU compatibles con OpenCL. Android incluye minería
-CPU ARM32/ARM64/x86-64, ajustable 0–100%, sesiones independientes por red y minería
-en segundo plano con notificaciones Detener. Actualizá Android encima, sin
-borrar datos ni desinstalar, para conservar las billeteras. Ambos incluyen Python.
-P2P directo no necesita tu propio nodo completo; RPC necesita un nodo configurado
-y Stratum un pool compatible configurado.
+Verificación: 635 pruebas sin fallos/errores, 7 omitidas; cabeceras y conexiones
+reales de Chipnet; aceptación de bloque y madurez comprobadas con BCHN aislado;
+shares CPU/OpenCL/CUDA verificados en Stratum local; arranque y cierre del EXE
+con datos aislados. Sigue pendiente encontrar y confirmar un bloque propio en
+Chipnet pública. No se promete validación completa de nodo.
 
-Validación: suite Windows anterior (606 pruebas, sin fallos/errores, 5 omitidas),
-shares CPU/CUDA/OpenCL verificados localmente, 18 pruebas Android y dos sesiones
-paralelas en emulador con shares verificados independientemente. El propietario
-informó que encontró y comprobó un bloque de Testnet3 en su teléfono. La cobertura
-varía por red/equipo; no se promete compatibilidad universal.
+Windows: extraé el ZIP completo y abrí CashMiner/CashMiner.exe. Android:
+actualizá encima de la instalación existente, sin desinstalar ni borrar datos.
+La APK actualiza Python/UI y manifiesto, conserva DEX/recursos/bibliotecas nativas
+y firma anterior; esta APK todavía no se probó en teléfono/emulador.
+Las mejoras de latencia de envío y lotes GPU quedan para después.
 
-La APK probada es la 2170105, fuente `b5b487332006bb2d7f764de6e07795608ff05cfc`.
-El runtime Windows se conserva desde `dce3b1543afc2de86ae3642172dda87ee35fb02f`;
-sólo se actualizaron licencias/avisos y manifiesto para publicar. No cambian EXE,
-DLL ni fuentes de la aplicación. Es anterior a la corrección posterior del control
-CPU C-MT del código común. Los checksums corresponden a los paquetes ofrecidos aquí.
-
-Límites experimentales: P2P nativo verifica cabeceras, no bloques completos, y
-construye bloques sólo con coinbase. FABLOUS Tempnet corta minería el 15/11/2026,
-12:00 UTC. No hay compatibilidad automática con cambios futuros de Chipnet.
-Windows usa DPAPI; Android, Keystore. Conservá frases/claves y respaldos. El
-lanzador Windows no tiene firma del editor; Android conserva la firma del proyecto
-para actualizar. Sigue pendiente revisar el runtime criptográfico móvil anterior
-para una publicación estable. Las políticas de Android/fabricante pueden afectar
-la continuidad. No incluye paquetes Linux, macOS ni iOS.
-
-[Guía en español](https://github.com/MadSatCash/CashMiner/blob/main/README.es.md) · [Procedencia y compilación](https://github.com/MadSatCash/CashMiner/blob/main/docs/ARTIFACTS.md) · [Validación](https://github.com/MadSatCash/CashMiner/blob/main/docs/VALIDATION.md)
+[Source / Código](https://github.com/MadSatCash/CashMiner/tree/v2.18) · [Provenance / Procedencia](https://github.com/MadSatCash/CashMiner/blob/v2.18/docs/ARTIFACTS.md) · [Detailed changes / Cambios detallados](https://github.com/MadSatCash/CashMiner/blob/v2.18/docs/releases/NOTAS_V2.18.md) · [Validation / Validación](https://github.com/MadSatCash/CashMiner/blob/v2.18/docs/VALIDATION.md)

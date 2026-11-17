@@ -30,7 +30,9 @@ NETWORKS: dict[str, Network] = {
                         identifier="bch-testnet4"),
     "chipnet": Network("chipnet", "e2b7daaf", 48333,
                        ("chipnet.bitjson.com", "seed.cbch.loping.net"),
-                       identifier="bch-chipnet-fork-115252-00000000040ba964"),
+                       identifier="bch-chipnet-mina-332451-00000000000ecc71",
+                       identity_locator="00000000000015fed5ba357ba4baa1f9a283e9446b6ebc12de63152421764051",
+                       identity_first_hash="00000000000ecc7187034ddaa4327af300c23fd57bfd2557af6ca2392a022671"),
     "tempnet_fablous_2026": Network(
         "tempnet_fablous_2026", "e2b7daaf", 48333, (),
         ("15.204.253.47:48335", "15.204.228.134:48333", "135.148.26.244:48333"),

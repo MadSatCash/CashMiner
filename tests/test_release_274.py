@@ -21,7 +21,7 @@ class Release273(unittest.TestCase):
         self.assertNotIn('pywebview',(ROOT/'requirements.txt').read_text())
         self.assertNotIn('import webview',(ROOT/'src/cashminer/app/server.py').read_text())
         self.assertFalse((ROOT/'INICIAR_WINDOWS_CON_ICONO.bat').exists())
-        self.assertIn('version = "2.17.1"',(ROOT/'pyproject.toml').read_text())
+        self.assertIn('version = "2.18"',(ROOT/'pyproject.toml').read_text())
 
     def test_close_x_stops_server_and_service(self):
         class Process:
@@ -91,6 +91,9 @@ class Release273(unittest.TestCase):
                 (proj/'mining_engine'/name).parent.mkdir(parents=True, exist_ok=True)
                 (proj/'mining_engine'/name).write_text('dummy')
             packaged = tuple(sorted(miner_bridge.WINDOWS_LIBRARIES))
+            for name in ('__init__.py','network/chipnet_consensus.py'):
+                shared=proj/'src'/'cashminer'/name;shared.parent.mkdir(parents=True,exist_ok=True)
+                shared.write_text('dummy')
             for name in packaged:
                 (proj/'native'/name).write_bytes(('packaged ' + name).encode())
             (runtime/'bch_hashscan_opencl.dll').write_bytes(b'legacy stale')
@@ -113,6 +116,9 @@ class Release273(unittest.TestCase):
                 (proj/'mining_engine'/name).parent.mkdir(parents=True, exist_ok=True)
                 (proj/'mining_engine'/name).write_text('dummy')
             (runtime/'bch_hashscan_cuda.dll').write_bytes(b'old')
+            for name in ('__init__.py','network/chipnet_consensus.py'):
+                shared=proj/'src'/'cashminer'/name;shared.parent.mkdir(parents=True,exist_ok=True)
+                shared.write_text('dummy')
             with patch.object(miner_bridge,'project_root',return_value=proj),\
                  patch.object(miner_bridge,'runtime_folder',return_value=runtime),\
                  patch.object(miner_bridge.os,'name','nt'):

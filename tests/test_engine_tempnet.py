@@ -176,7 +176,7 @@ class TestTempnetV62(unittest.TestCase):
                 return [old, fresh][min(self.calls-1, 1)]
         client = Client()
         miner = self.fake_miner(client)
-        with mock.patch("builtins.input", return_value="s") as user_input, mock.patch.object(cashminer.sys.stdin, "isatty", return_value=True):
+        with mock.patch.object(cashminer.time,"time",return_value=1793908338), mock.patch("builtins.input", return_value="s") as user_input, mock.patch.object(cashminer.sys.stdin, "isatty", return_value=True):
             params = cashminer.BCHSoloMiner.mine_tempnet_p2p_tip(miner)
         user_input.assert_called_once()
         self.assertEqual(client.calls, 2)
@@ -187,7 +187,7 @@ class TestTempnetV62(unittest.TestCase):
     def test_user_rejection_does_not_resync_or_mine(self):
         client = SimpleNamespace(sync=mock.Mock(return_value=self.make_tip(358477, "03"*32)))
         miner = self.fake_miner(client)
-        with mock.patch("builtins.input", return_value="n"), self.assertRaises(SystemExit):
+        with mock.patch.object(cashminer.time,"time",return_value=1793908338), mock.patch("builtins.input", return_value="n"), self.assertRaises(SystemExit):
             cashminer.BCHSoloMiner.mine_tempnet_p2p_tip(miner)
         client.sync.assert_called_once()
 

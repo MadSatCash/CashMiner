@@ -1,13 +1,16 @@
 # CashMiner 💚
 
-### ⬇️ [Descargar Windows · ZIP](https://github.com/MadSatCash/CashMiner/releases/download/v2.17.1/CashMiner-Windows.zip)
+Código fuente **2.18**: [Chipnet con bloques de un minuto y procedencia de los paquetes](docs/releases/NOTAS_V2.18.md).
+Publicación experimental para Windows y Android; Chipnet incorpora las reglas de bloques de un minuto.
 
-### ⬇️ [Descargar Android · APK](https://github.com/MadSatCash/CashMiner/releases/download/v2.17.1/CashMiner-Android-v2.17.1.apk)
+### ⬇️ [Descargar Windows · ZIP](https://github.com/MadSatCash/CashMiner/releases/download/v2.18/CashMiner-Windows.zip)
+
+### ⬇️ [Descargar Android · APK](https://github.com/MadSatCash/CashMiner/releases/download/v2.18/CashMiner-Android-v2.18.apk)
 
 Windows: extraé el ZIP completo y abrí `CashMiner/CashMiner.exe`.
 Android: abrí la APK en el teléfono y elegí Instalar/Actualizar.
 
-[Todos los archivos de descarga y checksums](https://github.com/MadSatCash/CashMiner/releases/tag/v2.17.1)
+[Todos los archivos de descarga y checksums](https://github.com/MadSatCash/CashMiner/releases/tag/v2.18)
 · [English](README.md)
 
 **Billetera y minero liviano para Bitcoin Cash**
@@ -16,7 +19,7 @@ Android: abrí la APK en el teléfono y elegí Instalar/Actualizar.
 directa permite empezar sin descargar toda la blockchain ni ejecutar tu
 propio nodo completo.**
 
-[English](README.md) · Versión **2.17.1** · **Windows x64 / Android**
+[English](README.md) · Versión del código **2.18** · **Windows x64 / Android**
 
 CashMiner es una billetera, minero y explorador de peers experimental de
 CashRider, con licencia MIT. Puede conectarse directamente a la red P2P de
@@ -48,8 +51,8 @@ El botón verde **Code** descarga el código, no la aplicación lista para usar.
 
 | Sistema | Archivo de la release | Hardware de minería |
 | --- | --- | --- |
-| Windows 10/11 x64 | [Descargar Windows ZIP](https://github.com/MadSatCash/CashMiner/releases/download/v2.17.1/CashMiner-Windows.zip) | CPU, NVIDIA CUDA y GPU compatibles con OpenCL |
-| Android 7.0+ | [Descargar Android APK](https://github.com/MadSatCash/CashMiner/releases/download/v2.17.1/CashMiner-Android-v2.17.1.apk) | CPU; incluye ARM32, ARM64 y x86-64 |
+| Windows 10/11 x64 | [Descargar Windows ZIP](https://github.com/MadSatCash/CashMiner/releases/download/v2.18/CashMiner-Windows.zip) | CPU, NVIDIA CUDA y GPU compatibles con OpenCL |
+| Android 7.0+ | [Descargar Android APK](https://github.com/MadSatCash/CashMiner/releases/download/v2.18/CashMiner-Android-v2.18.apk) | CPU; incluye ARM32, ARM64 y x86-64 |
 
 `SHA256SUMS.txt` contiene los checksums de ambos paquetes. Descargá solamente
 el correspondiente a tu equipo. No se ofrecen paquetes Linux, macOS ni iOS.
@@ -68,7 +71,7 @@ GPU y un navegador instalado siguen siendo requisitos externos. Ver
 
 ### Android
 
-1. Copiá **CashMiner-Android-v2.17.1.apk** al teléfono y abrila desde su gestor de archivos.
+1. Copiá **CashMiner-Android-v2.18.apk** al teléfono y abrila desde su gestor de archivos.
 2. Si Android pide permiso, autorizá a ese gestor a instalar esta APK.
 3. Elegí **Instalar** o **Actualizar**. Para conservar las billeteras existentes,
    actualizá encima de CashMiner sin desinstalar ni borrar los datos de la app.

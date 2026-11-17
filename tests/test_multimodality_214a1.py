@@ -118,9 +118,14 @@ class MultiModal214(unittest.TestCase):
         for net,(height,expected) in engine.RPC_KNOWN_ANCHORS.items():
             with self.subTest(net=net):
                 rpc=Mock();rpc.call.return_value=expected
+                if net=='chipnet':
+                    pins={height:expected,**dict(engine.chipnet.POST_UPGRADE_CHECKPOINTS)}
+                    rpc.call.side_effect=lambda method,args:pins.get(args[0],'00'*32)
                 with patch.object(engine,'log'):
                     engine.verify_rpc_chain(rpc,net)
-                rpc.call.assert_called_once_with('getblockhash',[height])
+                if net=='chipnet':self.assertEqual(rpc.call.call_count,3)
+                else:rpc.call.assert_called_once_with('getblockhash',[height])
+                rpc.call.side_effect=None
                 rpc.call.return_value='00'*32
                 with self.assertRaisesRegex(RuntimeError,'incompatible'):
                     engine.verify_rpc_chain(rpc,net)

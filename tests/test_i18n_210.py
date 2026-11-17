@@ -25,7 +25,7 @@ class I18nContract210(unittest.TestCase):
             self.assertIn(text,JS)
         self.assertIn('formatSats',JS)
         self.assertIn('normalizeInput',JS)
-        self.assertIn('CMI18n.normalizeInput($(\'sendAmount\').value)',HTML)
+        self.assertIn('return sendAmountEditor.normalized()',HTML)
         self.assertIn('CMI18n.normalizeInput($(\'sendFeeRate\').value)',HTML)
         self.assertIn('fee_rate:CMI18n.normalizeInput',HTML)
         self.assertNotIn('currencySelect',HTML) # fiat pricing remains a later feature

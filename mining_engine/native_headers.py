@@ -15,6 +15,15 @@ import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
+# Also support the standalone mining_engine/miner.py launcher.
+import sys
+try:
+    from cashminer.network import chipnet_consensus as chipnet
+except ModuleNotFoundError as exc:
+    if exc.name != 'cashminer':raise
+    sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'src'))
+    from cashminer.network import chipnet_consensus as chipnet
+
 from broadcast import BlockBroadcaster, PeerTarget, read_message
 from fablous.consensus import parse_header, bits_to_target, block_work
 from fablous.headers import _unpack_headers
@@ -87,7 +96,16 @@ class NativeHeaderClient:
         if info['time']<=mtp:raise ValueError('Timestamp <= MTP')
         if info['time']>self.clock()+7200:raise ValueError('Timestamp demasiado futuro')
         if self.network!='regtest' and not 4<=info['version']<0x80000000:raise ValueError('Versión de cabecera obsoleta')
-        expected=self.expected_bits(parent['height'],parent['time'],info['time'])
+        if self.network=='chipnet':
+            context=chipnet.context_for_parent(parent,history)
+            expected=chipnet.expected_bits(parent['height'],parent['time'],info['time'],context)
+            pins=dict(chipnet.POST_UPGRADE_CHECKPOINTS)
+            pins[chipnet.PINNED_ACTIVATION_HEIGHT]=chipnet.ACTIVATION_HASH
+            if height in pins and info['hash']!=pins[height]:
+                raise ValueError('Chipnet: rama ajena al checkpoint Mina')
+            info['activation_height']=context.activation_height
+        else:
+            expected=self.expected_bits(parent['height'],parent['time'],info['time'])
         expected=int(expected,16) if isinstance(expected,str) else expected
         if info['bits']!=expected:raise ValueError(f'Dificultad incorrecta: {info["bits"]:08x} != {expected:08x}')
         info.update(raw=raw,height=height,chainwork=(parent.get('chainwork',0)+block_work(info['bits'])))
@@ -101,7 +119,46 @@ class NativeHeaderClient:
             tip_bits_hex=f'{info["bits"]:08x}',tip_time=info['time'],
             median_time_past=sorted(e['time'] for e in history)[len(history)//2],
             chainwork_since_checkpoint=self.work)
+        if self.network=='chipnet':
+            info['consensus_context']=chipnet.context_for_parent(info,history)
+            info['target_interval']=info['consensus_context'].next_interval
         return info
+
+    def context_at(self,height,blockhash):
+        if self.network!='chipnet':raise ValueError('Contexto solicitado fuera de Chipnet')
+        entries=self.context+self.chain[:max(0,height-self.height)]
+        parent=entries[-1]
+        if parent['height']!=height or parent['hash']!=blockhash:
+            raise ValueError('Padre de trabajo no está en el historial verificado')
+        return chipnet.context_for_parent(parent,entries[-11:])
+
+    def verify_electrum_chain(self,request,height,blockhash):
+        """Electrum supplies bytes; the same native verifier checks every header."""
+        if self.network!='chipnet' or not chipnet.POST_UPGRADE_CHECKPOINTS[-1][0]<=height<=self.height+1000000:
+            raise ValueError('Altura incompatible con la referencia Chipnet Mina')
+        candidate=list(self.chain[:height-self.height])
+        if candidate:
+            known=candidate[-1]
+            raw=request('blockchain.block.header',[known['height']])
+            if parse_header(bytes.fromhex(raw))['hash']!=known['hash']:candidate=[]
+        start=(candidate[-1]['height'] if candidate else self.height)+1
+        for offset in range(start,height+1,2000):
+            count=min(2000,height-offset+1)
+            response=request('blockchain.block.headers',[offset,count])
+            if not isinstance(response,dict) or response.get('count')!=count:
+                raise ValueError('Lote incompleto de cabeceras Chipnet')
+            raw=bytes.fromhex(response.get('hex',''))
+            if len(raw)!=count*80:raise ValueError('Lote de cabeceras Chipnet inválido')
+            for i in range(count):self._append(candidate,raw[i*80:(i+1)*80])
+        if not candidate or candidate[-1]['hash']!=blockhash:
+            raise ValueError('Electrum cambió de punta durante la verificación')
+        with self._lock:
+            if not self.chain or candidate[-1]['chainwork']>=self.work:
+                self.chain=candidate;self.work=candidate[-1]['chainwork']
+        self.save_cache()
+        # Return the checked branch context even if a newer cached tip exists.
+        parent=candidate[-1]
+        return chipnet.context_for_parent(parent,(self.context+candidate[-11:])[-11:])
 
     def _locators(self,chain):
         result=[];index=len(chain)-1;step=1
@@ -149,6 +206,8 @@ class NativeHeaderClient:
                 if len(headers)<2000:break
             else:raise RuntimeError('Límite de sincronización alcanzado: no usar una punta incompleta')
             last=current[-1] if current else self.context[-1]
+            if self.network=='chipnet' and last['height']<chipnet.POST_UPGRADE_CHECKPOINTS[-1][0]:
+                raise ValueError('Peer Chipnet anterior al checkpoint Mina')
             work=last.get('chainwork',0)
             with self._lock:
                 if work>self.work:
@@ -193,7 +252,7 @@ class NativeHeaderClient:
         try:
             if self.cache_path.stat().st_size>80_000_000:raise ValueError('Cache demasiado grande')
             raw=self.cache_path.read_bytes()
-            tag=f'CashMinerHeaders1:{self.network}:{self.checkpoint}\n'.encode()
+            tag=self._cache_tag()
             if not raw.startswith(tag):raise ValueError('Cache de otra red/checkpoint')
             raw=raw[len(tag):]
             if len(raw)%80:raise ValueError('Cache truncada')
@@ -209,7 +268,11 @@ class NativeHeaderClient:
             self.cache_path.parent.mkdir(parents=True,exist_ok=True)
             pending=self.cache_path.with_suffix('.tmp')
             with pending.open('wb') as f:
-                f.write(f'CashMinerHeaders1:{self.network}:{self.checkpoint}\n'.encode())
+                f.write(self._cache_tag())
                 for entry in self.chain:f.write(entry['raw'])
             os.replace(pending,self.cache_path)
         except OSError as exc:self.log(f'[native:cache] No se pudo guardar: {exc}')
+
+    def _cache_tag(self):
+        version='2-mina' if self.network=='chipnet' else '1'
+        return f'CashMinerHeaders{version}:{self.network}:{self.checkpoint}\n'.encode()

@@ -39,7 +39,8 @@ runtime/
 !native/*.dll
 
 # Local historical reports are kept on disk, not uploaded as public source.
-docs/releases/
+docs/releases/*
+!docs/releases/NOTAS_V2.18.md
 docs/ARQUITECTURA.md
 docs/MIGRACION.md
 docs/ROADMAP.md

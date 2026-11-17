@@ -732,7 +732,12 @@
     'Importe fiat inválido.':'Invalid fiat amount.',
     'Importe ingresado:':'Entered amount:',
     'Mínimo 546 sats':'Minimum 546 sats',
-    'Importe BCH inválido.':'Invalid BCH amount.'
+    'Importe BCH inválido.':'Invalid BCH amount.',
+    'BCH admite hasta ocho decimales.':'BCH supports up to eight decimal places.',
+    'El importe fiat admite hasta doce decimales.':'Fiat amounts support up to twelve decimal places.',
+    'Usá coma decimal y punto de miles.':'Use a decimal comma and thousands dot.',
+    'Usá punto decimal y coma de miles.':'Use a decimal dot and thousands comma.',
+    'Información del importe':'Amount information'
   });
   const DYNAMIC_SUFFIXES=[[' (BIP39/BIP32 · dirección fija)',' (BIP39/BIP32 · fixed address)'],
     [' (dirección fija)',' (fixed address)'],[' (HD anterior)',' (older HD)']];

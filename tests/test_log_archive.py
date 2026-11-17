@@ -134,6 +134,8 @@ class ArchiveTests(unittest.TestCase):
         # RPC y los bucles de hashing originales siguen protegidos por el hash.
         # En 2.17.1 normalizamos sólo la condición de despacho RPC/OpenCL,
         # comprobada por test_hotfix_2171; no cambiamos los hashes históricos.
+        # El código común incluye también el control CPU de a43334c, ahora en
+        # Windows 2.17.2. Se comprueban y normalizan sólo sus dos sentencias.
         expected = {'bits_to_target': 'f03d945911823d16676788b7d94a6b7f40bdaa4b0921fd4004a567ef40e1148a', 'compute_next_bits_testnet4': 'c60d321bc7a0dca7474dbe5e56bad736f416aed34525120fbaae17ebe053f5b0', 'mine_template_hybrid_cpu_cuda': '5d50bbec8b5ae82ee8c0a18ad6933d7843f3f39690dcb72b0a97a8b7417c8ecb', 'mine_template_multiprocess': 'bf2b9425339abdf7783d94933570cd2526a12ee8be0257954eb3fd543e08645e', 'mine_template_c_internal_threads': 'a1a815bee3fb6132084ad7390caf8a702f6651549c669f71660980c9943f2901', 'mine_forever': '4f4bf2945912f5cc204088709f6fdf0cdc10ad2a161230146ed01c0f62d73361'}
         source = (project_root()/'mining_engine/miner.py').read_text('utf-8')
         tree = ast.parse(source)
@@ -143,15 +145,36 @@ class ArchiveTests(unittest.TestCase):
         class RestoreCoinbaseCall(ast.NodeTransformer):
             def visit_Call(self,node):
                 self.generic_visit(node)
+                if isinstance(node.func,ast.Name) and node.func.id=='roll_bits_for_ntime':
+                    assert len(node.keywords)==1 and node.keywords[0].arg=='context'
+                    assert ast.dump(node.keywords[0].value)==ast.dump(ast.parse(
+                        'getattr(self,"_consensus_context",None)',mode='eval').body)
+                    node.keywords=[]
+                    self.context_count+=1
                 if isinstance(node.func,ast.Attribute) and node.func.attr=='build_reward_coinbase':
                     self.assertion_count+=1
                     return ast.Call(func=ast.Name(id='build_coinbase_tx',ctx=ast.Load()),args=[*node.args[:3],ast.Attribute(value=ast.Name(id='self',ctx=ast.Load()),attr='script_pubkey',ctx=ast.Load()),*node.args[3:]],keywords=[])
                 return node
             assertion_count=0
+            context_count=0
         for name, reference_digest in expected.items():
             with self.subTest(function=name):
                 normalizer=RestoreCoinbaseCall()
                 normalized=normalizer.visit(funcs[name])
+                if name=='mine_template_c_internal_threads':
+                    duty_nodes=[ast.dump(ast.parse(statement).body[0]) for statement in (
+                        'batch_started = time.time()',
+                        'apply_target_throttle(time.time() - batch_started, target_percent_to_fraction(CPU_TARGET_PERCENT))')]
+                    class RestoreCpuDuty(ast.NodeTransformer):
+                        removed=[]
+                        def visit_Assign(self,node):
+                            if ast.dump(node)==duty_nodes[0]:self.removed.append(0);return None
+                            return self.generic_visit(node)
+                        def visit_Expr(self,node):
+                            if ast.dump(node)==duty_nodes[1]:self.removed.append(1);return None
+                            return self.generic_visit(node)
+                    duty=RestoreCpuDuty();normalized=duty.visit(normalized)
+                    self.assertEqual(duty.removed,[0,1])
                 if name=='mine_forever':
                     routing=normalized.body[0].body.pop(0)
                     self.assertIsInstance(routing,ast.If)
@@ -169,6 +192,7 @@ class ArchiveTests(unittest.TestCase):
                         'bool(GPU_ENABLED and self.cuda_scanner and self.cuda_scanner.available)',mode='eval').body
                 if name.startswith('mine_template_'):
                     self.assertEqual(normalizer.assertion_count,1)
+                    self.assertEqual(normalizer.context_count,1)
                 digest = hashlib.sha256(ast.dump(normalized).encode()).hexdigest()
                 self.assertEqual(digest, reference_digest)
         self.assertIn('def allocate_coinbase_outputs(', source)

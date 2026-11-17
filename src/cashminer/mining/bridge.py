@@ -149,6 +149,13 @@ def _prepare_runtime_locked() -> tuple[Path, list[str]]:
         dst=target/name
         dst.parent.mkdir(parents=True,exist_ok=True)
         if not dst.exists() or dst.read_bytes()!=src.read_bytes(): shutil.copy2(src,dst)
+    # The isolated miner also needs the same canonical consensus as the wallet.
+    # These are runtime copies, refreshed from the package on every preparation.
+    for name in ('__init__.py','network/chipnet_consensus.py'):
+        src=project_root()/'src'/'cashminer'/name
+        dst=target.parent/'src'/'cashminer'/name
+        dst.parent.mkdir(parents=True,exist_ok=True)
+        if not dst.exists() or dst.read_bytes()!=src.read_bytes():shutil.copy2(src,dst)
     # Unica fuente de binarios: native/ del paquete. No buscar en AppData ni
     # reutilizar DLL/SO antiguas que hayan quedado dentro del runtime.
     sources=_packaged_native()

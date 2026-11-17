@@ -12,7 +12,7 @@ import time
 from pathlib import Path
 from cashminer.wallet.crypto import address_for, script_hash, p2pkh_script, decode_address
 from cashminer.wallet.electrum import (ElectrumClient, ElectrumError, available_servers,
-                                     ELECTRUM_MAX_CONCURRENT_REQUESTS)
+                                     ELECTRUM_MAX_CONCURRENT_REQUESTS,select_chipnet_servers)
 from cashminer.wallet.server_health import ServerHealth
 from cashminer.wallet.store import WalletStore
 from cashminer.config import data_home, modern_wallets_home, legacy_wallets_home
@@ -292,6 +292,15 @@ class WalletSync:
             if retry:
                 self._set_status(net,'reintentando',error='Servidores temporalmente en espera')
                 wake.wait(retry);wake.clear();continue
+            agreement={}
+            if net=='chipnet':
+                try:
+                    self._set_status(net,'conectando',error='Verificando referencias Chipnet Mina')
+                    candidates,agreement=select_chipnet_servers(
+                        [p for p in candidates if not health.cooling(*p)],cert_pins)
+                except (ElectrumError,OSError,ValueError) as exc:
+                    self._set_status(net,'sin_conexion',error=str(exc)[:180])
+                    wake.wait(RECONNECT_INTERVAL);wake.clear();continue
             connected=False;errors=[]
             for host,port in candidates:
                 if self.stop_event.is_set():break
@@ -303,11 +312,12 @@ class WalletSync:
                     session=(ElectrumClient(net,host,port,cert_sha256=pin) if pin
                              else ElectrumClient(net,host,port))
                     with session as client:
+                        client.chain_agreement=agreement
                         height,_=client.tip_height_hash()
                         client.connect_ms=round((time.monotonic()-started)*1000,1)
                         try:health.success(host,port,(time.monotonic()-started)*1000,height)
                         except OSError:pass
-                        self._set_status(net,'sincronizando',endpoint,tip_height=height)
+                        self._set_status(net,'sincronizando',endpoint,tip_height=height,**agreement)
                         self._session(store,client,wake)
                         connected=True
                 except Exception as exc:
@@ -382,7 +392,7 @@ class WalletSync:
                             # Avoid a hot retry loop on one malformed local wallet.
                         else:
                             consecutive_provider_errors=0
-                            scan_metrics={'last_scan_wallet':wid,
+                            scan_metrics={**getattr(client,'chain_agreement',{}),'last_scan_wallet':wid,
                                 'last_scan_addresses':count,
                                 'last_scan_ms':round((time.monotonic()-started_scan)*1000,1),
                                 'last_scan_rpc':getattr(client,'sequence',0)-start_rpc,

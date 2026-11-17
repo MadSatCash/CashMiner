@@ -19,7 +19,7 @@ ROOT=Path(__file__).resolve().parents[1]
 
 class Chipnet290(unittest.TestCase):
     def test_chipnet_registry(self):
-        self.assertEqual(__version__,'2.17.1')
+        self.assertEqual(__version__,'2.18')
         self.assertEqual(len(NETWORKS),6)
         net=NETWORKS['chipnet']
         self.assertEqual(net.magic_hex,'e2b7daaf')
@@ -97,16 +97,18 @@ class Chipnet290(unittest.TestCase):
         fake_sock=MagicMock()
         fake_ctx=MagicMock();fake_ctx.wrap_socket.return_value=fake_sock
         c=ElectrumClient('chipnet','mock.example',50002)
+        fixture=(ROOT/'tests/fixtures/chipnet_218_headers.bin').read_bytes()
+        def header(height):return fixture[(height-325617)*80:(height-325617+1)*80].hex()
         def rpc(method,params):
             if method=='server.version': return ['Fulcrum 2.0','1.5']
             if method=='server.features': return {'genesis_hash':NETWORK_GENESIS['chipnet']}
-            if method=='blockchain.block.header': return '00'*80
-            if method=='blockchain.headers.subscribe': return {'height':331000,'hex':'00'*80}
+            if method=='blockchain.block.header': return header(params[0])
+            if method=='blockchain.headers.subscribe': return {'height':333223,'hex':header(333223)}
             raise AssertionError(method)
         c.rpc=rpc
-        with patch('ssl.create_default_context',return_value=fake_ctx), patch('socket.create_connection',return_value=fake_sock), patch('cashminer.wallet.electrum.sha256d',return_value=bytes.fromhex(CHIPNET_CHECKPOINT[1])[::-1]):
+        with patch('ssl.create_default_context',return_value=fake_ctx), patch('socket.create_connection',return_value=fake_sock):
             self.assertIs(c.__enter__(),c)
-            self.assertEqual(c.tip['height'],331000)
+            self.assertEqual(c.tip['height'],333223)
             c.close()
 
 if __name__=='__main__': unittest.main()

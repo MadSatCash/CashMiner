@@ -1,7 +1,7 @@
 # Windows x64 ZIP build / Compilación ZIP Windows x64
 
 This build bundles official CPython 3.14.10 embedded x64, pinned wheels and
-the unchanged CashMiner 2.17.1 runtime sources/native DLLs. A small native
+the shared CashMiner runtime sources and native DLLs. A small native
 Win32 launcher opens the private pythonw.exe using absolute sibling paths.
 No Python installation, PATH entry, pip or administrator rights are needed
 to run the resulting ZIP. GPU drivers and an installed browser remain external.
@@ -18,7 +18,7 @@ el ZIP distribuye el programa, no los datos personales.
 - Matching CRT/GCC license files under mingw64/share/licenses.
 - Internet on first build; exact downloads verified with SHA-256.
 
-From Codigo_fuente, use PowerShell:
+From the shared source repository root, use PowerShell:
 
 ```powershell
 python packaging/windows/build.py --work "$env:TEMP/cashminer-build-NUEVO" --output "C:/ruta/entrega"
@@ -45,7 +45,7 @@ runtime is retained; publication refreshes license documents and the manifest.
 
 Run verify_package.py with the Python contained in an independently extracted
 ZIP. --package points to its CashMiner folder; --work is disposable; --source
-points to Codigo_fuente. It verifies hashes and starts real miner subprocesses
+points to the shared source repository root. It verifies hashes and starts real miner subprocesses
 against the existing local Stratum simulator/share validator for CPU and every
 available supported GPU. It also checks the separate ranking worker.
 

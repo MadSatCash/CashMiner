@@ -455,8 +455,14 @@ details{background:#242d31;border-color:#3f4c52}
 .fiat-age{font-size:10px;font-weight:500;color:#99a1a9;white-space:nowrap;cursor:help}
 .fiat-age:focus-visible{outline:1px solid #9ccab8;outline-offset:2px;border-radius:2px}
 .fiat-degraded{color:#b9b1a2;font-size:11px}
-.fiat-send-hint{font-size:11px;margin:5px 0 0;min-height:0;color:#9ab2aa}
-.fiat-send-hint:empty{display:none}
+.fiat-send-hint{font-size:11px;margin:5px 0 0;min-height:17px;line-height:17px;color:#9ab2aa}
+.send-amount-entry{position:relative;display:flex;flex:1;min-width:0}
+.send-amount-entry .input{width:100%;padding-right:32px}
+.send-amount-feedback{position:absolute;right:10px;top:50%;transform:translateY(-50%);z-index:3}
+.send-amount-feedback[hidden]{display:none}
+.send-amount-info{display:block;width:16px;height:16px;padding:0;border:1px solid #b5a878;border-radius:50%;background:transparent;color:#c9bb89;font:11px/14px sans-serif;cursor:help}
+.send-amount-tooltip{position:absolute;right:-4px;top:25px;width:max-content;max-width:220px;padding:7px 10px;border:1px solid #46555c;border-radius:7px;background:#263238;color:#e0e8e3;font-size:11px;line-height:1.45;box-shadow:0 4px 14px #0005;visibility:hidden;opacity:0;pointer-events:none}
+.send-amount-feedback:hover .send-amount-tooltip,.send-amount-feedback:focus-within .send-amount-tooltip{visibility:visible;opacity:1}
 @media(max-width:680px){.wallet-head-controls .fiat-currency-select{width:60px;flex-basis:60px}.fiat-estimate.fiat-main-balance{font-size:12px}}
 @media(max-width:480px){.wallet-head-controls .wallet-manage{font-size:0;padding:8px 11px;flex:0 0 38px}.wallet-head-controls .wallet-manage span{font-size:16px}}
 /* v2.11.1: stable one-line balances and a compact send amount unit. */
@@ -611,7 +617,7 @@ details{background:#242d31;border-color:#3f4c52}
      <section id="walletSendSection" class="wallet-io-card wallet-send-inline" aria-label="Enviar" hidden>
       <div class="field send-address-field"><label class="field-label" for="sendAddress">Enviar a Dirección CashAddr (con prefijo):</label><input class="input" id="sendAddress" autocomplete="off" spellcheck="false" placeholder="bchtest:…"></div>
       <div class="wallet-send-controls">
-       <div class="send-amount-row"><input class="input" id="sendAmount" type="text" inputmode="decimal" placeholder="Monto tBCH" aria-label="Monto tBCH"><select id="sendUnit" class="send-unit-select" aria-label="Unidad del importe" title="Unidad del importe" hidden><option value="bch">BCH</option><option value="fiat">USD</option></select><button type="button" class="btn ghost send-max-button" id="sendMax" title="Enviar todos los UTXO rentables, descontando la comisión">MAX</button></div>
+       <div class="send-amount-row"><div class="send-amount-entry"><input class="input" id="sendAmount" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" placeholder="Monto tBCH" aria-label="Monto tBCH"><span id="sendAmountFeedback" class="send-amount-feedback" hidden><button type="button" class="send-amount-info" id="sendAmountInfo" aria-label="Información del importe" aria-describedby="sendAmountTooltip">i</button><span id="sendAmountTooltip" class="send-amount-tooltip" role="tooltip"></span></span></div><select id="sendUnit" class="send-unit-select" aria-label="Unidad del importe" title="Unidad del importe" hidden><option value="bch">BCH</option><option value="fiat">USD</option></select><button type="button" class="btn ghost send-max-button" id="sendMax" title="Enviar todos los UTXO rentables, descontando la comisión">MAX</button></div>
        <label class="send-fee-label" for="sendFeeRate">Comisión <span>(sat/byte)</span></label>
        <input class="input send-fee-input" id="sendFeeRate" type="text" inputmode="decimal" autocomplete="off" value="1" aria-label="Comisión en satoshis por byte" placeholder="1">
        <button id="sendPrepare" type="button" class="btn primary send-action" disabled>Enviar</button>
@@ -625,13 +631,14 @@ details{background:#242d31;border-color:#3f4c52}
    </div>
   </section>
  </div>
-</main><div class="footer"><div class="footer-left"><div class="footer-info">CashMiner v2.17.1 · Made by <a id="cashriderCredit" href="https://munia.cash/profile/cashrider" rel="noopener noreferrer" style="color:inherit;text-decoration:none">CashRider</a></div></div></div>
+</main><div class="footer"><div class="footer-left"><div class="footer-info">CashMiner v2.18 · Made by <a id="cashriderCredit" href="https://munia.cash/profile/cashrider" rel="noopener noreferrer" style="color:inherit;text-decoration:none">CashRider</a></div></div></div>
 </div>
 <div class="modal-overlay" id="modalOverlay" hidden><div class="modal" id="modalDialog" role="dialog" aria-modal="true"><div class="modal-header"><div id="modalTitle" class="modal-title">Configuración</div><button class="modal-close" id="closeModal" aria-label="Cerrar">×</button></div><div class="modal-body" id="modalBody"></div></div></div>
 <div class="toast hidden" id="toast" role="status"></div>
 <div class="decision-overlay" id="decisionOverlay" hidden><div class="decision-dialog" role="dialog" aria-modal="true" aria-labelledby="decisionTitle" aria-describedby="decisionMessage"><div class="decision-title" id="decisionTitle"></div><div class="decision-message" id="decisionMessage"></div><label class="decision-options hidden" id="decisionPeerOption"><input type="checkbox" id="decisionOnePeer"><span>Permitir operación experimental.</span></label><div id="decisionPasswordField" class="field hidden" style="margin-top:16px"><label class="field-label" for="decisionPassword">Contraseña de la billetera</label><input id="decisionPassword" type="text" autocomplete="off" class="input secret-input" data-lpignore="true"></div><div class="decision-actions"><button class="btn ghost" id="decisionCancel" type="button">Cancelar</button><button class="btn primary" id="decisionAccept" type="button">Continuar</button></div></div></div>
 <script src="/assets/qrcode.min.js"></script>
 <script src="/assets/i18n.js"></script>
+<script src="/assets/amount.js"></script>
 <script src="/assets/fiat.js"></script>
 <script>
 'use strict';
@@ -690,7 +697,7 @@ function captureFiatEntry(){
  sendFiatInputValue=raw;
  if(!raw.trim()||raw.trim().toUpperCase()==='MAX'){sendFiatSats=null;return}
  if(!sendFiatQuote)sendFiatQuote=CMFiat.getQuote();
- try{sendFiatSats=sendFiatQuote?CMFiat.fiatToSats(raw,sendFiatQuote):null}
+ try{const normalized=sendAmountEditor.normalized();const complete=CMI18n.getLocale()==='es-AR'?normalized.replace('.',','):normalized;sendFiatSats=sendFiatQuote?CMFiat.fiatToSats(complete,sendFiatQuote):null}
  catch{sendFiatSats=null}
 }
 function sendAmountPlaceholder(){
@@ -701,11 +708,12 @@ function sendAmountPlaceholder(){
  $('sendUnit').hidden=current?.network!=='mainnet';$('sendUnit').value=sendUnitMode;
 }
 function updateSendFiat(){
+ try{sendAmountEditor.sync()}catch{}
  const el=$('sendFiatHint');if(!el||!current||current.network!=='mainnet'){if(el)el.textContent='';return}
  if(sendMaxMode){el.textContent='';return}
  if(sendUnitIsFiat()){
    const raw=$('sendAmount').value.trim();
-   if(!raw){el.textContent='';return}
+  if(!raw||/^0+(?:[.,]0*)?$/.test(sendAmountEditor.normalized())){el.textContent='≈ 0 BCH';return}
    if(!sendFiatQuote){el.textContent=CMI18n.t('Cotización no disponible. Usá BCH.');return}
    if(sendFiatSats===null||sendFiatInputValue!==$('sendAmount').value){el.textContent=CMI18n.t('Importe fiat inválido.');return}
    const s=BigInt(sendFiatSats);
@@ -717,7 +725,9 @@ function updateSendFiat(){
  }
  let sats=null;
  try{sats=CMFiat.inputToSats($('sendAmount').value)}catch{}
- el.innerHTML=sats===null?'':CMFiat.html(sats,'mainnet','compact');
+ const raw=$('sendAmount').value.trim();
+ el.innerHTML=CMFiat.html(sats??'0','mainnet')||'';
+ if(raw&&sats===null)el.textContent=CMI18n.t('Importe BCH inválido.');
 }
 function setSendUnit(next){
  if(!current||current.network!=='mainnet')return;
@@ -739,10 +749,10 @@ function setSendUnit(next){
    sendUnitMode='bch';resetFiatEntry();
    if(!sendMaxMode)el.value=sats!==null?bchEntryFromSats(sats):'';
  }
- sendAmountPlaceholder();updateSendFiat();
+ sendAmountEditor.reset();sendAmountPlaceholder();updateSendFiat();
 }
 function ensureFiatAmountPrepared(){
- if(!sendUnitIsFiat())return CMI18n.normalizeInput($('sendAmount').value);
+ if(!sendUnitIsFiat())return sendAmountEditor.normalized();
  if(!sendFiatQuote||sendFiatQuote.currency!==CMFiat.getCurrency()||!sendFiatSats||sendFiatInputValue!==$('sendAmount').value){
    throw Error(CMI18n.t('Cotización no disponible o importe fiat inválido.'));
  }
@@ -755,7 +765,7 @@ function handleFiatCurrencyChange(){
    sendUnitMode='bch';resetFiatEntry();
    $('sendAmount').value=sats!==null?bchEntryFromSats(sats):'';
  }
- if(current){sendAmountPlaceholder();updateSendFiat()}
+ sendAmountEditor.reset();if(current){sendAmountPlaceholder();updateSendFiat()}
 }
 
 
@@ -979,6 +989,7 @@ function draw(){if(!current)return;
    sendMaxMode=false;sendUnitMode='bch';resetFiatEntry();
    $('sendAddress').value='';
    $('sendAmount').value='';
+   sendAmountEditor.reset();
    $('sendFeeRate').value='1';
  }
  $('sendAddress').placeholder=c.network==='mainnet'?'bitcoincash:…':'bchtest:…';
@@ -1062,8 +1073,16 @@ function showSendResult(out){
 }
 let sendMaxMode=false;
 let sendFormContext=null;
-$('sendMax').onclick=()=>{sendMaxMode=true;resetFiatEntry();$('sendAmount').value='MAX';updateSendFiat()};
-$('sendAmount').addEventListener('input',()=>{sendMaxMode=false;if(sendUnitIsFiat())captureFiatEntry();else resetFiatEntry();updateSendFiat()});
+function sendAmountError(code){
+ const message=!code?'':code==='precision'?CMI18n.t(sendUnitIsFiat()?'El importe fiat admite hasta doce decimales.':'BCH admite hasta ocho decimales.'):CMI18n.t(CMI18n.getLocale()==='es-AR'?'Usá coma decimal y punto de miles.':'Usá punto decimal y coma de miles.');
+ $('sendAmountFeedback').hidden=!message;$('sendAmountTooltip').textContent=message;
+ $('sendAmountInfo').setAttribute('aria-label',message||CMI18n.t('Información del importe'));
+}
+const sendAmountEditor=CMAmount.bind($('sendAmount'),{
+ getLocale:()=>CMI18n.getLocale(),getPrecision:()=>sendUnitIsFiat()?12:8,onError:sendAmountError,
+ onChange:()=>{sendMaxMode=false;if(sendUnitIsFiat())captureFiatEntry();else resetFiatEntry();updateSendFiat()}
+});
+$('sendMax').onclick=()=>{sendMaxMode=true;resetFiatEntry();$('sendAmount').value='MAX';sendAmountEditor.reset();updateSendFiat()};
 $('sendUnit').addEventListener('change',()=>setSendUnit($('sendUnit').value));
 function prepareInlineSend(){return act(async()=>{
    const w=walletSelected();if(!w)throw Error('Elegí una billetera para enviar');
@@ -2029,7 +2048,8 @@ window.CashMinerFiatError=e=>notice(e.message||String(e),true);
 document.addEventListener('cashminer:fiat-changed',()=>{handleFiatCurrencyChange();if(current)draw()});
 document.addEventListener('cashminer:fiat-updated',()=>{if(current)draw()});
 document.addEventListener('cashminer:locale-changed',({detail})=>{
- if(sendUnitIsFiat()&&sendFiatSats!==null&&sendFiatQuote&&!sendMaxMode){$('sendAmount').value=CMFiat.fiatFromSats(sendFiatSats,sendFiatQuote);sendFiatInputValue=$('sendAmount').value}
+ sendAmountEditor.sync();sendAmountError('');
+ if(sendUnitIsFiat()&&sendFiatSats!==null&&sendFiatQuote&&!sendMaxMode)sendFiatInputValue=$('sendAmount').value;
  if(current)draw();
  if(!detail?.persist)return;
  const patch=detail.kind==='language'?{ui_language:detail.language}:{number_format:detail.numberFormat};

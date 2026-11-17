@@ -96,13 +96,13 @@
   function details(sats){
     if(sats===null||sats===undefined||sats==='')return null;
     const raw=state.rates?.[currency];const rate=Number(raw);
-    if(!Number.isFinite(rate)||rate<=0)return {text:'≈ — '+currency,stale:false,info:'',degraded:false};
+    if((!Number.isFinite(rate)||rate<=0)&&String(sats)!=='0')return {text:'≈ — '+currency,stale:false,info:'',degraded:false};
     let bch;
     try{
       const n=typeof sats==='bigint'?sats:BigInt(String(sats));
       bch=Number(n/100000000n)+Number(n%100000000n)/100000000;
     }catch{return null;}
-    const amount=bch*rate;
+    const amount=bch===0?0:bch*rate;
     if(!Number.isFinite(amount))return null;
     let decimals=2;
     try{decimals=new Intl.NumberFormat(locale(),{style:'currency',currency}).resolvedOptions().maximumFractionDigits}
@@ -116,7 +116,7 @@
     if(!parts.some(p=>p.type==='currency'&&p.value===currency))value+=' '+currency;
     const at=Number(state.as_of?.[currency])||0;
     const age=at?Math.max(0,Date.now()-at):Infinity;
-    const stale=age>TTL;
+    const stale=bch!==0&&age>TTL;
     const ageText=age<3600000?Math.max(1,Math.floor(age/60000))+'m':age<86400000?Math.floor(age/3600000)+'h':Math.floor(age/86400000)+'d';
     const time=at?new Date(at).toLocaleString(locale()):'—';
     const info=(language()==='es'?'Cotización':'Rate')+' · '+(state.source||'—')+' · '+time;
@@ -143,7 +143,7 @@
   function inputToSats(input){
     if(String(input).trim().toUpperCase()==='MAX'||!String(input).trim())return null;
     try{
-      const normalized=window.CMI18n.normalizeInput(input);
+      const normalized=window.CMAmount?window.CMAmount.parse(input,locale(),8,true).normalized:window.CMI18n.normalizeInput(input);
       if(!/^\d+(?:\.\d{1,8})?$/.test(normalized))return null;
       const [whole,frac='']=normalized.split('.');
       return (BigInt(whole)*100000000n+BigInt(frac.padEnd(8,'0'))).toString();

@@ -1,4 +1,30 @@
-# Release artifacts / Artefactos de distribución — 2.17.1
+# Release artifacts / Artefactos de distribución — 2.18
+
+| Artifact | SHA-256 |
+| --- | --- |
+| `CashMiner-Windows.zip` | `9bef263f6beaf5036db5c01afd08bffbfb33af98c6e160468957ab76c5f982a3` |
+| `CashMiner-Android-v2.18.apk` | `a295e1ad7d83fa02485b8eb3a292325880dd6f159c3f3d1a57bdf27286e53c2d` |
+
+The Windows package is built from the shared 2.18 runtime source tree using
+`packaging/windows/build.py`. Its manifest records hashes of all 322 delivered
+files and the pinned Python/wheel/compiler inputs; native hashing DLLs are
+retained. Source changes for 2.17.2 and 2.18 are included in this release.
+
+Android updates the Python/UI payload and manifest of the 2.17.2 APK. The latter
+was an incremental update of tested 2170105 described below. DEX, resources and
+native libraries remain byte-identical (32 entries). VersionName: `2.18`;
+versionCode: `2180000`; package: `org.cashminer.android`. Google zipalign and
+apksigner 35.0.0 verified alignment/signatures with the same certificate:
+`5cbdd31329f6e1a7e3bc15751c921f9ac1deeaf7764edbccf1f92f6f3d200091`.
+This is not a fresh Java/native compilation or a phone/emulator test of this APK.
+
+[Detailed 2.18 changes and checks](releases/NOTAS_V2.18.md).
+Private signing keys/passwords, wallet data and build tools are excluded.
+Checksums cover the exact files attached to the experimental v2.18 release.
+
+---
+
+## Historical release artifacts / Artefactos históricos — 2.17.1
 
 The Android APK is retained exactly as tested. The Windows ZIP refreshes only
 MIT/vendor license documents and its manifest; executable, native DLLs and

@@ -6,6 +6,7 @@ P2PKH BCH-only inputs are used, including ordinary 0-conf UTXOs.
 CashToken and immature coinbase UTXOs are excluded. This is an experimental client, NOT a consensus-validating node.
 """
 from __future__ import annotations
+from cashminer.network.chipnet_consensus import coinbase_mature
 from datetime import datetime, timezone
 import logging
 from decimal import Decimal, InvalidOperation
@@ -38,6 +39,8 @@ class WalletSender:
     def parse_amount(text: str) -> int:
         if not isinstance(text,str) or len(text)>32 or not text or any(c not in '0123456789.' for c in text) or text.count('.')>1:
             raise ValueError('Ingresá un importe decimal positivo, sin separadores de miles')
+        if '.' in text and len(text.split('.')[1])>8:
+            raise ValueError('El importe debe tener hasta ocho decimales y ser al menos 546 sats')
         try:
             sats=Decimal(text)*Decimal(100_000_000)
         except InvalidOperation as exc:
@@ -107,7 +110,7 @@ class WalletSender:
             candidates=[]
             for u in raw_items:
                 if (u['tokens'] or
-                    (u['coinbase'] and (u['height']<=0 or tip-u['height']+1<100))):
+                    (u['coinbase'] and not coinbase_mature(store.network,u['height'],tip))):
                     continue
                 candidates.append(u)
             if not candidates:raise ValueError('No hay UTXOs gastables según Electrum')

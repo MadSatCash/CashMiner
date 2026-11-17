@@ -42,6 +42,7 @@ from fablous.consensus import (
 from fablous.legacy_reward_wallet import load_or_create_wallet
 from fablous.headers import TempnetHeaderClient
 from native_headers import NativeHeaderClient
+from cashminer.network import chipnet_consensus as chipnet
 from fablous.observer import observe_peers, format_peer_observation, utc_now
 
 from broadcast import (
@@ -1767,6 +1768,10 @@ def verify_rpc_chain(rpc: RPCClient, network: str) -> None:
     found = rpc.call('getblockhash', [height])
     if not isinstance(found, str) or found.lower() != expected:
         raise RuntimeError(f'Nodo RPC incompatible con {network}: checkpoint {height} no coincide')
+    if network=='chipnet':
+        for height,expected in chipnet.POST_UPGRADE_CHECKPOINTS:
+            if rpc.call('getblockhash',[height])!=expected:
+                raise RuntimeError(f'Nodo RPC no sigue Chipnet Mina: checkpoint {height}')
     log(f'[rpc] {network}: checkpoint {height} coincidente')
 
 
@@ -2055,13 +2060,15 @@ def compute_next_bits_mainnet(parent_height: int, parent_time: int, candidate_ti
     return f'{target_to_bits(max(1, min(target, limit))):08x}'
 
 
-def compute_next_bits_for_network(parent_height: int, parent_time: int, candidate_time: int) -> str:
+def compute_next_bits_for_network(parent_height: int, parent_time: int, candidate_time: int, *, context=None) -> str:
     if NETWORK=='regtest':return '207fffff'  # BCHN: fPowNoRetargeting
     if NETWORK == 'mainnet':
         return compute_next_bits_mainnet(parent_height,parent_time,candidate_time)
     if NETWORK == "tempnet":
         return f"{fablous_expected_bits(parent_height, parent_time, candidate_time):08x}"
-    if NETWORK in ("testnet4", "chipnet"):
+    if NETWORK=='chipnet':
+        return f'{chipnet.expected_bits(parent_height,parent_time,candidate_time,context):08x}'
+    if NETWORK == "testnet4":
         return compute_next_bits_testnet4(parent_height, parent_time, candidate_time)
     if NETWORK == 'testnet3':
         return compute_next_bits_testnet3(parent_height, parent_time, candidate_time)
@@ -2086,7 +2093,7 @@ def tempnet_timing_summary(parent_time: int, candidate_time: int) -> str:
     return f"delta_ntime_padre={elapsed}s | umbral=120s (> estricto) | {state}"
 
 
-def roll_bits_for_ntime(bits_hex, target, target_le32, height, parent_time, ntime):
+def roll_bits_for_ntime(bits_hex, target, target_le32, height, parent_time, ntime, *, context=None):
     """
     Recalcula la dificultad cuando el ntime rola hacia adelante durante el minado.
 
@@ -2109,10 +2116,11 @@ def roll_bits_for_ntime(bits_hex, target, target_le32, height, parent_time, ntim
         parent_height=height - 1,
         parent_time=parent_time,
         candidate_time=ntime,
+        context=context,
     )
     if new_bits == bits_hex:
         return bits_hex, target, target_le32
-    delay_limit = 120 if NETWORK == "tempnet" else 1200 if NETWORK != 'mainnet' else 0
+    delay_limit = 2*context.next_interval if NETWORK=='chipnet' else 120 if NETWORK == "tempnet" else 1200 if NETWORK != 'mainnet' else 0
     log(
         f"[*] Dificultad recalculada por ntime rolado: {bits_hex} -> {new_bits} "
         f"(ntime-padre={ntime - parent_time}s, umbral min-diff={delay_limit}s)"
@@ -2129,7 +2137,9 @@ def target_to_difficulty(target: int) -> float:
     return max_target / target
     
     
-def get_block_subsidy_sats(height: int) -> int:
+def get_block_subsidy_sats(height: int, *, context=None) -> int:
+    if NETWORK=='chipnet':
+        return chipnet.block_subsidy_sats(height,context)
     if NETWORK == "tempnet":
         return fablous_block_subsidy_sats(height)
     halvings = height // (150 if NETWORK=='regtest' else 210_000)
@@ -2185,11 +2195,17 @@ def estimate_block_stats_from_bits(bits_hex: str, hash_rate_hps: float) -> Dict[
         "p_day": p_day,
         "p_month": p_month,
         "p_year": p_year,
+        "target_interval_seconds": 60 if NETWORK=='chipnet' else 600,
+        "p_target_interval": (1.0-math.exp(-hash_rate_hps*(60 if NETWORK=='chipnet' else 600)/hashes_expected)) if hash_rate_hps and hash_rate_hps>0 else 0.0,
     }
 
 
 def log_block_estimate(bits_hex: str, hash_rate_hps: float) -> None:
     est = estimate_block_stats_from_bits(bits_hex, hash_rate_hps)
+    log(
+        f"[est] intervalo_objetivo={est['target_interval_seconds']}s | "
+        f"prob_intervalo={est['p_target_interval'] * 100:.12f}%"
+    )
     log(
         f"[est] dificultad={est['difficulty']:,.0f} | "
         f"hashes_esperados={est['hashes_expected']:.3e} | "
@@ -3017,7 +3033,15 @@ def fetch_testnet_tip_from_electrum() -> Dict[str, Any]:
             if not isinstance(result, dict) or type(result.get('height')) is not int:
                 raise ValueError('servidor devolvió altura inválida')
             height = result['height']
-            minimum_height = (ELECTRUM_FORK_CHECKPOINTS[NETWORK][0] if NETWORK in ELECTRUM_FORK_CHECKPOINTS else
+            if NETWORK=='chipnet':
+                for pinned_height,pinned_hash in chipnet.POST_UPGRADE_CHECKPOINTS:
+                    raw=electrum_request(host,port,'blockchain.block.header',[pinned_height],
+                                         use_ssl=True,timeout=cfg['electrum_timeout'])
+                    if (not isinstance(raw,str) or len(raw)!=160 or
+                            format_hash_le_as_be_hex(sha256d(bytes.fromhex(raw)))!=pinned_hash):
+                        raise ValueError(f'Electrum no sigue Chipnet Mina: checkpoint {pinned_height}')
+            minimum_height = (chipnet.POST_UPGRADE_CHECKPOINTS[-1][0] if NETWORK=='chipnet' else
+                              ELECTRUM_FORK_CHECKPOINTS[NETWORK][0] if NETWORK in ELECTRUM_FORK_CHECKPOINTS else
                               TESTNET3_ASERT_ANCHOR_HEIGHT)
             if not minimum_height <= height <= 4_000_000_000:
                 raise ValueError('altura incompatible con ancla ASERT de '+NETWORK)
@@ -3580,7 +3604,9 @@ def build_coinbase_script_sig(height: int, extra_nonce: int, coinbaseaux_flags_h
 
 
 def build_coinbase_tx(height: int, extra_nonce: int, coinbase_value: int, script_pubkey: bytes, coinbaseaux_flags_hex: str = "", outputs=None) -> bytes:
-    version = ser_i32_le(1)
+    # Version 2 avoids Mina's forbidden historical-collision shape even if fees
+    # push outputs above 25 BCH. BIP34 continues to commit the raw block height.
+    version = ser_i32_le(2 if NETWORK=='chipnet' else 1)
     prev_txid = b"\x00" * 32
     prev_vout = b"\xff\xff\xff\xff"
     script_sig = build_coinbase_script_sig(height, extra_nonce, coinbaseaux_flags_hex)
@@ -4775,12 +4801,24 @@ class BCHSoloMiner:
         parent_height = p2p_tip["tip_height"]
         height = parent_height + 1
 
+        self._consensus_context=(self._chipnet_assisted_context(electrum_tip,p2p_tip)
+                                 if NETWORK=='chipnet' else None)
+        if self._consensus_context is not None:
+            parent_height=self._consensus_context.parent_height
+            height=parent_height+1
+            tip_time=self._consensus_context.parent_time
+            prev_hash=self._consensus_context.parent_hash
+            prev_hash_le=bytes.fromhex(prev_hash)[::-1]
+            curtime=max(int(time.time()),self._consensus_context.parent_mtp+1)
+            tip.update(tip_hash_hex=prev_hash,tip_hash_le=prev_hash_le,tip_time=tip_time,
+                       tip_height=parent_height,tip_bits_hex=p2p_tip['tip_bits_hex'])
         bits_hex = compute_next_bits_for_network(
             parent_height=parent_height,
             parent_time=tip_time,
             candidate_time=curtime,
+            context=self._consensus_context,
         )
-        subsidy_sats = get_block_subsidy_sats(height)
+        subsidy_sats = get_block_subsidy_sats(height,context=self._consensus_context)
 
         # --- Tip watcher: instancia unica, rebaselineada por template ---
         # Baseline = padre P2P (sobre el que MINAMOS). Al watcher le llegan
@@ -4831,6 +4869,7 @@ class BCHSoloMiner:
             try:
                 other_txs_hex, other_txs_hashes_le, total_fees = select_mempool_txs_for_block(
                     p2p_tip.get("compatible_peers") or [],
+                    max_block_bytes=chipnet.conservative_block_size(self._consensus_context) if NETWORK=='chipnet' else None,
                     abort_event=self.invalidator.invalidate_event,
                     coinbase_reserved_bytes=(1100 if len(self.reward_splits)>1 else COINBASE_RESERVED_BYTES),
                 )
@@ -4875,7 +4914,8 @@ class BCHSoloMiner:
 
         log("[*] Delegando al motor real de minado...")
 
-        if self.cuda_scanner and self.cuda_scanner.available and GPU_ENABLED:
+        if (self._p2p_has_gpu() if NETWORK=='chipnet' else
+                self.cuda_scanner and self.cuda_scanner.available and GPU_ENABLED):
             return self.mine_template_hybrid_cpu_cuda(
                 height=height,
                 prev_hash=prev_hash,
@@ -5291,7 +5331,8 @@ class BCHSoloMiner:
             # bits/target acá para no emitir el header con la dificultad vieja
             # (la red lo rechazaría). No-op salvo en el cruce; None => path GBT.
             bits_hex, target, target_le32 = roll_bits_for_ntime(
-                bits_hex, target, target_le32, height, parent_time, ntime)
+                bits_hex, target, target_le32, height, parent_time, ntime,
+                context=getattr(self,"_consensus_context",None))
             coinbase_tx = self.build_reward_coinbase(height, extra_nonce, coinbase_value, coinbaseaux_flags_hex)
             coinbase_hash_le = sha256d(coinbase_tx)
             merkle_root_le = merkle_root_from_tx_hashes([coinbase_hash_le] + other_txs_hashes_le)
@@ -5423,7 +5464,8 @@ class BCHSoloMiner:
             # bits/target acá para no emitir el header con la dificultad vieja
             # (la red lo rechazaría). No-op salvo en el cruce; None => path GBT.
             bits_hex, target, target_le32 = roll_bits_for_ntime(
-                bits_hex, target, target_le32, height, parent_time, ntime)
+                bits_hex, target, target_le32, height, parent_time, ntime,
+                context=getattr(self,"_consensus_context",None))
             coinbase_tx = self.build_reward_coinbase(height, extra_nonce, coinbase_value, coinbaseaux_flags_hex)
             coinbase_hash_le = sha256d(coinbase_tx)
             merkle_root_le = merkle_root_from_tx_hashes([coinbase_hash_le] + other_txs_hashes_le)
@@ -6069,7 +6111,8 @@ class BCHSoloMiner:
             # bits/target acá para no emitir el header con la dificultad vieja
             # (la red lo rechazaría). No-op salvo en el cruce; None => path GBT.
             bits_hex, target, target_le32 = roll_bits_for_ntime(
-                bits_hex, target, target_le32, height, parent_time, ntime)
+                bits_hex, target, target_le32, height, parent_time, ntime,
+                context=getattr(self,"_consensus_context",None))
             coinbase_tx = self.build_reward_coinbase(height, extra_nonce, coinbase_value, coinbaseaux_flags_hex)
             coinbase_hash_le = sha256d(coinbase_tx)
             merkle_root_le = merkle_root_from_tx_hashes([coinbase_hash_le] + other_txs_hashes_le)
@@ -6250,6 +6293,25 @@ class BCHSoloMiner:
             f"{TEMPNET_TIPWATCH_INTERVAL_SECONDS:g}s, refresco de ntime cada "
             f"{TEMPNET_TEMPLATE_REFRESH_SECONDS}s")
 
+    def _chipnet_assisted_context(self,electrum_tip,p2p_tip):
+        peers=p2p_tip.get('compatible_peers') or []
+        cache_root=os.environ.get('CASHMINER2_HEADER_CACHE_DIR')
+        if not hasattr(self,'_chipnet_verified_headers'):
+            self._chipnet_verified_headers=NativeHeaderClient('chipnet',peers,compute_next_bits_for_network,
+                cache_path=os.path.join(cache_root,'chipnet-assisted.bin') if cache_root else None,log=log)
+        client=self._chipnet_verified_headers
+        client.peers=tuple(peers)
+        def request(method,params):
+            return electrum_request(electrum_tip['electrum_host'],electrum_tip['electrum_port'],
+                method,params,use_ssl=True,timeout=_tcfg()['electrum_timeout'])
+        client.verify_electrum_chain(request,electrum_tip['tip_height'],electrum_tip['tip_hash_hex'])
+        # Corroborate the highest-work branch, not the tallest advertised tip.
+        tip=client.sync()
+        self._native_require_peers(tip)
+        p2p_tip.update({k:tip[k] for k in ('tip_height','tip_hash_hex','tip_hash_le','tip_time','tip_bits_hex')})
+        p2p_tip['compatible_peers']=list(tip['peers_ok'])
+        return tip['consensus_context']
+
     def _native_require_peers(self,tip):
         hosts={parse_peer_target(p).host for p in tip['peers_ok']}
         required=int(os.environ.get('CASHMINER2_MIN_PEERS','2'))
@@ -6302,8 +6364,9 @@ class BCHSoloMiner:
         self._native_require_peers(tip)
         height=tip['tip_height']+1
         curtime=max(int(time.time()),tip['median_time_past']+1)
-        bits_hex=compute_next_bits_for_network(tip['tip_height'],tip['tip_time'],curtime)
-        subsidy=get_block_subsidy_sats(height)
+        self._consensus_context=tip.get('consensus_context')
+        bits_hex=compute_next_bits_for_network(tip['tip_height'],tip['tip_time'],curtime,context=self._consensus_context)
+        subsidy=get_block_subsidy_sats(height,context=self._consensus_context)
         log(f'[native:template] network={NETWORK} height={height} parent={tip["tip_hash_hex"]} bits={bits_hex} subsidy={subsidy} tx_count=1')
         with self._tempnet_watch_lock:
             self.invalidator.invalidate_event.clear()

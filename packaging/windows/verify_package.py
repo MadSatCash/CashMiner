@@ -1,7 +1,7 @@
 """Integration checks using only the Python runtime in the extracted ZIP.
 
 Run: <package>/_internal/python/python.exe verify_package.py --package <package>
-     --work <temporary directory> --source <Codigo_fuente> [--gui]
+     --work <temporary directory> --source <source repository root> [--gui]
 Only local test services, throwaway data and public test addresses are used.
 """
 from __future__ import annotations

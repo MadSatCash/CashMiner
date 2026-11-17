@@ -14,6 +14,8 @@ import ssl
 import time
 from collections import deque
 from cashminer.wallet.crypto import sha256d
+from cashminer.network.chipnet_consensus import POST_UPGRADE_CHECKPOINTS, bits_to_target, POW_LIMIT
+from concurrent.futures import ThreadPoolExecutor
 
 NETWORK_GENESIS = {
     'mainnet': '000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f',
@@ -136,9 +138,16 @@ class ElectrumClient:
                     sha256d(bytes.fromhex(raw))[::-1].hex() != expected):
                     raise ElectrumError(
                         f'Servidor no pertenece a {self.network}: checkpoint {height} incorrecto')
+            if self.network=='chipnet':
+                for height,expected in POST_UPGRADE_CHECKPOINTS:
+                    raw=self.rpc('blockchain.block.header',[height])
+                    if (not isinstance(raw,str) or len(raw)!=160 or
+                            sha256d(bytes.fromhex(raw))[::-1].hex()!=expected):
+                        raise ElectrumError(f'Servidor no sigue Chipnet Mina: checkpoint {height} incorrecto')
             self.tip = self.rpc('blockchain.headers.subscribe', [])
             if not isinstance(self.tip,dict) or 'height' not in self.tip or 'hex' not in self.tip:
                 raise ElectrumError('El proveedor no respondió con la punta de cadena')
+            if self.network=='chipnet':self._check_chipnet_tip()
             return self
         except Exception:
             self.close()
@@ -264,7 +273,53 @@ class ElectrumClient:
         if not isinstance(height,int) or height<0:
             raise ElectrumError('Altura de cadena inválida')
         blockhash=sha256d(bytes.fromhex(tip['hex']))[::-1].hex()
+        if self.network=='chipnet':self._check_chipnet_tip(height)
         return height,blockhash
+
+    def _check_chipnet_tip(self,height=None):
+        height=self.tip.get('height') if height is None else height
+        if type(height) is not int:raise ElectrumError('Altura Chipnet inválida')
+        if height<POST_UPGRADE_CHECKPOINTS[-1][0]:raise ElectrumError('Electrum Chipnet anterior a Mina')
+        raw=bytes.fromhex(self.tip['hex'])
+        target=bits_to_target(int.from_bytes(raw[72:76],'little'))
+        if target>POW_LIMIT or int.from_bytes(sha256d(raw),'little')>target:
+            raise ElectrumError('PoW inválida en la punta Chipnet de Electrum')
+        if int.from_bytes(raw[68:72],'little')>time.time()+7200:
+            raise ElectrumError('Punta Chipnet adelantada al límite de tiempo')
+
+
+def select_chipnet_servers(candidates,cert_pins=None,*,timeout=6):
+    """Compare hashes at one common height only after all Mina pins pass."""
+    cert_pins=cert_pins or {}
+    def probe(pair):
+        host,port=pair;start=time.monotonic()
+        try:
+            with ElectrumClient('chipnet',host,port,timeout=timeout,cert_sha256=cert_pins.get(pair)) as client:
+                height,blockhash=client.tip_height_hash()
+                return dict(pair=pair,height=height,hash=blockhash,latency=time.monotonic()-start)
+        except (ElectrumError,OSError,ValueError):return None
+    with ThreadPoolExecutor(max_workers=min(4,max(1,len(candidates)))) as pool:
+        valid=[r for r in pool.map(probe,candidates) if r is not None]
+    if not valid:raise ElectrumError('Ningún servidor Electrum sigue Chipnet Mina')
+    common=min(r['height'] for r in valid)
+    def compare(row):
+        pair=row['pair']
+        try:
+            with ElectrumClient('chipnet',*pair,timeout=timeout,cert_sha256=cert_pins.get(pair)) as client:
+                raw=client.rpc('blockchain.block.header',[common])
+                if not isinstance(raw,str) or len(raw)!=160:raise ValueError('Cabecera incomparable')
+                row['comparable']=sha256d(bytes.fromhex(raw))[::-1].hex()
+                return row
+        except (ElectrumError,OSError,ValueError):return None
+    with ThreadPoolExecutor(max_workers=min(4,len(valid))) as pool:
+        checked=[r for r in pool.map(compare,valid) if r is not None]
+    groups={}
+    for row in checked:groups.setdefault(row['comparable'],[]).append(row)
+    ordered=sorted(groups.values(),key=len,reverse=True)
+    if not ordered or (len(ordered)>1 and len(ordered[0])==len(ordered[1])):
+        raise ElectrumError('Ramas Electrum divergentes sin acuerdo suficiente')
+    selected=sorted(ordered[0],key=lambda row:(-row['height'],row['latency']))
+    return [r['pair'] for r in selected],{'comparison_height':common,'validated_servers':len(selected)}
 
 
 def available_servers(network, stored):

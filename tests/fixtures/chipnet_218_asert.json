@@ -1,0 +1,4208 @@
+{
+  "reference_commit": "3e6827e95c7a17497e09ac15556debd116dea1d0",
+  "reference_function": "CalculateASERT_TickBased",
+  "source_sha256": "24339f7adc1cd65caac9ef54fc813e87f1a0c22cf62a14b33004a860fd0e6a24",
+  "cases_compared": 9967,
+  "vectors": [
+    {
+      "height": 325627,
+      "time": 1790714560,
+      "activation_height": null,
+      "candidate_time": 1790714561,
+      "bits": "1c3b0ba4"
+    },
+    {
+      "height": 325727,
+      "time": 1790773837,
+      "activation_height": null,
+      "candidate_time": 1790773838,
+      "bits": "1c335e2c"
+    },
+    {
+      "height": 325827,
+      "time": 1790834623,
+      "activation_height": null,
+      "candidate_time": 1790834624,
+      "bits": "1c3bc404"
+    },
+    {
+      "height": 325927,
+      "time": 1790893610,
+      "activation_height": null,
+      "candidate_time": 1790893611,
+      "bits": "1c312b4e"
+    },
+    {
+      "height": 326027,
+      "time": 1790953842,
+      "activation_height": null,
+      "candidate_time": 1790953843,
+      "bits": "1c336acc"
+    },
+    {
+      "height": 326127,
+      "time": 1791014672,
+      "activation_height": null,
+      "candidate_time": 1791014673,
+      "bits": "1c3c5503"
+    },
+    {
+      "height": 326227,
+      "time": 1791074008,
+      "activation_height": null,
+      "candidate_time": 1791074009,
+      "bits": "1c3516ca"
+    },
+    {
+      "height": 326327,
+      "time": 1791134585,
+      "activation_height": null,
+      "candidate_time": 1791134586,
+      "bits": "1c3b5484"
+    },
+    {
+      "height": 326427,
+      "time": 1791195367,
+      "activation_height": null,
+      "candidate_time": 1791195368,
+      "bits": "1c44f8bb"
+    },
+    {
+      "height": 326527,
+      "time": 1791255561,
+      "activation_height": null,
+      "candidate_time": 1791255562,
+      "bits": "1c479838"
+    },
+    {
+      "height": 326627,
+      "time": 1791314964,
+      "activation_height": null,
+      "candidate_time": 1791314965,
+      "bits": "1c3fd0a0"
+    },
+    {
+      "height": 326727,
+      "time": 1791365529,
+      "activation_height": null,
+      "candidate_time": 1791365530,
+      "bits": "1c0a5fb5"
+    },
+    {
+      "height": 326827,
+      "time": 1791373283,
+      "activation_height": null,
+      "candidate_time": 1791373284,
+      "bits": "1a1d16a2"
+    },
+    {
+      "height": 326927,
+      "time": 1791433987,
+      "activation_height": null,
+      "candidate_time": 1791433988,
+      "bits": "1a214f5e"
+    },
+    {
+      "height": 327027,
+      "time": 1791491415,
+      "activation_height": null,
+      "candidate_time": 1791491416,
+      "bits": "1a144c3b"
+    },
+    {
+      "height": 327127,
+      "time": 1791553009,
+      "activation_height": null,
+      "candidate_time": 1791553010,
+      "bits": "1a1b97c4"
+    },
+    {
+      "height": 327227,
+      "time": 1791611675,
+      "activation_height": null,
+      "candidate_time": 1791611676,
+      "bits": "1a1556ca"
+    },
+    {
+      "height": 327327,
+      "time": 1791672859,
+      "activation_height": null,
+      "candidate_time": 1791672860,
+      "bits": "1a1ace85"
+    },
+    {
+      "height": 327427,
+      "time": 1791732105,
+      "activation_height": null,
+      "candidate_time": 1791732106,
+      "bits": "1a172e58"
+    },
+    {
+      "height": 327527,
+      "time": 1791791872,
+      "activation_height": null,
+      "candidate_time": 1791791873,
+      "bits": "1a1629f9"
+    },
+    {
+      "height": 327627,
+      "time": 1791852337,
+      "activation_height": null,
+      "candidate_time": 1791852338,
+      "bits": "1a183db7"
+    },
+    {
+      "height": 327727,
+      "time": 1791911790,
+      "activation_height": null,
+      "candidate_time": 1791911791,
+      "bits": "1a15d11a"
+    },
+    {
+      "height": 327827,
+      "time": 1791971229,
+      "activation_height": null,
+      "candidate_time": 1791971230,
+      "bits": "1a13959c"
+    },
+    {
+      "height": 327927,
+      "time": 1792033410,
+      "activation_height": null,
+      "candidate_time": 1792033411,
+      "bits": "1a1dcee2"
+    },
+    {
+      "height": 328027,
+      "time": 1792093027,
+      "activation_height": null,
+      "candidate_time": 1792093028,
+      "bits": "1a1bb054"
+    },
+    {
+      "height": 328127,
+      "time": 1792151660,
+      "activation_height": null,
+      "candidate_time": 1792151661,
+      "bits": "1a15470a"
+    },
+    {
+      "height": 328227,
+      "time": 1792213869,
+      "activation_height": null,
+      "candidate_time": 1792213870,
+      "bits": "1a208f7f"
+    },
+    {
+      "height": 328327,
+      "time": 1792270011,
+      "activation_height": null,
+      "candidate_time": 1792270012,
+      "bits": "1a0f7dd8"
+    },
+    {
+      "height": 328427,
+      "time": 1792332712,
+      "activation_height": null,
+      "candidate_time": 1792332713,
+      "bits": "1a1a0ec5"
+    },
+    {
+      "height": 328527,
+      "time": 1792406256,
+      "activation_height": null,
+      "candidate_time": 1792406257,
+      "bits": "1b016187"
+    },
+    {
+      "height": 328627,
+      "time": 1792454621,
+      "activation_height": null,
+      "candidate_time": 1792454622,
+      "bits": "1a25a21a"
+    },
+    {
+      "height": 328727,
+      "time": 1792525777,
+      "activation_height": null,
+      "candidate_time": 1792525778,
+      "bits": "1b014265"
+    },
+    {
+      "height": 328827,
+      "time": 1792632978,
+      "activation_height": null,
+      "candidate_time": 1792632979,
+      "bits": "1c2b8854"
+    },
+    {
+      "height": 328927,
+      "time": 1792674626,
+      "activation_height": null,
+      "candidate_time": 1792674627,
+      "bits": "1c014573"
+    },
+    {
+      "height": 329027,
+      "time": 1792694864,
+      "activation_height": null,
+      "candidate_time": 1792694865,
+      "bits": "1a276ef8"
+    },
+    {
+      "height": 329127,
+      "time": 1792754986,
+      "activation_height": null,
+      "candidate_time": 1792754987,
+      "bits": "1a285e97"
+    },
+    {
+      "height": 329227,
+      "time": 1792810038,
+      "activation_height": null,
+      "candidate_time": 1792810039,
+      "bits": "1a0f9280"
+    },
+    {
+      "height": 329327,
+      "time": 1792871985,
+      "activation_height": null,
+      "candidate_time": 1792871986,
+      "bits": "1a16a6c9"
+    },
+    {
+      "height": 329427,
+      "time": 1792929620,
+      "activation_height": null,
+      "candidate_time": 1792929621,
+      "bits": "1a0e5e69"
+    },
+    {
+      "height": 329527,
+      "time": 1792992841,
+      "activation_height": null,
+      "candidate_time": 1792992842,
+      "bits": "1a1ab6c5"
+    },
+    {
+      "height": 329627,
+      "time": 1793050706,
+      "activation_height": null,
+      "candidate_time": 1793050707,
+      "bits": "1a11b5de"
+    },
+    {
+      "height": 329727,
+      "time": 1793112657,
+      "activation_height": null,
+      "candidate_time": 1793112658,
+      "bits": "1a19c876"
+    },
+    {
+      "height": 329827,
+      "time": 1793172107,
+      "activation_height": null,
+      "candidate_time": 1793172108,
+      "bits": "1a1730a8"
+    },
+    {
+      "height": 329927,
+      "time": 1793241966,
+      "activation_height": null,
+      "candidate_time": 1793241967,
+      "bits": "1b009ac9"
+    },
+    {
+      "height": 330027,
+      "time": 1793293617,
+      "activation_height": null,
+      "candidate_time": 1793293618,
+      "bits": "1a1f04d0"
+    },
+    {
+      "height": 330127,
+      "time": 1793351895,
+      "activation_height": null,
+      "candidate_time": 1793351896,
+      "bits": "1a164319"
+    },
+    {
+      "height": 330227,
+      "time": 1793461502,
+      "activation_height": null,
+      "candidate_time": 1793461503,
+      "bits": "1c04c72b"
+    },
+    {
+      "height": 330327,
+      "time": 1793478430,
+      "activation_height": null,
+      "candidate_time": 1793478431,
+      "bits": "1a4e5a71"
+    },
+    {
+      "height": 330427,
+      "time": 1793539150,
+      "activation_height": null,
+      "candidate_time": 1793539151,
+      "bits": "1a59ff66"
+    },
+    {
+      "height": 330527,
+      "time": 1793592842,
+      "activation_height": null,
+      "candidate_time": 1793592843,
+      "bits": "1a1ab815"
+    },
+    {
+      "height": 330627,
+      "time": 1793653583,
+      "activation_height": null,
+      "candidate_time": 1793653584,
+      "bits": "1a1ed111"
+    },
+    {
+      "height": 330727,
+      "time": 1793714673,
+      "activation_height": null,
+      "candidate_time": 1793714674,
+      "bits": "1a2602d9"
+    },
+    {
+      "height": 330827,
+      "time": 1793777544,
+      "activation_height": null,
+      "candidate_time": 1793777545,
+      "bits": "1a4211fd"
+    },
+    {
+      "height": 330927,
+      "time": 1793832769,
+      "activation_height": null,
+      "candidate_time": 1793832770,
+      "bits": "1a1a5885"
+    },
+    {
+      "height": 331027,
+      "time": 1793898332,
+      "activation_height": null,
+      "candidate_time": 1793898333,
+      "bits": "1a4ce3f3"
+    },
+    {
+      "height": 331127,
+      "time": 1794001621,
+      "activation_height": null,
+      "candidate_time": 1794001622,
+      "bits": "1c04e37b"
+    },
+    {
+      "height": 331227,
+      "time": 1794044178,
+      "activation_height": null,
+      "candidate_time": 1794044179,
+      "bits": "1b2b8854"
+    },
+    {
+      "height": 331327,
+      "time": 1794073512,
+      "activation_height": null,
+      "candidate_time": 1794073513,
+      "bits": "1a1e6621"
+    },
+    {
+      "height": 331427,
+      "time": 1794132969,
+      "activation_height": null,
+      "candidate_time": 1794132970,
+      "bits": "1a1b6194"
+    },
+    {
+      "height": 331527,
+      "time": 1794193927,
+      "activation_height": null,
+      "candidate_time": 1794193928,
+      "bits": "1a20ed5f"
+    },
+    {
+      "height": 331627,
+      "time": 1794253766,
+      "activation_height": null,
+      "candidate_time": 1794253767,
+      "bits": "1a1feb80"
+    },
+    {
+      "height": 331727,
+      "time": 1794316161,
+      "activation_height": null,
+      "candidate_time": 1794316162,
+      "bits": "1a329ecd"
+    },
+    {
+      "height": 331827,
+      "time": 1794397616,
+      "activation_height": null,
+      "candidate_time": 1794397617,
+      "bits": "1b0c4e73"
+    },
+    {
+      "height": 331927,
+      "time": 1794428170,
+      "activation_height": null,
+      "candidate_time": 1794428171,
+      "bits": "1a0addd5"
+    },
+    {
+      "height": 332027,
+      "time": 1794494757,
+      "activation_height": null,
+      "candidate_time": 1794494758,
+      "bits": "1a26a159"
+    },
+    {
+      "height": 332127,
+      "time": 1794554429,
+      "activation_height": null,
+      "candidate_time": 1794554430,
+      "bits": "1a2444bb"
+    },
+    {
+      "height": 332227,
+      "time": 1794612035,
+      "activation_height": null,
+      "candidate_time": 1794612036,
+      "bits": "1a16dee9"
+    },
+    {
+      "height": 332327,
+      "time": 1794671219,
+      "activation_height": null,
+      "candidate_time": 1794671220,
+      "bits": "1a138bfc"
+    },
+    {
+      "height": 332427,
+      "time": 1794733164,
+      "activation_height": null,
+      "candidate_time": 1794733165,
+      "bits": "1a1c6de3"
+    },
+    {
+      "height": 332527,
+      "time": 1794750169,
+      "activation_height": 332450,
+      "candidate_time": 1794750170,
+      "bits": "1b00d873"
+    },
+    {
+      "height": 332627,
+      "time": 1794756255,
+      "activation_height": 332450,
+      "candidate_time": 1794756256,
+      "bits": "1b00dc10"
+    },
+    {
+      "height": 332727,
+      "time": 1794761581,
+      "activation_height": 332450,
+      "candidate_time": 1794761582,
+      "bits": "1b00c14c"
+    },
+    {
+      "height": 332827,
+      "time": 1794767625,
+      "activation_height": 332450,
+      "candidate_time": 1794767626,
+      "bits": "1b00c2f1"
+    },
+    {
+      "height": 332927,
+      "time": 1794774003,
+      "activation_height": 332450,
+      "candidate_time": 1794774004,
+      "bits": "1b00d1a5"
+    },
+    {
+      "height": 333027,
+      "time": 1794780174,
+      "activation_height": 332450,
+      "candidate_time": 1794780175,
+      "bits": "1b00d8a8"
+    },
+    {
+      "height": 333127,
+      "time": 1794786324,
+      "activation_height": 332450,
+      "candidate_time": 1794786325,
+      "bits": "1b00df02"
+    },
+    {
+      "height": 333227,
+      "time": 1794792209,
+      "activation_height": 332450,
+      "candidate_time": 1794792210,
+      "bits": "1b00da20"
+    },
+    {
+      "height": 333327,
+      "time": 1794798166,
+      "activation_height": 332450,
+      "candidate_time": 1794798167,
+      "bits": "1b00d853"
+    },
+    {
+      "height": 333427,
+      "time": 1794804302,
+      "activation_height": 332450,
+      "candidate_time": 1794804303,
+      "bits": "1b00de11"
+    },
+    {
+      "height": 333527,
+      "time": 1794810611,
+      "activation_height": 332450,
+      "candidate_time": 1794810612,
+      "bits": "1b00ebaf"
+    },
+    {
+      "height": 333627,
+      "time": 1794815744,
+      "activation_height": 332450,
+      "candidate_time": 1794815745,
+      "bits": "1b00c775"
+    },
+    {
+      "height": 333727,
+      "time": 1794822278,
+      "activation_height": 332450,
+      "candidate_time": 1794822279,
+      "bits": "1b00dd0b"
+    },
+    {
+      "height": 333827,
+      "time": 1794828343,
+      "activation_height": 332450,
+      "candidate_time": 1794828344,
+      "bits": "1b00dfd3"
+    },
+    {
+      "height": 333927,
+      "time": 1794834294,
+      "activation_height": 332450,
+      "candidate_time": 1794834295,
+      "bits": "1b00ddb9"
+    },
+    {
+      "height": 334027,
+      "time": 1794840329,
+      "activation_height": 332450,
+      "candidate_time": 1794840330,
+      "bits": "1b00df39"
+    },
+    {
+      "height": 334127,
+      "time": 1794846357,
+      "activation_height": 332450,
+      "candidate_time": 1794846358,
+      "bits": "1b00e06e"
+    },
+    {
+      "height": 334227,
+      "time": 1794852546,
+      "activation_height": 332450,
+      "candidate_time": 1794852547,
+      "bits": "1b00e8c0"
+    },
+    {
+      "height": 334327,
+      "time": 1794858329,
+      "activation_height": 332450,
+      "candidate_time": 1794858330,
+      "bits": "1b00df39"
+    },
+    {
+      "height": 334427,
+      "time": 1794864268,
+      "activation_height": 332450,
+      "candidate_time": 1794864269,
+      "bits": "1b00dc9d"
+    },
+    {
+      "height": 334527,
+      "time": 1794870493,
+      "activation_height": 332450,
+      "candidate_time": 1794870494,
+      "bits": "1b00e663"
+    },
+    {
+      "height": 334627,
+      "time": 1794876943,
+      "activation_height": 332450,
+      "candidate_time": 1794876944,
+      "bits": "1b00fb42"
+    },
+    {
+      "height": 334727,
+      "time": 1794883178,
+      "activation_height": 332450,
+      "candidate_time": 1794883179,
+      "bits": "1b0106e6"
+    },
+    {
+      "height": 334827,
+      "time": 1794888699,
+      "activation_height": 332450,
+      "candidate_time": 1794888700,
+      "bits": "1b00efb7"
+    },
+    {
+      "height": 334927,
+      "time": 1794895052,
+      "activation_height": 332450,
+      "candidate_time": 1794895053,
+      "bits": "1b010097"
+    },
+    {
+      "height": 335027,
+      "time": 1794901358,
+      "activation_height": 332450,
+      "candidate_time": 1794901359,
+      "bits": "1b01102e"
+    },
+    {
+      "height": 257162,
+      "time": 1749556130,
+      "activation_height": null,
+      "candidate_time": 1749556131,
+      "bits": "1a00e1f3"
+    },
+    {
+      "height": 332709,
+      "time": 1796566132,
+      "activation_height": null,
+      "candidate_time": 1796566133,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 268774,
+      "time": 1641826222,
+      "activation_height": 57722,
+      "candidate_time": 1641826223,
+      "bits": "1010000"
+    },
+    {
+      "height": 208105,
+      "time": 1719125747,
+      "activation_height": null,
+      "candidate_time": 1719125748,
+      "bits": "1010000"
+    },
+    {
+      "height": 248159,
+      "time": 1744297360,
+      "activation_height": 248159,
+      "candidate_time": 1744297361,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 334952,
+      "time": 1797517586,
+      "activation_height": null,
+      "candidate_time": 1797517587,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 386031,
+      "time": 1828552495,
+      "activation_height": null,
+      "candidate_time": 1828552496,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 71341,
+      "time": 1638117140,
+      "activation_height": 71341,
+      "candidate_time": 1638117141,
+      "bits": "1c0417f3"
+    },
+    {
+      "height": 225380,
+      "time": 1720494824,
+      "activation_height": 205846,
+      "candidate_time": 1720494825,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 281269,
+      "time": 1690087156,
+      "activation_height": 144300,
+      "candidate_time": 1690087157,
+      "bits": "1b0b4e40"
+    },
+    {
+      "height": 218121,
+      "time": 1727222080,
+      "activation_height": null,
+      "candidate_time": 1727222081,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 523133,
+      "time": 1907794478,
+      "activation_height": null,
+      "candidate_time": 1907794479,
+      "bits": "1010000"
+    },
+    {
+      "height": 169112,
+      "time": 1651409706,
+      "activation_height": 88188,
+      "candidate_time": 1651409707,
+      "bits": "1010000"
+    },
+    {
+      "height": 503460,
+      "time": 1821741952,
+      "activation_height": 364851,
+      "candidate_time": 1821741953,
+      "bits": "1010000"
+    },
+    {
+      "height": 143368,
+      "time": 1680129301,
+      "activation_height": 143368,
+      "candidate_time": 1680129302,
+      "bits": "1010000"
+    },
+    {
+      "height": 325775,
+      "time": 1789346785,
+      "activation_height": null,
+      "candidate_time": 1789346786,
+      "bits": "1010000"
+    },
+    {
+      "height": 298624,
+      "time": 1775945199,
+      "activation_height": null,
+      "candidate_time": 1775945200,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 222588,
+      "time": 1674593459,
+      "activation_height": 121872,
+      "candidate_time": 1674593460,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 83183,
+      "time": 1645785678,
+      "activation_height": null,
+      "candidate_time": 1645785679,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 56898,
+      "time": 1630144338,
+      "activation_height": null,
+      "candidate_time": 1630144339,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 138458,
+      "time": 1677292203,
+      "activation_height": 138458,
+      "candidate_time": 1677292204,
+      "bits": "1010000"
+    },
+    {
+      "height": 61381,
+      "time": 1632651718,
+      "activation_height": null,
+      "candidate_time": 1632651719,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 207635,
+      "time": 1632763851,
+      "activation_height": 49395,
+      "candidate_time": 1632763852,
+      "bits": "1010000"
+    },
+    {
+      "height": 501947,
+      "time": 1740958842,
+      "activation_height": 210866,
+      "candidate_time": 1740958843,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 409729,
+      "time": 1811080188,
+      "activation_height": 354060,
+      "candidate_time": 1811080189,
+      "bits": "1c00cc45"
+    },
+    {
+      "height": 47068,
+      "time": 1622281709,
+      "activation_height": 47068,
+      "candidate_time": 1622281710,
+      "bits": "1010000"
+    },
+    {
+      "height": 339449,
+      "time": 1761114156,
+      "activation_height": 269112,
+      "candidate_time": 1761114157,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 190834,
+      "time": 1708407755,
+      "activation_height": 190834,
+      "candidate_time": 1708407756,
+      "bits": "1010000"
+    },
+    {
+      "height": 571178,
+      "time": 1937314920,
+      "activation_height": null,
+      "candidate_time": 1937314921,
+      "bits": "3083877"
+    },
+    {
+      "height": 475261,
+      "time": 1659220532,
+      "activation_height": 67637,
+      "candidate_time": 1659220533,
+      "bits": "1010000"
+    },
+    {
+      "height": 259525,
+      "time": 1750660681,
+      "activation_height": 259525,
+      "candidate_time": 1750660682,
+      "bits": "f117c88"
+    },
+    {
+      "height": 202808,
+      "time": 1715332783,
+      "activation_height": null,
+      "candidate_time": 1715332784,
+      "bits": "1010000"
+    },
+    {
+      "height": 56783,
+      "time": 1627642831,
+      "activation_height": null,
+      "candidate_time": 1627642832,
+      "bits": "1010000"
+    },
+    {
+      "height": 142287,
+      "time": 1680375579,
+      "activation_height": null,
+      "candidate_time": 1680375580,
+      "bits": "1101c82f"
+    },
+    {
+      "height": 132032,
+      "time": 1674750062,
+      "activation_height": null,
+      "candidate_time": 1674750063,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 371485,
+      "time": 1637587917,
+      "activation_height": 36246,
+      "candidate_time": 1637587918,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 88977,
+      "time": 1647880521,
+      "activation_height": 88977,
+      "candidate_time": 1647880522,
+      "bits": "1010000"
+    },
+    {
+      "height": 536002,
+      "time": 1844753890,
+      "activation_height": 401149,
+      "candidate_time": 1844753891,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 257162,
+      "time": 1749556130,
+      "activation_height": null,
+      "candidate_time": 1749556131,
+      "bits": "1a00e1f3"
+    },
+    {
+      "height": 545200,
+      "time": 1921302055,
+      "activation_height": null,
+      "candidate_time": 1921302056,
+      "bits": "1010000"
+    },
+    {
+      "height": 37748,
+      "time": 1617251204,
+      "activation_height": null,
+      "candidate_time": 1617251205,
+      "bits": "302bc05"
+    },
+    {
+      "height": 219955,
+      "time": 1727973251,
+      "activation_height": 219955,
+      "candidate_time": 1727973252,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 217537,
+      "time": 1725964732,
+      "activation_height": 217537,
+      "candidate_time": 1725964733,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 584381,
+      "time": 1945071992,
+      "activation_height": null,
+      "candidate_time": 1945071993,
+      "bits": "1010000"
+    },
+    {
+      "height": 444208,
+      "time": 1680596265,
+      "activation_height": 105747,
+      "candidate_time": 1680596266,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 387977,
+      "time": 1782107920,
+      "activation_height": 300823,
+      "candidate_time": 1782107921,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 522847,
+      "time": 1908097374,
+      "activation_height": null,
+      "candidate_time": 1908097375,
+      "bits": "1010000"
+    },
+    {
+      "height": 450478,
+      "time": 1854519416,
+      "activation_height": 428501,
+      "candidate_time": 1854519417,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 186083,
+      "time": 1708580495,
+      "activation_height": null,
+      "candidate_time": 1708580496,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 274700,
+      "time": 1689987435,
+      "activation_height": 145530,
+      "candidate_time": 1689987436,
+      "bits": "e1b8214"
+    },
+    {
+      "height": 506381,
+      "time": 1900050987,
+      "activation_height": null,
+      "candidate_time": 1900050988,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 545780,
+      "time": 1856576616,
+      "activation_height": 422588,
+      "candidate_time": 1856576617,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 201961,
+      "time": 1674025832,
+      "activation_height": 126028,
+      "candidate_time": 1674025833,
+      "bits": "1010000"
+    },
+    {
+      "height": 358494,
+      "time": 1811428696,
+      "activation_height": null,
+      "candidate_time": 1811428697,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 263914,
+      "time": 1754689093,
+      "activation_height": 263914,
+      "candidate_time": 1754689094,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 67879,
+      "time": 1637689873,
+      "activation_height": 67879,
+      "candidate_time": 1637689874,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 161985,
+      "time": 1630900084,
+      "activation_height": 50374,
+      "candidate_time": 1630900085,
+      "bits": "1010000"
+    },
+    {
+      "height": 152981,
+      "time": 1666703558,
+      "activation_height": 112584,
+      "candidate_time": 1666703559,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 469729,
+      "time": 1796977855,
+      "activation_height": 324081,
+      "candidate_time": 1796977856,
+      "bits": "1010000"
+    },
+    {
+      "height": 361203,
+      "time": 1732367433,
+      "activation_height": 215094,
+      "candidate_time": 1732367434,
+      "bits": "1140000"
+    },
+    {
+      "height": 595208,
+      "time": 1954064399,
+      "activation_height": null,
+      "candidate_time": 1954064400,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 479775,
+      "time": 1691900080,
+      "activation_height": 122068,
+      "candidate_time": 1691900081,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 286262,
+      "time": 1767074371,
+      "activation_height": 286262,
+      "candidate_time": 1767074372,
+      "bits": "1c09fc0e"
+    },
+    {
+      "height": 565094,
+      "time": 1933090866,
+      "activation_height": null,
+      "candidate_time": 1933090867,
+      "bits": "1010000"
+    },
+    {
+      "height": 379870,
+      "time": 1822326300,
+      "activation_height": null,
+      "candidate_time": 1822326301,
+      "bits": "1010000"
+    },
+    {
+      "height": 498340,
+      "time": 1747511308,
+      "activation_height": 228654,
+      "candidate_time": 1747511309,
+      "bits": "1010000"
+    },
+    {
+      "height": 403504,
+      "time": 1835812390,
+      "activation_height": 403504,
+      "candidate_time": 1835812391,
+      "bits": "1010000"
+    },
+    {
+      "height": 311399,
+      "time": 1680295121,
+      "activation_height": 123623,
+      "candidate_time": 1680295122,
+      "bits": "c07529e"
+    },
+    {
+      "height": 210865,
+      "time": 1723082010,
+      "activation_height": 210865,
+      "candidate_time": 1723082011,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 553949,
+      "time": 1667845695,
+      "activation_height": 76160,
+      "candidate_time": 1667845696,
+      "bits": "1010000"
+    },
+    {
+      "height": 299566,
+      "time": 1775238401,
+      "activation_height": 299566,
+      "candidate_time": 1775238402,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 97247,
+      "time": 1651873018,
+      "activation_height": 97247,
+      "candidate_time": 1651873019,
+      "bits": "1010000"
+    },
+    {
+      "height": 208490,
+      "time": 1720445381,
+      "activation_height": null,
+      "candidate_time": 1720445382,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 224448,
+      "time": 1696648580,
+      "activation_height": 164344,
+      "candidate_time": 1696648581,
+      "bits": "1010000"
+    },
+    {
+      "height": 369436,
+      "time": 1684314699,
+      "activation_height": 126657,
+      "candidate_time": 1684314700,
+      "bits": "1010000"
+    },
+    {
+      "height": 75181,
+      "time": 1642010883,
+      "activation_height": 75181,
+      "candidate_time": 1642010884,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 160326,
+      "time": 1690373845,
+      "activation_height": null,
+      "candidate_time": 1690373846,
+      "bits": "1010000"
+    },
+    {
+      "height": 424645,
+      "time": 1850602449,
+      "activation_height": null,
+      "candidate_time": 1850602450,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 27474,
+      "time": 1613060561,
+      "activation_height": null,
+      "candidate_time": 1613060562,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 403612,
+      "time": 1698341539,
+      "activation_height": 147127,
+      "candidate_time": 1698341540,
+      "bits": "6026f02"
+    },
+    {
+      "height": 529291,
+      "time": 1912646218,
+      "activation_height": null,
+      "candidate_time": 1912646219,
+      "bits": "130dd20a"
+    },
+    {
+      "height": 310544,
+      "time": 1635433476,
+      "activation_height": 41793,
+      "candidate_time": 1635433477,
+      "bits": "1010000"
+    },
+    {
+      "height": 496081,
+      "time": 1699782439,
+      "activation_height": 141443,
+      "candidate_time": 1699782440,
+      "bits": "1010000"
+    },
+    {
+      "height": 83659,
+      "time": 1643768650,
+      "activation_height": 83659,
+      "candidate_time": 1643768651,
+      "bits": "1010000"
+    },
+    {
+      "height": 279923,
+      "time": 1764858340,
+      "activation_height": 279923,
+      "candidate_time": 1764858341,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 543962,
+      "time": 1922034917,
+      "activation_height": null,
+      "candidate_time": 1922034918,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 404578,
+      "time": 1702888678,
+      "activation_height": 150620,
+      "candidate_time": 1702888679,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 194951,
+      "time": 1713436879,
+      "activation_height": 194951,
+      "candidate_time": 1713436880,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 251945,
+      "time": 1745261916,
+      "activation_height": null,
+      "candidate_time": 1745261917,
+      "bits": "1010000"
+    },
+    {
+      "height": 497883,
+      "time": 1896006160,
+      "activation_height": null,
+      "candidate_time": 1896006161,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 526341,
+      "time": 1838785502,
+      "activation_height": 395587,
+      "candidate_time": 1838785503,
+      "bits": "1010000"
+    },
+    {
+      "height": 420855,
+      "time": 1848458986,
+      "activation_height": null,
+      "candidate_time": 1848458987,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 46143,
+      "time": 1624750032,
+      "activation_height": null,
+      "candidate_time": 1624750033,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 216728,
+      "time": 1726747577,
+      "activation_height": null,
+      "candidate_time": 1726747578,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 540667,
+      "time": 1774332297,
+      "activation_height": 269048,
+      "candidate_time": 1774332298,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 75483,
+      "time": 1639583260,
+      "activation_height": 75483,
+      "candidate_time": 1639583261,
+      "bits": "1010000"
+    },
+    {
+      "height": 356925,
+      "time": 1810333079,
+      "activation_height": null,
+      "candidate_time": 1810333080,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 401873,
+      "time": 1835674027,
+      "activation_height": null,
+      "candidate_time": 1835674028,
+      "bits": "1070000"
+    },
+    {
+      "height": 51457,
+      "time": 1625307666,
+      "activation_height": 51457,
+      "candidate_time": 1625307667,
+      "bits": "1010000"
+    },
+    {
+      "height": 412528,
+      "time": 1844472224,
+      "activation_height": null,
+      "candidate_time": 1844472225,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 76247,
+      "time": 1640678591,
+      "activation_height": null,
+      "candidate_time": 1640678592,
+      "bits": "e179188"
+    },
+    {
+      "height": 86741,
+      "time": 1646841528,
+      "activation_height": 86741,
+      "candidate_time": 1646841529,
+      "bits": "a070055"
+    },
+    {
+      "height": 314934,
+      "time": 1785704092,
+      "activation_height": null,
+      "candidate_time": 1785704093,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 520032,
+      "time": 1873582347,
+      "activation_height": 459993,
+      "candidate_time": 1873582348,
+      "bits": "1010000"
+    },
+    {
+      "height": 87400,
+      "time": 1647213342,
+      "activation_height": 87400,
+      "candidate_time": 1647213343,
+      "bits": "9131bfe"
+    },
+    {
+      "height": 298838,
+      "time": 1626553041,
+      "activation_height": 25667,
+      "candidate_time": 1626553042,
+      "bits": "9026819"
+    },
+    {
+      "height": 415501,
+      "time": 1659484574,
+      "activation_height": 74600,
+      "candidate_time": 1659484575,
+      "bits": "1010000"
+    },
+    {
+      "height": 282631,
+      "time": 1765631953,
+      "activation_height": 282631,
+      "candidate_time": 1765631954,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 28958,
+      "time": 1614113289,
+      "activation_height": null,
+      "candidate_time": 1614113290,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 359241,
+      "time": 1809949242,
+      "activation_height": null,
+      "candidate_time": 1809949243,
+      "bits": "1010000"
+    },
+    {
+      "height": 537343,
+      "time": 1915965715,
+      "activation_height": null,
+      "candidate_time": 1915965716,
+      "bits": "1010000"
+    },
+    {
+      "height": 412258,
+      "time": 1698821922,
+      "activation_height": 145511,
+      "candidate_time": 1698821923,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 402764,
+      "time": 1836763120,
+      "activation_height": null,
+      "candidate_time": 1836763121,
+      "bits": "141fa390"
+    },
+    {
+      "height": 353820,
+      "time": 1805752111,
+      "activation_height": null,
+      "candidate_time": 1805752112,
+      "bits": "1010000"
+    },
+    {
+      "height": 381394,
+      "time": 1822340248,
+      "activation_height": null,
+      "candidate_time": 1822340249,
+      "bits": "1010000"
+    },
+    {
+      "height": 453053,
+      "time": 1653616298,
+      "activation_height": 60269,
+      "candidate_time": 1653616299,
+      "bits": "1010000"
+    },
+    {
+      "height": 241770,
+      "time": 1740752021,
+      "activation_height": null,
+      "candidate_time": 1740752022,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 316004,
+      "time": 1647103679,
+      "activation_height": 60121,
+      "candidate_time": 1647103680,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 226267,
+      "time": 1731941926,
+      "activation_height": 226267,
+      "candidate_time": 1731941927,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 386373,
+      "time": 1826940996,
+      "activation_height": 386373,
+      "candidate_time": 1826940997,
+      "bits": "150da6b6"
+    },
+    {
+      "height": 232786,
+      "time": 1735672333,
+      "activation_height": null,
+      "candidate_time": 1735672334,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 264284,
+      "time": 1753919668,
+      "activation_height": 264284,
+      "candidate_time": 1753919669,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 149238,
+      "time": 1683157998,
+      "activation_height": null,
+      "candidate_time": 1683157999,
+      "bits": "1010000"
+    },
+    {
+      "height": 266863,
+      "time": 1756275924,
+      "activation_height": 266863,
+      "candidate_time": 1756275925,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 458472,
+      "time": 1870192525,
+      "activation_height": null,
+      "candidate_time": 1870192526,
+      "bits": "144cc973"
+    },
+    {
+      "height": 241840,
+      "time": 1738528658,
+      "activation_height": null,
+      "candidate_time": 1738528659,
+      "bits": "1010000"
+    },
+    {
+      "height": 412595,
+      "time": 1842391352,
+      "activation_height": 412595,
+      "candidate_time": 1842391353,
+      "bits": "b24d8bf"
+    },
+    {
+      "height": 113273,
+      "time": 1661813568,
+      "activation_height": null,
+      "candidate_time": 1661813569,
+      "bits": "1010000"
+    },
+    {
+      "height": 502269,
+      "time": 1898469272,
+      "activation_height": null,
+      "candidate_time": 1898469273,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 447103,
+      "time": 1836777191,
+      "activation_height": 399873,
+      "candidate_time": 1836777192,
+      "bits": "1010000"
+    },
+    {
+      "height": 101014,
+      "time": 1656415639,
+      "activation_height": null,
+      "candidate_time": 1656415640,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 281774,
+      "time": 1764888748,
+      "activation_height": null,
+      "candidate_time": 1764888749,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 562977,
+      "time": 1894181113,
+      "activation_height": 490851,
+      "candidate_time": 1894181114,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 125359,
+      "time": 1672503455,
+      "activation_height": null,
+      "candidate_time": 1672503456,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 164705,
+      "time": 1693338797,
+      "activation_height": null,
+      "candidate_time": 1693338798,
+      "bits": "1010000"
+    },
+    {
+      "height": 552241,
+      "time": 1926873809,
+      "activation_height": null,
+      "candidate_time": 1926873810,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 436322,
+      "time": 1855285314,
+      "activation_height": 436322,
+      "candidate_time": 1855285315,
+      "bits": "1010000"
+    },
+    {
+      "height": 351746,
+      "time": 1808013474,
+      "activation_height": 351746,
+      "candidate_time": 1808013475,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 332709,
+      "time": 1796566132,
+      "activation_height": null,
+      "candidate_time": 1796566133,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 423244,
+      "time": 1848389933,
+      "activation_height": null,
+      "candidate_time": 1848389934,
+      "bits": "1010000"
+    },
+    {
+      "height": 384646,
+      "time": 1826818369,
+      "activation_height": 384646,
+      "candidate_time": 1826818370,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 544086,
+      "time": 1876472930,
+      "activation_height": 461438,
+      "candidate_time": 1876472931,
+      "bits": "50511a7"
+    },
+    {
+      "height": 249290,
+      "time": 1743655878,
+      "activation_height": 249290,
+      "candidate_time": 1743655879,
+      "bits": "1010000"
+    },
+    {
+      "height": 425441,
+      "time": 1665688044,
+      "activation_height": 80873,
+      "candidate_time": 1665688045,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 36443,
+      "time": 1618718708,
+      "activation_height": 36443,
+      "candidate_time": 1618718709,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 453956,
+      "time": 1867391977,
+      "activation_height": null,
+      "candidate_time": 1867391978,
+      "bits": "111ffcc0"
+    },
+    {
+      "height": 284092,
+      "time": 1764967050,
+      "activation_height": null,
+      "candidate_time": 1764967051,
+      "bits": "1010000"
+    },
+    {
+      "height": 341437,
+      "time": 1799294048,
+      "activation_height": null,
+      "candidate_time": 1799294049,
+      "bits": "1010000"
+    },
+    {
+      "height": 34024,
+      "time": 1617469325,
+      "activation_height": null,
+      "candidate_time": 1617469326,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 539052,
+      "time": 1917733223,
+      "activation_height": null,
+      "candidate_time": 1917733224,
+      "bits": "1010000"
+    },
+    {
+      "height": 72871,
+      "time": 1640467392,
+      "activation_height": 72871,
+      "candidate_time": 1640467393,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 63644,
+      "time": 1634821255,
+      "activation_height": 63644,
+      "candidate_time": 1634821256,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 92614,
+      "time": 1649380550,
+      "activation_height": null,
+      "candidate_time": 1649380551,
+      "bits": "1010000"
+    },
+    {
+      "height": 243904,
+      "time": 1741777808,
+      "activation_height": 243904,
+      "candidate_time": 1741777809,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 150916,
+      "time": 1685827530,
+      "activation_height": null,
+      "candidate_time": 1685827531,
+      "bits": "1a223d9d"
+    },
+    {
+      "height": 563700,
+      "time": 1807451136,
+      "activation_height": 332656,
+      "candidate_time": 1807451137,
+      "bits": "1010000"
+    },
+    {
+      "height": 494379,
+      "time": 1776688549,
+      "activation_height": 279733,
+      "candidate_time": 1776688550,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 30862,
+      "time": 1613944752,
+      "activation_height": 30862,
+      "candidate_time": 1613944753,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 35734,
+      "time": 1618512479,
+      "activation_height": null,
+      "candidate_time": 1618512480,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 420903,
+      "time": 1846891256,
+      "activation_height": null,
+      "candidate_time": 1846891257,
+      "bits": "1010000"
+    },
+    {
+      "height": 65349,
+      "time": 1634406214,
+      "activation_height": 65349,
+      "candidate_time": 1634406215,
+      "bits": "1803b2ed"
+    },
+    {
+      "height": 361203,
+      "time": 1647090548,
+      "activation_height": 59064,
+      "candidate_time": 1647090549,
+      "bits": "1010000"
+    },
+    {
+      "height": 271454,
+      "time": 1758733096,
+      "activation_height": null,
+      "candidate_time": 1758733097,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 260103,
+      "time": 1634681770,
+      "activation_height": 40743,
+      "candidate_time": 1634681771,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 472001,
+      "time": 1789232705,
+      "activation_height": 304591,
+      "candidate_time": 1789232706,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 523262,
+      "time": 1869599311,
+      "activation_height": 446504,
+      "candidate_time": 1869599312,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 399628,
+      "time": 1833412339,
+      "activation_height": null,
+      "candidate_time": 1833412340,
+      "bits": "1010000"
+    },
+    {
+      "height": 346664,
+      "time": 1802264023,
+      "activation_height": null,
+      "candidate_time": 1802264024,
+      "bits": "1010000"
+    },
+    {
+      "height": 468066,
+      "time": 1874556428,
+      "activation_height": null,
+      "candidate_time": 1874556429,
+      "bits": "1010000"
+    },
+    {
+      "height": 354935,
+      "time": 1809751217,
+      "activation_height": null,
+      "candidate_time": 1809751218,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 249968,
+      "time": 1746465542,
+      "activation_height": 249968,
+      "candidate_time": 1746465543,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 355345,
+      "time": 1807243227,
+      "activation_height": 355345,
+      "candidate_time": 1807243228,
+      "bits": "1010000"
+    },
+    {
+      "height": 199860,
+      "time": 1716736383,
+      "activation_height": 199860,
+      "candidate_time": 1716736384,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 90090,
+      "time": 1647971576,
+      "activation_height": 90090,
+      "candidate_time": 1647971577,
+      "bits": "1010000"
+    },
+    {
+      "height": 267833,
+      "time": 1757349539,
+      "activation_height": 267833,
+      "candidate_time": 1757349540,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 227909,
+      "time": 1732087666,
+      "activation_height": null,
+      "candidate_time": 1732087667,
+      "bits": "1c7d4002"
+    },
+    {
+      "height": 168986,
+      "time": 1697246913,
+      "activation_height": null,
+      "candidate_time": 1697246914,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 56804,
+      "time": 1630922768,
+      "activation_height": null,
+      "candidate_time": 1630922769,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 110440,
+      "time": 1659999445,
+      "activation_height": null,
+      "candidate_time": 1659999446,
+      "bits": "1010000"
+    },
+    {
+      "height": 321448,
+      "time": 1787307827,
+      "activation_height": 321448,
+      "candidate_time": 1787307828,
+      "bits": "1010000"
+    },
+    {
+      "height": 320751,
+      "time": 1759190014,
+      "activation_height": 266071,
+      "candidate_time": 1759190015,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 503505,
+      "time": 1898754542,
+      "activation_height": null,
+      "candidate_time": 1898754543,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 238277,
+      "time": 1738755975,
+      "activation_height": 238277,
+      "candidate_time": 1738755976,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 361214,
+      "time": 1814040489,
+      "activation_height": null,
+      "candidate_time": 1814040490,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 344862,
+      "time": 1728013308,
+      "activation_height": 209526,
+      "candidate_time": 1728013309,
+      "bits": "1010000"
+    },
+    {
+      "height": 571779,
+      "time": 1830664120,
+      "activation_height": 372358,
+      "candidate_time": 1830664121,
+      "bits": "1b045a9f"
+    },
+    {
+      "height": 326516,
+      "time": 1789924573,
+      "activation_height": null,
+      "candidate_time": 1789924574,
+      "bits": "1010000"
+    },
+    {
+      "height": 240123,
+      "time": 1738533227,
+      "activation_height": null,
+      "candidate_time": 1738533228,
+      "bits": "1010000"
+    },
+    {
+      "height": 137020,
+      "time": 1678112850,
+      "activation_height": 137020,
+      "candidate_time": 1678112851,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 575390,
+      "time": 1848360092,
+      "activation_height": 403867,
+      "candidate_time": 1848360093,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 505703,
+      "time": 1899734809,
+      "activation_height": null,
+      "candidate_time": 1899734810,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 400189,
+      "time": 1834598516,
+      "activation_height": null,
+      "candidate_time": 1834598517,
+      "bits": "1010000"
+    },
+    {
+      "height": 494554,
+      "time": 1675202704,
+      "activation_height": 96295,
+      "candidate_time": 1675202705,
+      "bits": "1010000"
+    },
+    {
+      "height": 104359,
+      "time": 1658458730,
+      "activation_height": null,
+      "candidate_time": 1658458731,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 42144,
+      "time": 1619771563,
+      "activation_height": 42144,
+      "candidate_time": 1619771564,
+      "bits": "1010000"
+    },
+    {
+      "height": 46531,
+      "time": 1622737575,
+      "activation_height": null,
+      "candidate_time": 1622737576,
+      "bits": "a30d68f"
+    },
+    {
+      "height": 427799,
+      "time": 1852128418,
+      "activation_height": null,
+      "candidate_time": 1852128419,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 582910,
+      "time": 1946214455,
+      "activation_height": null,
+      "candidate_time": 1946214456,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 194200,
+      "time": 1710071320,
+      "activation_height": 194200,
+      "candidate_time": 1710071321,
+      "bits": "1010000"
+    },
+    {
+      "height": 162316,
+      "time": 1689706747,
+      "activation_height": 158885,
+      "candidate_time": 1689706748,
+      "bits": "1010000"
+    },
+    {
+      "height": 283397,
+      "time": 1764507955,
+      "activation_height": null,
+      "candidate_time": 1764507956,
+      "bits": "1010000"
+    },
+    {
+      "height": 147592,
+      "time": 1683854232,
+      "activation_height": null,
+      "candidate_time": 1683854233,
+      "bits": "1b07c6f0"
+    },
+    {
+      "height": 204329,
+      "time": 1717520661,
+      "activation_height": 204329,
+      "candidate_time": 1717520662,
+      "bits": "e3bb8ac"
+    },
+    {
+      "height": 237127,
+      "time": 1738244417,
+      "activation_height": null,
+      "candidate_time": 1738244418,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 377901,
+      "time": 1808613931,
+      "activation_height": 353496,
+      "candidate_time": 1808613932,
+      "bits": "13032e69"
+    },
+    {
+      "height": 291833,
+      "time": 1771149139,
+      "activation_height": null,
+      "candidate_time": 1771149140,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 331932,
+      "time": 1793996731,
+      "activation_height": null,
+      "candidate_time": 1793996732,
+      "bits": "b06cb99"
+    },
+    {
+      "height": 584363,
+      "time": 1785586294,
+      "activation_height": 286440,
+      "candidate_time": 1785586295,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 488044,
+      "time": 1884109452,
+      "activation_height": 479463,
+      "candidate_time": 1884109453,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 194425,
+      "time": 1711393556,
+      "activation_height": null,
+      "candidate_time": 1711393557,
+      "bits": "8009a7d"
+    },
+    {
+      "height": 28648,
+      "time": 1614139240,
+      "activation_height": null,
+      "candidate_time": 1614139241,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 112815,
+      "time": 1661978215,
+      "activation_height": 112815,
+      "candidate_time": 1661978216,
+      "bits": "1010000"
+    },
+    {
+      "height": 64649,
+      "time": 1634590098,
+      "activation_height": 64649,
+      "candidate_time": 1634590099,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 137060,
+      "time": 1678610394,
+      "activation_height": 137060,
+      "candidate_time": 1678610395,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 507743,
+      "time": 1900321586,
+      "activation_height": null,
+      "candidate_time": 1900321587,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 387311,
+      "time": 1828025625,
+      "activation_height": 387311,
+      "candidate_time": 1828025626,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 462003,
+      "time": 1874000449,
+      "activation_height": null,
+      "candidate_time": 1874000450,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 112868,
+      "time": 1664291759,
+      "activation_height": 112868,
+      "candidate_time": 1664291760,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 506612,
+      "time": 1899718610,
+      "activation_height": null,
+      "candidate_time": 1899718611,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 105046,
+      "time": 1657221577,
+      "activation_height": null,
+      "candidate_time": 1657221578,
+      "bits": "1010000"
+    },
+    {
+      "height": 331122,
+      "time": 1634719817,
+      "activation_height": 38461,
+      "candidate_time": 1634719818,
+      "bits": "1010000"
+    },
+    {
+      "height": 497081,
+      "time": 1895392221,
+      "activation_height": null,
+      "candidate_time": 1895392222,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 354044,
+      "time": 1673837163,
+      "activation_height": 104432,
+      "candidate_time": 1673837164,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 181299,
+      "time": 1703520994,
+      "activation_height": 181299,
+      "candidate_time": 1703520995,
+      "bits": "80ad533"
+    },
+    {
+      "height": 427275,
+      "time": 1848962182,
+      "activation_height": 420845,
+      "candidate_time": 1848962183,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 397362,
+      "time": 1732445754,
+      "activation_height": 209722,
+      "candidate_time": 1732445755,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 397123,
+      "time": 1802605781,
+      "activation_height": 339340,
+      "candidate_time": 1802605782,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 402612,
+      "time": 1837732435,
+      "activation_height": null,
+      "candidate_time": 1837732436,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 514456,
+      "time": 1902549658,
+      "activation_height": null,
+      "candidate_time": 1902549659,
+      "bits": "1010000"
+    },
+    {
+      "height": 490606,
+      "time": 1764963550,
+      "activation_height": 260272,
+      "candidate_time": 1764963551,
+      "bits": "1035b57a"
+    },
+    {
+      "height": 360724,
+      "time": 1812503602,
+      "activation_height": null,
+      "candidate_time": 1812503603,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 290046,
+      "time": 1769754434,
+      "activation_height": 290046,
+      "candidate_time": 1769754435,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 264959,
+      "time": 1635849979,
+      "activation_height": 44831,
+      "candidate_time": 1635849980,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 452085,
+      "time": 1868282635,
+      "activation_height": null,
+      "candidate_time": 1868282636,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 442209,
+      "time": 1859861714,
+      "activation_height": null,
+      "candidate_time": 1859861715,
+      "bits": "1010000"
+    },
+    {
+      "height": 218088,
+      "time": 1727804639,
+      "activation_height": 218088,
+      "candidate_time": 1727804640,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 587493,
+      "time": 1863254890,
+      "activation_height": 430730,
+      "candidate_time": 1863254891,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 534854,
+      "time": 1917484916,
+      "activation_height": null,
+      "candidate_time": 1917484917,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 268774,
+      "time": 1641826222,
+      "activation_height": 57722,
+      "candidate_time": 1641826223,
+      "bits": "1010000"
+    },
+    {
+      "height": 370999,
+      "time": 1816438689,
+      "activation_height": null,
+      "candidate_time": 1816438690,
+      "bits": "1010000"
+    },
+    {
+      "height": 77817,
+      "time": 1643370287,
+      "activation_height": null,
+      "candidate_time": 1643370288,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 253326,
+      "time": 1748586364,
+      "activation_height": 253326,
+      "candidate_time": 1748586365,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 216845,
+      "time": 1724931263,
+      "activation_height": 216845,
+      "candidate_time": 1724931264,
+      "bits": "b054811"
+    },
+    {
+      "height": 456061,
+      "time": 1770574012,
+      "activation_height": 273924,
+      "candidate_time": 1770574013,
+      "bits": "1b11dd40"
+    },
+    {
+      "height": 375682,
+      "time": 1820687953,
+      "activation_height": 375682,
+      "candidate_time": 1820687954,
+      "bits": "1b019125"
+    },
+    {
+      "height": 245119,
+      "time": 1742073548,
+      "activation_height": null,
+      "candidate_time": 1742073549,
+      "bits": "110167d9"
+    },
+    {
+      "height": 480871,
+      "time": 1885446195,
+      "activation_height": null,
+      "candidate_time": 1885446196,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 313815,
+      "time": 1649808944,
+      "activation_height": 69153,
+      "candidate_time": 1649808945,
+      "bits": "1010000"
+    },
+    {
+      "height": 352990,
+      "time": 1706909889,
+      "activation_height": 165259,
+      "candidate_time": 1706909890,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 53468,
+      "time": 1625649344,
+      "activation_height": 53468,
+      "candidate_time": 1625649345,
+      "bits": "1010000"
+    },
+    {
+      "height": 87927,
+      "time": 1648535633,
+      "activation_height": null,
+      "candidate_time": 1648535634,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 381994,
+      "time": 1643061816,
+      "activation_height": 48378,
+      "candidate_time": 1643061817,
+      "bits": "1010000"
+    },
+    {
+      "height": 369115,
+      "time": 1816870532,
+      "activation_height": 369115,
+      "candidate_time": 1816870533,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 505795,
+      "time": 1722514935,
+      "activation_height": 181442,
+      "candidate_time": 1722514936,
+      "bits": "1010000"
+    },
+    {
+      "height": 303779,
+      "time": 1775982443,
+      "activation_height": 303639,
+      "candidate_time": 1775982444,
+      "bits": "1010000"
+    },
+    {
+      "height": 97954,
+      "time": 1655295530,
+      "activation_height": null,
+      "candidate_time": 1655295531,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 49063,
+      "time": 1626764444,
+      "activation_height": 49063,
+      "candidate_time": 1626764445,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 129170,
+      "time": 1672454182,
+      "activation_height": 129170,
+      "candidate_time": 1672454183,
+      "bits": "f3d214a"
+    },
+    {
+      "height": 585528,
+      "time": 1945185660,
+      "activation_height": null,
+      "candidate_time": 1945185661,
+      "bits": "1010000"
+    },
+    {
+      "height": 439787,
+      "time": 1656278543,
+      "activation_height": 60441,
+      "candidate_time": 1656278544,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 448342,
+      "time": 1652385344,
+      "activation_height": 58563,
+      "candidate_time": 1652385345,
+      "bits": "1010000"
+    },
+    {
+      "height": 527801,
+      "time": 1910164914,
+      "activation_height": null,
+      "candidate_time": 1910164915,
+      "bits": "1010000"
+    },
+    {
+      "height": 568004,
+      "time": 1934493236,
+      "activation_height": null,
+      "candidate_time": 1934493237,
+      "bits": "1010000"
+    },
+    {
+      "height": 498240,
+      "time": 1893098373,
+      "activation_height": null,
+      "candidate_time": 1893098374,
+      "bits": "1010000"
+    },
+    {
+      "height": 86374,
+      "time": 1646338297,
+      "activation_height": 86374,
+      "candidate_time": 1646338298,
+      "bits": "1010000"
+    },
+    {
+      "height": 238018,
+      "time": 1739137092,
+      "activation_height": 238018,
+      "candidate_time": 1739137093,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 447316,
+      "time": 1864138921,
+      "activation_height": null,
+      "candidate_time": 1864138922,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 219161,
+      "time": 1724995758,
+      "activation_height": null,
+      "candidate_time": 1724995759,
+      "bits": "1010000"
+    },
+    {
+      "height": 475790,
+      "time": 1732241469,
+      "activation_height": 201569,
+      "candidate_time": 1732241470,
+      "bits": "c01957c"
+    },
+    {
+      "height": 293011,
+      "time": 1769366646,
+      "activation_height": null,
+      "candidate_time": 1769366647,
+      "bits": "1010000"
+    },
+    {
+      "height": 122828,
+      "time": 1669503371,
+      "activation_height": 122828,
+      "candidate_time": 1669503372,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 551864,
+      "time": 1927592305,
+      "activation_height": null,
+      "candidate_time": 1927592306,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 26387,
+      "time": 1610839884,
+      "activation_height": null,
+      "candidate_time": 1610839885,
+      "bits": "110414f7"
+    },
+    {
+      "height": 338742,
+      "time": 1798907163,
+      "activation_height": 338742,
+      "candidate_time": 1798907164,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 218251,
+      "time": 1724345013,
+      "activation_height": null,
+      "candidate_time": 1724345014,
+      "bits": "1010000"
+    },
+    {
+      "height": 275503,
+      "time": 1762264506,
+      "activation_height": null,
+      "candidate_time": 1762264507,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 518704,
+      "time": 1907394856,
+      "activation_height": null,
+      "candidate_time": 1907394857,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 493726,
+      "time": 1667874010,
+      "activation_height": 79658,
+      "candidate_time": 1667874011,
+      "bits": "19171cdc"
+    },
+    {
+      "height": 556519,
+      "time": 1779568060,
+      "activation_height": 279200,
+      "candidate_time": 1779568061,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 520902,
+      "time": 1725537489,
+      "activation_height": 184154,
+      "candidate_time": 1725537490,
+      "bits": "b71c84e"
+    },
+    {
+      "height": 457696,
+      "time": 1664091083,
+      "activation_height": 73669,
+      "candidate_time": 1664091084,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 70643,
+      "time": 1636638118,
+      "activation_height": 70643,
+      "candidate_time": 1636638119,
+      "bits": "1010000"
+    },
+    {
+      "height": 203824,
+      "time": 1719174652,
+      "activation_height": null,
+      "candidate_time": 1719174653,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 216287,
+      "time": 1724067313,
+      "activation_height": 216287,
+      "candidate_time": 1724067314,
+      "bits": "1010000"
+    },
+    {
+      "height": 577655,
+      "time": 1667008479,
+      "activation_height": 66054,
+      "candidate_time": 1667008480,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 567804,
+      "time": 1695239268,
+      "activation_height": 118938,
+      "candidate_time": 1695239269,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 501353,
+      "time": 1895293684,
+      "activation_height": null,
+      "candidate_time": 1895293685,
+      "bits": "1010000"
+    },
+    {
+      "height": 225549,
+      "time": 1730815027,
+      "activation_height": 223915,
+      "candidate_time": 1730815028,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 147028,
+      "time": 1682650930,
+      "activation_height": null,
+      "candidate_time": 1682650931,
+      "bits": "1010000"
+    },
+    {
+      "height": 510420,
+      "time": 1817500154,
+      "activation_height": 357705,
+      "candidate_time": 1817500155,
+      "bits": "1010000"
+    },
+    {
+      "height": 498542,
+      "time": 1886118271,
+      "activation_height": 486662,
+      "candidate_time": 1886118272,
+      "bits": "1010000"
+    },
+    {
+      "height": 463926,
+      "time": 1666624112,
+      "activation_height": 81428,
+      "candidate_time": 1666624113,
+      "bits": "b016ae6"
+    },
+    {
+      "height": 191147,
+      "time": 1708845251,
+      "activation_height": 191147,
+      "candidate_time": 1708845252,
+      "bits": "1010000"
+    },
+    {
+      "height": 436593,
+      "time": 1842792826,
+      "activation_height": 407020,
+      "candidate_time": 1842792827,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 569146,
+      "time": 1892727281,
+      "activation_height": 484768,
+      "candidate_time": 1892727282,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 444567,
+      "time": 1863225491,
+      "activation_height": null,
+      "candidate_time": 1863225492,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 46650,
+      "time": 1621606715,
+      "activation_height": null,
+      "candidate_time": 1621606716,
+      "bits": "1010000"
+    },
+    {
+      "height": 66818,
+      "time": 1637302880,
+      "activation_height": 66818,
+      "candidate_time": 1637302881,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 130718,
+      "time": 1675375725,
+      "activation_height": null,
+      "candidate_time": 1675375726,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 536761,
+      "time": 1705460495,
+      "activation_height": 140717,
+      "candidate_time": 1705460496,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 560679,
+      "time": 1930597931,
+      "activation_height": null,
+      "candidate_time": 1930597932,
+      "bits": "1010000"
+    },
+    {
+      "height": 50837,
+      "time": 1627711444,
+      "activation_height": 50837,
+      "candidate_time": 1627711445,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 446253,
+      "time": 1863868163,
+      "activation_height": null,
+      "candidate_time": 1863868164,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 576810,
+      "time": 1818923224,
+      "activation_height": 348898,
+      "candidate_time": 1818923225,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 581445,
+      "time": 1945538433,
+      "activation_height": null,
+      "candidate_time": 1945538434,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 578483,
+      "time": 1814658210,
+      "activation_height": 342604,
+      "candidate_time": 1814658211,
+      "bits": "f0a93c5"
+    },
+    {
+      "height": 90403,
+      "time": 1647872950,
+      "activation_height": 90403,
+      "candidate_time": 1647872951,
+      "bits": "1010000"
+    },
+    {
+      "height": 433213,
+      "time": 1856493995,
+      "activation_height": null,
+      "candidate_time": 1856493996,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 194659,
+      "time": 1710621670,
+      "activation_height": 194659,
+      "candidate_time": 1710621671,
+      "bits": "1010000"
+    },
+    {
+      "height": 506332,
+      "time": 1884311236,
+      "activation_height": 477067,
+      "candidate_time": 1884311237,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 204224,
+      "time": 1707306082,
+      "activation_height": 183057,
+      "candidate_time": 1707306083,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 394628,
+      "time": 1830682483,
+      "activation_height": 394628,
+      "candidate_time": 1830682484,
+      "bits": "1010000"
+    },
+    {
+      "height": 223297,
+      "time": 1730328473,
+      "activation_height": 223297,
+      "candidate_time": 1730328474,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 167784,
+      "time": 1697597743,
+      "activation_height": null,
+      "candidate_time": 1697597744,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 447544,
+      "time": 1700896038,
+      "activation_height": 149287,
+      "candidate_time": 1700896039,
+      "bits": "1010000"
+    },
+    {
+      "height": 217738,
+      "time": 1725963461,
+      "activation_height": null,
+      "candidate_time": 1725963462,
+      "bits": "1c01f484"
+    },
+    {
+      "height": 560707,
+      "time": 1843037489,
+      "activation_height": 396740,
+      "candidate_time": 1843037490,
+      "bits": "16549a1b"
+    },
+    {
+      "height": 55574,
+      "time": 1629854896,
+      "activation_height": null,
+      "candidate_time": 1629854897,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 390962,
+      "time": 1742149218,
+      "activation_height": 227427,
+      "candidate_time": 1742149219,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 402064,
+      "time": 1835471882,
+      "activation_height": null,
+      "candidate_time": 1835471883,
+      "bits": "1010000"
+    },
+    {
+      "height": 293388,
+      "time": 1771802849,
+      "activation_height": 293388,
+      "candidate_time": 1771802850,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 575900,
+      "time": 1940292606,
+      "activation_height": null,
+      "candidate_time": 1940292607,
+      "bits": "80906f6"
+    },
+    {
+      "height": 196759,
+      "time": 1659204179,
+      "activation_height": 93817,
+      "candidate_time": 1659204180,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 56223,
+      "time": 1628279476,
+      "activation_height": 56223,
+      "candidate_time": 1628279477,
+      "bits": "11e0000"
+    },
+    {
+      "height": 137612,
+      "time": 1677315998,
+      "activation_height": null,
+      "candidate_time": 1677315999,
+      "bits": "8045623"
+    },
+    {
+      "height": 477985,
+      "time": 1883273697,
+      "activation_height": null,
+      "candidate_time": 1883273698,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 293899,
+      "time": 1770109336,
+      "activation_height": null,
+      "candidate_time": 1770109337,
+      "bits": "1010000"
+    },
+    {
+      "height": 127316,
+      "time": 1670027982,
+      "activation_height": null,
+      "candidate_time": 1670027983,
+      "bits": "1010000"
+    },
+    {
+      "height": 63014,
+      "time": 1634640146,
+      "activation_height": 63014,
+      "candidate_time": 1634640147,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 314276,
+      "time": 1784720663,
+      "activation_height": 314276,
+      "candidate_time": 1784720664,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 489063,
+      "time": 1721438920,
+      "activation_height": 178376,
+      "candidate_time": 1721438921,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 188658,
+      "time": 1708387177,
+      "activation_height": null,
+      "candidate_time": 1708387178,
+      "bits": "17284cb7"
+    },
+    {
+      "height": 252841,
+      "time": 1668423460,
+      "activation_height": 109165,
+      "candidate_time": 1668423461,
+      "bits": "1010000"
+    },
+    {
+      "height": 453318,
+      "time": 1665833666,
+      "activation_height": 78193,
+      "candidate_time": 1665833667,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 191973,
+      "time": 1711310632,
+      "activation_height": null,
+      "candidate_time": 1711310633,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 447226,
+      "time": 1668346630,
+      "activation_height": 83346,
+      "candidate_time": 1668346631,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 394825,
+      "time": 1832763697,
+      "activation_height": 394825,
+      "candidate_time": 1832763698,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 314856,
+      "time": 1783646222,
+      "activation_height": 314856,
+      "candidate_time": 1783646223,
+      "bits": "801ecd3"
+    },
+    {
+      "height": 208105,
+      "time": 1719125747,
+      "activation_height": null,
+      "candidate_time": 1719125748,
+      "bits": "1010000"
+    },
+    {
+      "height": 507873,
+      "time": 1793618504,
+      "activation_height": 313309,
+      "candidate_time": 1793618505,
+      "bits": "1010000"
+    },
+    {
+      "height": 436481,
+      "time": 1859149602,
+      "activation_height": null,
+      "candidate_time": 1859149603,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 343997,
+      "time": 1799991607,
+      "activation_height": null,
+      "candidate_time": 1799991608,
+      "bits": "1010000"
+    },
+    {
+      "height": 162719,
+      "time": 1691963716,
+      "activation_height": null,
+      "candidate_time": 1691963717,
+      "bits": "1010000"
+    },
+    {
+      "height": 25916,
+      "time": 1612879625,
+      "activation_height": 25916,
+      "candidate_time": 1612879626,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 137987,
+      "time": 1677376390,
+      "activation_height": null,
+      "candidate_time": 1677376391,
+      "bits": "214fe00"
+    },
+    {
+      "height": 258084,
+      "time": 1661652251,
+      "activation_height": 94651,
+      "candidate_time": 1661652252,
+      "bits": "1306696b"
+    },
+    {
+      "height": 192713,
+      "time": 1710096936,
+      "activation_height": null,
+      "candidate_time": 1710096937,
+      "bits": "1010000"
+    },
+    {
+      "height": 340281,
+      "time": 1707996117,
+      "activation_height": 169117,
+      "candidate_time": 1707996118,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 523408,
+      "time": 1908312683,
+      "activation_height": null,
+      "candidate_time": 1908312684,
+      "bits": "1010000"
+    },
+    {
+      "height": 70711,
+      "time": 1637240829,
+      "activation_height": 70711,
+      "candidate_time": 1637240830,
+      "bits": "b00c3d8"
+    },
+    {
+      "height": 352120,
+      "time": 1808006659,
+      "activation_height": null,
+      "candidate_time": 1808006660,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 477609,
+      "time": 1783866912,
+      "activation_height": 296707,
+      "candidate_time": 1783866913,
+      "bits": "110108a1"
+    },
+    {
+      "height": 371586,
+      "time": 1818947532,
+      "activation_height": null,
+      "candidate_time": 1818947533,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 578104,
+      "time": 1941576389,
+      "activation_height": null,
+      "candidate_time": 1941576390,
+      "bits": "7015d00"
+    },
+    {
+      "height": 194191,
+      "time": 1711324974,
+      "activation_height": 194191,
+      "candidate_time": 1711324975,
+      "bits": "a5d3c62"
+    },
+    {
+      "height": 280359,
+      "time": 1762702165,
+      "activation_height": 280359,
+      "candidate_time": 1762702166,
+      "bits": "1010000"
+    },
+    {
+      "height": 37678,
+      "time": 1618465871,
+      "activation_height": 37678,
+      "candidate_time": 1618465872,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 425349,
+      "time": 1849777844,
+      "activation_height": null,
+      "candidate_time": 1849777845,
+      "bits": "2010300"
+    },
+    {
+      "height": 585186,
+      "time": 1947613284,
+      "activation_height": null,
+      "candidate_time": 1947613285,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 557333,
+      "time": 1699431126,
+      "activation_height": 131788,
+      "candidate_time": 1699431127,
+      "bits": "b06dd79"
+    },
+    {
+      "height": 28651,
+      "time": 1612694543,
+      "activation_height": null,
+      "candidate_time": 1612694544,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 244195,
+      "time": 1742007840,
+      "activation_height": null,
+      "candidate_time": 1742007841,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 485947,
+      "time": 1810266636,
+      "activation_height": 340593,
+      "candidate_time": 1810266637,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 43463,
+      "time": 1619523848,
+      "activation_height": 43463,
+      "candidate_time": 1619523849,
+      "bits": "1010000"
+    },
+    {
+      "height": 424344,
+      "time": 1850506556,
+      "activation_height": 424344,
+      "candidate_time": 1850506557,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 300514,
+      "time": 1775405909,
+      "activation_height": 300514,
+      "candidate_time": 1775405910,
+      "bits": "144eee41"
+    },
+    {
+      "height": 384031,
+      "time": 1824100377,
+      "activation_height": null,
+      "candidate_time": 1824100378,
+      "bits": "1010000"
+    },
+    {
+      "height": 150818,
+      "time": 1684541294,
+      "activation_height": null,
+      "candidate_time": 1684541295,
+      "bits": "1010000"
+    },
+    {
+      "height": 419324,
+      "time": 1845336243,
+      "activation_height": null,
+      "candidate_time": 1845336244,
+      "bits": "1010000"
+    },
+    {
+      "height": 97283,
+      "time": 1654461131,
+      "activation_height": null,
+      "candidate_time": 1654461132,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 327485,
+      "time": 1792370268,
+      "activation_height": null,
+      "candidate_time": 1792370269,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 180130,
+      "time": 1679029784,
+      "activation_height": 131960,
+      "candidate_time": 1679029785,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 532070,
+      "time": 1914962029,
+      "activation_height": null,
+      "candidate_time": 1914962030,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 577668,
+      "time": 1684390781,
+      "activation_height": 103660,
+      "candidate_time": 1684390782,
+      "bits": "1010000"
+    },
+    {
+      "height": 485036,
+      "time": 1886794206,
+      "activation_height": null,
+      "candidate_time": 1886794207,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 573717,
+      "time": 1643529380,
+      "activation_height": 23528,
+      "candidate_time": 1643529381,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 307341,
+      "time": 1778358578,
+      "activation_height": null,
+      "candidate_time": 1778358579,
+      "bits": "1010000"
+    },
+    {
+      "height": 423814,
+      "time": 1732805093,
+      "activation_height": 207375,
+      "candidate_time": 1732805094,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 68823,
+      "time": 1634732046,
+      "activation_height": null,
+      "candidate_time": 1634732047,
+      "bits": "1010000"
+    },
+    {
+      "height": 338480,
+      "time": 1799570226,
+      "activation_height": null,
+      "candidate_time": 1799570227,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 415306,
+      "time": 1748876449,
+      "activation_height": 239560,
+      "candidate_time": 1748876450,
+      "bits": "3078168"
+    },
+    {
+      "height": 341021,
+      "time": 1641150122,
+      "activation_height": 50272,
+      "candidate_time": 1641150123,
+      "bits": "1010000"
+    },
+    {
+      "height": 30734,
+      "time": 1615386365,
+      "activation_height": null,
+      "candidate_time": 1615386366,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 534585,
+      "time": 1841693339,
+      "activation_height": 396998,
+      "candidate_time": 1841693340,
+      "bits": "1933c514"
+    },
+    {
+      "height": 97682,
+      "time": 1653996497,
+      "activation_height": 94141,
+      "candidate_time": 1653996498,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 341555,
+      "time": 1799381273,
+      "activation_height": null,
+      "candidate_time": 1799381274,
+      "bits": "1010000"
+    },
+    {
+      "height": 229896,
+      "time": 1734342546,
+      "activation_height": 229896,
+      "candidate_time": 1734342547,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 236027,
+      "time": 1737573623,
+      "activation_height": null,
+      "candidate_time": 1737573624,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 598449,
+      "time": 1952631124,
+      "activation_height": null,
+      "candidate_time": 1952631125,
+      "bits": "1010000"
+    },
+    {
+      "height": 174428,
+      "time": 1644437276,
+      "activation_height": 69294,
+      "candidate_time": 1644437277,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 95123,
+      "time": 1651248506,
+      "activation_height": null,
+      "candidate_time": 1651248507,
+      "bits": "1010000"
+    },
+    {
+      "height": 341056,
+      "time": 1717738588,
+      "activation_height": 188539,
+      "candidate_time": 1717738589,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 309776,
+      "time": 1779512084,
+      "activation_height": 309776,
+      "candidate_time": 1779512085,
+      "bits": "1010000"
+    },
+    {
+      "height": 525615,
+      "time": 1911912347,
+      "activation_height": null,
+      "candidate_time": 1911912348,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 103291,
+      "time": 1656646939,
+      "activation_height": 103291,
+      "candidate_time": 1656646940,
+      "bits": "6012609"
+    },
+    {
+      "height": 115895,
+      "time": 1664455595,
+      "activation_height": null,
+      "candidate_time": 1664455596,
+      "bits": "e026e9d"
+    },
+    {
+      "height": 341965,
+      "time": 1795105212,
+      "activation_height": 333441,
+      "candidate_time": 1795105213,
+      "bits": "1010000"
+    },
+    {
+      "height": 41838,
+      "time": 1618680510,
+      "activation_height": null,
+      "candidate_time": 1618680511,
+      "bits": "1010000"
+    },
+    {
+      "height": 90799,
+      "time": 1651679135,
+      "activation_height": 90799,
+      "candidate_time": 1651679136,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 375527,
+      "time": 1821696929,
+      "activation_height": null,
+      "candidate_time": 1821696930,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 580940,
+      "time": 1801833871,
+      "activation_height": 315600,
+      "candidate_time": 1801833872,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 426823,
+      "time": 1852484788,
+      "activation_height": null,
+      "candidate_time": 1852484789,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 461480,
+      "time": 1870535486,
+      "activation_height": null,
+      "candidate_time": 1870535487,
+      "bits": "1010000"
+    },
+    {
+      "height": 340760,
+      "time": 1801481910,
+      "activation_height": 340760,
+      "candidate_time": 1801481911,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 557572,
+      "time": 1871136513,
+      "activation_height": 452223,
+      "candidate_time": 1871136514,
+      "bits": "1010000"
+    },
+    {
+      "height": 577080,
+      "time": 1943071053,
+      "activation_height": null,
+      "candidate_time": 1943071054,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 28291,
+      "time": 1612812614,
+      "activation_height": 28291,
+      "candidate_time": 1612812615,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 478838,
+      "time": 1868504242,
+      "activation_height": 449823,
+      "candidate_time": 1868504243,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 305812,
+      "time": 1731168096,
+      "activation_height": 214249,
+      "candidate_time": 1731168097,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 506664,
+      "time": 1701625012,
+      "activation_height": 141590,
+      "candidate_time": 1701625013,
+      "bits": "905308d"
+    },
+    {
+      "height": 502631,
+      "time": 1896314054,
+      "activation_height": null,
+      "candidate_time": 1896314055,
+      "bits": "755032a"
+    },
+    {
+      "height": 194136,
+      "time": 1713333637,
+      "activation_height": null,
+      "candidate_time": 1713333638,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 30978,
+      "time": 1613268847,
+      "activation_height": 30978,
+      "candidate_time": 1613268848,
+      "bits": "60771ed"
+    },
+    {
+      "height": 414835,
+      "time": 1796944459,
+      "activation_height": 324416,
+      "candidate_time": 1796944460,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 438296,
+      "time": 1858325054,
+      "activation_height": null,
+      "candidate_time": 1858325055,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 214610,
+      "time": 1722520764,
+      "activation_height": null,
+      "candidate_time": 1722520765,
+      "bits": "1010000"
+    },
+    {
+      "height": 289703,
+      "time": 1770839047,
+      "activation_height": 289703,
+      "candidate_time": 1770839048,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 24726,
+      "time": 1609387610,
+      "activation_height": null,
+      "candidate_time": 1609387611,
+      "bits": "10a0000"
+    },
+    {
+      "height": 556506,
+      "time": 1740182498,
+      "activation_height": 209100,
+      "candidate_time": 1740182499,
+      "bits": "1010000"
+    },
+    {
+      "height": 415733,
+      "time": 1845439059,
+      "activation_height": null,
+      "candidate_time": 1845439060,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 150008,
+      "time": 1685866822,
+      "activation_height": 150008,
+      "candidate_time": 1685866823,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 334274,
+      "time": 1795908952,
+      "activation_height": null,
+      "candidate_time": 1795908953,
+      "bits": "1d00c27d"
+    },
+    {
+      "height": 407363,
+      "time": 1837952177,
+      "activation_height": null,
+      "candidate_time": 1837952178,
+      "bits": "1010000"
+    },
+    {
+      "height": 198191,
+      "time": 1714945170,
+      "activation_height": 198191,
+      "candidate_time": 1714945171,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 475960,
+      "time": 1649134369,
+      "activation_height": 49221,
+      "candidate_time": 1649134370,
+      "bits": "1010000"
+    },
+    {
+      "height": 514246,
+      "time": 1714776389,
+      "activation_height": 161198,
+      "candidate_time": 1714776390,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 234753,
+      "time": 1730776091,
+      "activation_height": 222122,
+      "candidate_time": 1730776092,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 165265,
+      "time": 1694042640,
+      "activation_height": null,
+      "candidate_time": 1694042641,
+      "bits": "d00be56"
+    },
+    {
+      "height": 161734,
+      "time": 1692044942,
+      "activation_height": 161734,
+      "candidate_time": 1692044943,
+      "bits": "11164ab5"
+    },
+    {
+      "height": 435992,
+      "time": 1840467936,
+      "activation_height": 408239,
+      "candidate_time": 1840467937,
+      "bits": "1010000"
+    },
+    {
+      "height": 460999,
+      "time": 1870576505,
+      "activation_height": null,
+      "candidate_time": 1870576506,
+      "bits": "1010000"
+    },
+    {
+      "height": 445111,
+      "time": 1728784815,
+      "activation_height": 200583,
+      "candidate_time": 1728784816,
+      "bits": "1010000"
+    },
+    {
+      "height": 83480,
+      "time": 1646885369,
+      "activation_height": 83480,
+      "candidate_time": 1646885370,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 201738,
+      "time": 1716210985,
+      "activation_height": null,
+      "candidate_time": 1716210986,
+      "bits": "1661dd9e"
+    },
+    {
+      "height": 245863,
+      "time": 1743144425,
+      "activation_height": null,
+      "candidate_time": 1743144426,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 248428,
+      "time": 1746298769,
+      "activation_height": null,
+      "candidate_time": 1746298770,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 418508,
+      "time": 1847668338,
+      "activation_height": null,
+      "candidate_time": 1847668339,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 443193,
+      "time": 1860107424,
+      "activation_height": null,
+      "candidate_time": 1860107425,
+      "bits": "1010000"
+    },
+    {
+      "height": 248159,
+      "time": 1744297360,
+      "activation_height": 248159,
+      "candidate_time": 1744297361,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 378765,
+      "time": 1820693571,
+      "activation_height": null,
+      "candidate_time": 1820693572,
+      "bits": "1010000"
+    },
+    {
+      "height": 205950,
+      "time": 1660126318,
+      "activation_height": 96803,
+      "candidate_time": 1660126319,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 177867,
+      "time": 1666306391,
+      "activation_height": 114884,
+      "candidate_time": 1666306392,
+      "bits": "1010000"
+    },
+    {
+      "height": 192581,
+      "time": 1672123266,
+      "activation_height": 123868,
+      "candidate_time": 1672123267,
+      "bits": "1010000"
+    },
+    {
+      "height": 23456,
+      "time": 1610590296,
+      "activation_height": null,
+      "candidate_time": 1610590297,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 593159,
+      "time": 1950296969,
+      "activation_height": null,
+      "candidate_time": 1950296970,
+      "bits": "1010000"
+    },
+    {
+      "height": 307801,
+      "time": 1779274311,
+      "activation_height": null,
+      "candidate_time": 1779274312,
+      "bits": "300834c"
+    },
+    {
+      "height": 103563,
+      "time": 1658301972,
+      "activation_height": 103563,
+      "candidate_time": 1658301973,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 479690,
+      "time": 1814240398,
+      "activation_height": 349486,
+      "candidate_time": 1814240399,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 141281,
+      "time": 1681420097,
+      "activation_height": null,
+      "candidate_time": 1681420098,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 348180,
+      "time": 1750446613,
+      "activation_height": 249136,
+      "candidate_time": 1750446614,
+      "bits": "1202b281"
+    },
+    {
+      "height": 354293,
+      "time": 1808779676,
+      "activation_height": null,
+      "candidate_time": 1808779677,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 348674,
+      "time": 1802932161,
+      "activation_height": null,
+      "candidate_time": 1802932162,
+      "bits": "1010000"
+    },
+    {
+      "height": 409851,
+      "time": 1842722986,
+      "activation_height": null,
+      "candidate_time": 1842722987,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 181199,
+      "time": 1705264042,
+      "activation_height": 181199,
+      "candidate_time": 1705264043,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 243541,
+      "time": 1743108953,
+      "activation_height": null,
+      "candidate_time": 1743108954,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 383556,
+      "time": 1643519261,
+      "activation_height": 45057,
+      "candidate_time": 1643519262,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 413426,
+      "time": 1842728318,
+      "activation_height": null,
+      "candidate_time": 1842728319,
+      "bits": "51fa080"
+    },
+    {
+      "height": 450894,
+      "time": 1865201574,
+      "activation_height": null,
+      "candidate_time": 1865201575,
+      "bits": "5076690"
+    },
+    {
+      "height": 473945,
+      "time": 1879078825,
+      "activation_height": null,
+      "candidate_time": 1879078826,
+      "bits": "700e61f"
+    },
+    {
+      "height": 24815,
+      "time": 1611863635,
+      "activation_height": 24815,
+      "candidate_time": 1611863636,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 222059,
+      "time": 1727080430,
+      "activation_height": 222059,
+      "candidate_time": 1727080431,
+      "bits": "1010000"
+    },
+    {
+      "height": 585506,
+      "time": 1816230846,
+      "activation_height": 343049,
+      "candidate_time": 1816230847,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 415887,
+      "time": 1844762716,
+      "activation_height": null,
+      "candidate_time": 1844762717,
+      "bits": "1900f361"
+    },
+    {
+      "height": 266970,
+      "time": 1754927628,
+      "activation_height": 266970,
+      "candidate_time": 1754927629,
+      "bits": "8178d70"
+    },
+    {
+      "height": 510494,
+      "time": 1899892051,
+      "activation_height": null,
+      "candidate_time": 1899892052,
+      "bits": "1010000"
+    },
+    {
+      "height": 348631,
+      "time": 1638739081,
+      "activation_height": 45181,
+      "candidate_time": 1638739082,
+      "bits": "1010000"
+    },
+    {
+      "height": 317919,
+      "time": 1746135043,
+      "activation_height": 246380,
+      "candidate_time": 1746135044,
+      "bits": "1010000"
+    },
+    {
+      "height": 181562,
+      "time": 1705901584,
+      "activation_height": null,
+      "candidate_time": 1705901585,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 402670,
+      "time": 1693417053,
+      "activation_height": 133922,
+      "candidate_time": 1693417054,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 464544,
+      "time": 1872494716,
+      "activation_height": null,
+      "candidate_time": 1872494717,
+      "bits": "1010000"
+    },
+    {
+      "height": 470304,
+      "time": 1685026377,
+      "activation_height": 115921,
+      "candidate_time": 1685026378,
+      "bits": "1010000"
+    },
+    {
+      "height": 575809,
+      "time": 1941211813,
+      "activation_height": null,
+      "candidate_time": 1941211814,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 207399,
+      "time": 1641012560,
+      "activation_height": 62515,
+      "candidate_time": 1641012561,
+      "bits": "a5fe410"
+    },
+    {
+      "height": 324350,
+      "time": 1642091081,
+      "activation_height": 46964,
+      "candidate_time": 1642091082,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 286023,
+      "time": 1713111734,
+      "activation_height": 185045,
+      "candidate_time": 1713111735,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 270102,
+      "time": 1755884162,
+      "activation_height": null,
+      "candidate_time": 1755884163,
+      "bits": "1010000"
+    },
+    {
+      "height": 40270,
+      "time": 1618339404,
+      "activation_height": null,
+      "candidate_time": 1618339405,
+      "bits": "1010000"
+    },
+    {
+      "height": 563769,
+      "time": 1863871617,
+      "activation_height": 431789,
+      "candidate_time": 1863871618,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 183883,
+      "time": 1705263046,
+      "activation_height": null,
+      "candidate_time": 1705263047,
+      "bits": "e28d6b7"
+    },
+    {
+      "height": 207042,
+      "time": 1719387572,
+      "activation_height": null,
+      "candidate_time": 1719387573,
+      "bits": "161ff4f0"
+    },
+    {
+      "height": 546704,
+      "time": 1828364461,
+      "activation_height": 369253,
+      "candidate_time": 1828364462,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 374538,
+      "time": 1819069088,
+      "activation_height": null,
+      "candidate_time": 1819069089,
+      "bits": "1010000"
+    },
+    {
+      "height": 588712,
+      "time": 1898046693,
+      "activation_height": 496816,
+      "candidate_time": 1898046694,
+      "bits": "1010000"
+    },
+    {
+      "height": 100269,
+      "time": 1654490406,
+      "activation_height": null,
+      "candidate_time": 1654490407,
+      "bits": "1010000"
+    },
+    {
+      "height": 246339,
+      "time": 1742747619,
+      "activation_height": null,
+      "candidate_time": 1742747620,
+      "bits": "f0151c3"
+    },
+    {
+      "height": 43692,
+      "time": 1621487495,
+      "activation_height": null,
+      "candidate_time": 1621487496,
+      "bits": "1a0b917c"
+    },
+    {
+      "height": 582572,
+      "time": 1943573362,
+      "activation_height": null,
+      "candidate_time": 1943573363,
+      "bits": "1010000"
+    },
+    {
+      "height": 432617,
+      "time": 1749500467,
+      "activation_height": 235043,
+      "candidate_time": 1749500468,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 28901,
+      "time": 1611822391,
+      "activation_height": null,
+      "candidate_time": 1611822392,
+      "bits": "1010000"
+    },
+    {
+      "height": 487562,
+      "time": 1887077546,
+      "activation_height": null,
+      "candidate_time": 1887077547,
+      "bits": "1010000"
+    },
+    {
+      "height": 419977,
+      "time": 1643783658,
+      "activation_height": 43385,
+      "candidate_time": 1643783659,
+      "bits": "1674a51b"
+    },
+    {
+      "height": 329045,
+      "time": 1683704747,
+      "activation_height": 130710,
+      "candidate_time": 1683704748,
+      "bits": "1010000"
+    },
+    {
+      "height": 270225,
+      "time": 1758481112,
+      "activation_height": null,
+      "candidate_time": 1758481113,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 269791,
+      "time": 1682225941,
+      "activation_height": 132605,
+      "candidate_time": 1682225942,
+      "bits": "1010000"
+    },
+    {
+      "height": 295529,
+      "time": 1773938590,
+      "activation_height": 295529,
+      "candidate_time": 1773938591,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 383618,
+      "time": 1825751844,
+      "activation_height": null,
+      "candidate_time": 1825751845,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 591960,
+      "time": 1790940778,
+      "activation_height": 297784,
+      "candidate_time": 1790940779,
+      "bits": "4030db9"
+    },
+    {
+      "height": 251835,
+      "time": 1744834244,
+      "activation_height": null,
+      "candidate_time": 1744834245,
+      "bits": "1010000"
+    },
+    {
+      "height": 235890,
+      "time": 1735637613,
+      "activation_height": 235890,
+      "candidate_time": 1735637614,
+      "bits": "1010000"
+    },
+    {
+      "height": 571420,
+      "time": 1683296535,
+      "activation_height": 101408,
+      "candidate_time": 1683296536,
+      "bits": "1010000"
+    },
+    {
+      "height": 203660,
+      "time": 1718039141,
+      "activation_height": null,
+      "candidate_time": 1718039142,
+      "bits": "1d00ffff"
+    },
+    {
+      "height": 581447,
+      "time": 1641163837,
+      "activation_height": 23547,
+      "candidate_time": 1641163838,
+      "bits": "1010000"
+    },
+    {
+      "height": 96451,
+      "time": 1652178157,
+      "activation_height": null,
+      "candidate_time": 1652178158,
+      "bits": "1010000"
+    },
+    {
+      "height": 461769,
+      "time": 1870821167,
+      "activation_height": null,
+      "candidate_time": 1870821168,
+      "bits": "1010000"
+    },
+    {
+      "height": 147795,
+      "time": 1685201401,
+      "activation_height": null,
+      "candidate_time": 1685201402,
+      "bits": "1d00ffff"
+    }
+  ]
+}

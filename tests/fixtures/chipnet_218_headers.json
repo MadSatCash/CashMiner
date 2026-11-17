@@ -1,0 +1,14 @@
+{
+  "first_height": 325617,
+  "last_height": 335094,
+  "sha256": "250e2f862ea21798dbd7b75987644c9fb0e1331b7ac7b128e90af9c7fb551f0b",
+  "activation_height": 332450,
+  "first_fast_height": 332451,
+  "server": "chipnet.bch.ninja:50002",
+  "source_commit": "7a228fb3d91b9e91e762f133da5746ee11692625",
+  "corroborating_servers": [
+    "chipnet.bch.ninja:50002",
+    "chipnet.imaginary.cash:50002",
+    "chipnet.c3-soft.com:64002"
+  ]
+}

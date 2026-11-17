@@ -45,9 +45,9 @@ class NetworkPanelUiContract(unittest.TestCase):
         self.assertIn("'testnet4': ('p2p-tip', 'rpc', 'pool')",BRIDGE)
 
     def test_release_version_identifiers(self):
-        self.assertIn("'version':'2.17.1'",SERVER)
-        self.assertIn("server_version='CashMiner/2.17.1'",SERVER)
-        self.assertIn('CashMiner v2.17.1',HTML)
+        self.assertIn("'version':'2.18'",SERVER)
+        self.assertIn("server_version='CashMiner/2.18'",SERVER)
+        self.assertIn('CashMiner v2.18',HTML)
 
 if __name__ == '__main__':
     unittest.main()

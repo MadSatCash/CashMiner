@@ -4,6 +4,7 @@ No secrets in SQLite. Secrets are protected separately with the current Windows
 user's DPAPI context. All network observations are treated as unverified hints.
 """
 from __future__ import annotations
+from cashminer.network.chipnet_consensus import coinbase_mature
 import base64
 from contextlib import contextmanager, closing
 from datetime import datetime, timezone
@@ -412,9 +413,8 @@ class WalletStore:
                 tip = wallet['tip_height'] or 0
                 spendable = sum(u['value'] for u in utxos
                                 if not u['tokens'] and
-                                (not u['coinbase'] or (u['height'] > 0 and tip-u['height']+1 >= 100)))
-                immature = sum(u['value'] for u in utxos if u['coinbase'] and u['height'] > 0
-                               and tip-u['height']+1 < 100)
+                                (not u['coinbase'] or coinbase_mature(self.network,u['height'],tip)))
+                immature = sum(u['value'] for u in utxos if u['coinbase'] and u['height']>0 and not coinbase_mature(self.network,u['height'],tip))
                 unconfirmed = sum(u['value'] for u in utxos if u['height'] <= 0)
                 receive_used_count=db.execute(
                     'SELECT COUNT(*) FROM addresses WHERE wallet_id=? AND branch=0 AND used=1',
@@ -457,7 +457,7 @@ class WalletStore:
                     height=int(row['height'])
                     tip=heights[row['wallet_id']]
                     spendable=(not row['tokens'] and
-                               (not row['coinbase'] or (height>0 and tip-height+1>=100)))
+                               (not row['coinbase'] or coinbase_mature(self.network,height,tip)))
                     if outpoint in seen:
                         original_value,original_spendable=seen[outpoint]
                         if value!=original_value or spendable!=original_spendable:
@@ -621,11 +621,11 @@ class WalletStore:
                     height=int(utxo['height'])
                     coinbase=bool(utxo['coinbase'])
                     summary['total_sats']+=value
-                    if coinbase and height>0 and int(wallet['tip_height'] or 0)-height+1<100:
+                    if coinbase and height>0 and not coinbase_mature(self.network,height,int(wallet['tip_height'] or 0)):
                         summary['immature_sats']+=value
                     if utxo['tokens']:
                         summary['token_locked_sats']+=value
-                    elif not coinbase or (height>0 and int(wallet['tip_height'] or 0)-height+1>=100):
+                    elif not coinbase or coinbase_mature(self.network,height,int(wallet['tip_height'] or 0)):
                         summary['available_sats']+=value
             result=[]
             for row in rows:

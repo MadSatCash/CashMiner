@@ -1,6 +1,6 @@
 # CashMiner Android
 
-Experimental Android port of the shared CashMiner 2.17.1 sources. This is a
+Experimental Android port of the shared CashMiner sources. This is a
 separate APK build; the Windows release and its native DLLs are unchanged.
 
 ## Scope / Alcance
