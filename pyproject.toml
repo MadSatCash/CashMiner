@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cashminer"
-version = "2.18"
+version = "2.18.2"
 description = "CashMiner experimental GUI for BCH mining and P2P exploration"
 readme = "README.md"
 license = {file = "LICENSE"}

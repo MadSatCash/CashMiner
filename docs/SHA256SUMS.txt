@@ -1,2 +1,2 @@
-9bef263f6beaf5036db5c01afd08bffbfb33af98c6e160468957ab76c5f982a3  CashMiner-Windows.zip
-a295e1ad7d83fa02485b8eb3a292325880dd6f159c3f3d1a57bdf27286e53c2d  CashMiner-Android-v2.18.apk
+0c7aae3fb5898913546027f5f58dcb0046fee88284b5cc656f3e7770b92bf103  CashMiner-Windows.zip
+710b59a92ffeb59cf60b30b296b0d01b2efe0d6c14c29d26471adb9d8e0bb7a6  CashMiner-Android-v2.18.2.apk

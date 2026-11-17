@@ -1,2 +1,2 @@
 """CashMiner: aplicación local, billeteras y minería multirred."""
-__version__ = "2.18"
+__version__ = "2.18.2"

@@ -39,7 +39,7 @@ class WalletSettingsInline284(unittest.TestCase):
         self.assertIn("api('/api/wallet/send/broadcast'",HTML)
 
     def test_footer_retains_visible_version_without_extra_text_or_link(self):
-        self.assertIn('class="footer-info">CashMiner v2.18 · Made by <a id="cashriderCredit" href="https://munia.cash/profile/cashrider"',HTML)
+        self.assertIn('class="footer-info">CashMiner v2.18.2 · Made by <a id="cashriderCredit" href="https://munia.cash/profile/cashrider"',HTML)
         self.assertNotIn('Aplicación local · Conexiones P2P salientes',HTML)
         self.assertNotIn('id="closeApp"',HTML)
         self.assertNotIn('Cerrar CashMiner</button>',HTML)

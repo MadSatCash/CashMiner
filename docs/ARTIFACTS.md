@@ -1,3 +1,46 @@
+# Release artifacts — 2.18.2
+
+| Artifact | SHA-256 |
+| --- | --- |
+| `CashMiner-Windows.zip` | `0c7aae3fb5898913546027f5f58dcb0046fee88284b5cc656f3e7770b92bf103` |
+| `CashMiner-Android-v2.18.2.apk` | `710b59a92ffeb59cf60b30b296b0d01b2efe0d6c14c29d26471adb9d8e0bb7a6` |
+
+Windows is generated from the shared 2.18.2 source with the pinned build recipe.
+Android updates the 2.18.1 Python/UI payload and manifest: versionName 2.18.2,
+versionCode 2180200. All 32 DEX/native/resource entries and the signing certificate
+are retained. Signature, payload and manifest are verified. This is not a
+Java/native rebuild or a phone/emulator test.
+
+The Windows EXE started and closed normally with isolated data; all 321 manifest
+files stayed unchanged. The owner confirmed WIF import during Windows testing.
+Native hashing DLLs are unchanged from 2.18. The release distributes these two
+files and SHA256SUMS.txt. Signing material and wallet data are excluded.
+
+---
+
+## Unpublished local candidate 2.18.1 — provenance only
+
+| Artifact | SHA-256 |
+| --- | --- |
+| `CashMiner-Windows.zip` | `6a11b3143ea729e80fd8b29b4eaccc32b0d59fa9accb59dc920521935a12379c` |
+| `CashMiner-Android-v2.18.1.apk` | `1edee277422a274f465a06d04e9283afa4c3ba09160f9aa56aa4708c3621ed18` |
+
+Windows is built from the shared 2.18.1 source using the pinned Windows recipe.
+BUILD_MANIFEST.json records every delivered file. The extracted EXE started,
+served API 2.18.1 and closed normally with isolated data; all manifest hashes
+remained unchanged. Ten wallet/WIF HTTP and storage tests passed using the
+bundled Python and the delivered application sources.
+
+Android updates the 2.18 Python/UI payload and manifest to versionName 2.18.1,
+versionCode 2180100. All 32 DEX/native/resource entries are unchanged. Google
+zipalign/apksigner 35.0.0 align and verify the package; the existing signing
+certificate is retained. This is not a Java/native rebuild or a phone test.
+
+This candidate was not published separately. Its changes are included in 2.18.2.
+Signing material and test data remain outside public artifacts.
+
+---
+
 # Release artifacts / Artefactos de distribución — 2.18
 
 | Artifact | SHA-256 |

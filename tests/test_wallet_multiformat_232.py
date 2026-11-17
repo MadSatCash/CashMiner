@@ -229,7 +229,7 @@ class UIContract(unittest.TestCase):
         self.assertIn('Modo de conexión con la red',html)
         self.assertIn('legacyImportSection',html)
         self.assertIn('Comprobar direcciones',html)
-        self.assertIn('private_key_hex:legacyPreview.key',html)
+        self.assertIn('privateKeyPayload(legacyPreview.key,legacyPreview.format)',html)
         self.assertIn('expected_address:choice.address',html)
         self.assertIn("'/api/wallet/legacy/preview'",server)
         self.assertIn("if data.get('network') != s.wallet_network:",server)

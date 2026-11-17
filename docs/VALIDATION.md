@@ -1,3 +1,50 @@
+# Validation — v2.18.2
+
+- Full shared suite: 642 tests, no failures/errors, 9 skipped. Optional hardware
+  and BCHN groups were not enabled for this UI update.
+- After the final empty-wallet instruction change: 9 i18n and 26 UI tests passed.
+- Ten WIF/wallet HTTP tests passed using the Windows package's Python and sources.
+- Isolated browser checks: general menu opens the same options; show/hide works
+  for hexadecimal and WIF by mouse and keyboard. Toggling preserves the key value
+  and enabled address preview; changing format resets visibility and closing
+  clears the field. Spanish/English labels checked. At 390px, both 44px buttons
+  remain in bounds, with no horizontal overflow. No console warnings/errors.
+- Android original certificate, payload and version verified; DEX/native/resources
+  unchanged. This APK still needs owner testing on a phone.
+
+Automated checks used public test keys and temporary data, without payments.
+Windows startup/shutdown and all 321 manifest files were verified. The owner
+confirmed successful WIF import during Windows testing. The 2.18.1 checks below
+describe the earlier local candidate; it was not published separately.
+
+---
+
+# Validation — v2.18.1 (local candidate)
+
+- Full shared suite: 642 tests, no failures/errors, 9 skipped. Optional hardware
+  and BCHN groups were not enabled for this wallet/UI update.
+- Public scalar-1 compressed/uncompressed WIF vectors, all six supported chains,
+  hexadecimal equivalence, recovery, duplicate detection and compression flags.
+  Rejects checksum/character/length/network/prefix/compression/scalar errors,
+  conflicting recovery formats, missing confirmation and wrong address.
+- Authenticated loopback HTTP preview/import, compression override prevention
+  and wrong-network rejection; no secret in normal state/preview responses.
+- Ten wallet/WIF tests also passed using the shipped Windows Python/application.
+- Browser integration with a temporary data directory and disabled wallet sync:
+  complete WIF preview/confirmation/import, incorrect-checksum error, Spanish and
+  English strings, information buttons and Escape, 1100px desktop and 390px
+  mobile layout. No horizontal overflow at 390px and no console warnings/errors.
+- Windows EXE startup, API 2.18.1, static assets, hardware inventory and normal
+  shutdown passed with isolated data. Delivered manifest hashes stayed unchanged.
+- Android manifest, original certificate and payload verified; 32 DEX/native/
+  resource entries unchanged. This APK has not been tested on a phone/emulator.
+
+No real wallet keys, payments or broadcasts were used for these checks. The
+user's installation/data are unchanged. Owner package testing precedes push and
+publication. Prior mining/consensus evidence below is historical, not rerun.
+
+---
+
 # Validation — v2.18
 
 The 2.18 shared source suite completed 635 tests without failures/errors,

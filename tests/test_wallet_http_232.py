@@ -15,6 +15,27 @@ from cashminer.wallet.crypto import address_for_legacy
 KEY = '0'*63 + '1'  # Public test vector, never a user's key.
 
 class WalletApi232(unittest.TestCase):
+    def test_wif_preview_import_and_rejections(self):
+        from test_wallet_wif import COMPRESSED, UNCOMPRESSED
+        self.call('/api/wallet/network', {'network':'mainnet'})
+        for wif, compressed in ((COMPRESSED, True), (UNCOMPRESSED, False)):
+            preview=self.call('/api/wallet/legacy/preview', {'network':'mainnet','private_key_wif':wif})
+            self.assertEqual(len(preview['candidates']),1)
+            expected=address_for_legacy(1,'mainnet',compressed)
+            self.assertEqual(preview['candidates'][0]['address'],expected)
+            with patch.object(self.service.wallet_sync,'refresh'):
+                wallet=self.call('/api/wallet/import', {'network':'mainnet','name':'WIF vector',
+                         'private_key_wif':wif,'compressed':not compressed,'expected_address':expected})
+            self.assertEqual(wallet['address'],expected)
+            self.assertEqual(wallet['wallet_type'],'legacy-compressed' if compressed else 'legacy-uncompressed')
+            self.assertNotIn(wif,json.dumps(wallet))
+        self.call('/api/wallet/network', {'network':'testnet4'})
+        for route in ('/api/wallet/legacy/preview','/api/wallet/import'):
+            with self.assertRaises(urllib.error.HTTPError) as error:
+                self.call(route, {'network':'testnet4','name':'Wrong network','private_key_wif':COMPRESSED})
+            self.assertEqual(error.exception.code,400)
+        self.assertEqual(self.call('/api/state')['wallets'],[])
+
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup)
         patches=[patch.dict(os.environ,{'CASHMINER2_DATA_DIR':self.tmp.name}),

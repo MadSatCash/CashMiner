@@ -21,7 +21,7 @@ class Release273(unittest.TestCase):
         self.assertNotIn('pywebview',(ROOT/'requirements.txt').read_text())
         self.assertNotIn('import webview',(ROOT/'src/cashminer/app/server.py').read_text())
         self.assertFalse((ROOT/'INICIAR_WINDOWS_CON_ICONO.bat').exists())
-        self.assertIn('version = "2.18"',(ROOT/'pyproject.toml').read_text())
+        self.assertIn('version = "2.18.2"',(ROOT/'pyproject.toml').read_text())
 
     def test_close_x_stops_server_and_service(self):
         class Process:

@@ -32,6 +32,43 @@ def hash160(blob: bytes) -> bytes:
     return hashlib.new('ripemd160', hashlib.sha256(blob).digest()).digest()
 
 
+def decode_wif(value: str, network: str) -> tuple[int, bool]:
+    """Decode a single private key; the WIF flag determines public-key encoding.
+
+    Testnet3/4, Chipnet, Tempnet and Regtest share the standard test WIF prefix.
+    A WIF cannot distinguish those chains from one another.
+    """
+    if network not in PREFIX:
+        raise ValueError('Red de billetera desconocida')
+    alphabet = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
+    if not isinstance(value, str):
+        raise ValueError('WIF inválida: revisá el formato y los caracteres')
+    value = value.strip()
+    if len(value) not in (51, 52) or any(c not in alphabet for c in value):
+        raise ValueError('WIF inválida: revisá el formato y los caracteres')
+    number = 0
+    for char in value:
+        number = number * 58 + alphabet.index(char)
+    decoded = b'\x00' * (len(value) - len(value.lstrip('1')))
+    decoded += number.to_bytes((number.bit_length() + 7) // 8, 'big')
+    if len(decoded) not in (37, 38):
+        raise ValueError('Longitud WIF inválida')
+    payload, checksum = decoded[:-4], decoded[-4:]
+    if not hmac.compare_digest(sha256d(payload)[:4], checksum):
+        raise ValueError('Checksum WIF incorrecto')
+    if payload[0] not in (0x80, 0xef):
+        raise ValueError('Prefijo WIF no compatible')
+    if payload[0] != (0x80 if network == 'mainnet' else 0xef):
+        raise ValueError('La WIF corresponde a otra red: Mainnet y redes de prueba usan prefijos distintos')
+    compressed = len(payload) == 34
+    if compressed and payload[-1] != 1:
+        raise ValueError('Indicador de compresión WIF inválido')
+    scalar = int.from_bytes(payload[1:33], 'big')
+    if not 0 < scalar < ORDER:
+        raise ValueError('Clave privada WIF fuera del rango secp256k1')
+    return scalar, compressed
+
+
 def public_key(scalar: int, compressed: bool = True) -> bytes:
     from cryptography.hazmat.primitives.asymmetric import ec
     from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat

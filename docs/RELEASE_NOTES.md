@@ -1,3 +1,64 @@
+# CashMiner v2.18.2 — WIF import, key visibility and general menu
+
+**[Windows ZIP](https://github.com/MadSatCash/CashMiner/releases/download/v2.18.2/CashMiner-Windows.zip)** · **[Android APK](https://github.com/MadSatCash/CashMiner/releases/download/v2.18.2/CashMiner-Android-v2.18.2.apk)** · [SHA-256](https://github.com/MadSatCash/CashMiner/releases/download/v2.18.2/SHA256SUMS.txt)
+
+Experimental Windows and Android release. Single private keys accept Hexadecimal
+or WIF, separately from HD BIP39/BIP32 imports. WIF validates its checksum,
+network, compression and private-key range and shows the address for confirmation.
+Format information buttons explain each option; imported names are network-neutral.
+
+Show/hide the imported single private key (Hexadecimal/WIF) without changing its
+value or address preview. Keys start hidden. The general Manage button is now
+☰, opening the same options; individual wallet settings keep their gear.
+Spanish/English labels, keyboard and mobile controls are included.
+
+Ojito para mostrar/ocultar la clave individual y menú general ☰. La clave queda
+oculta por defecto y se conserva la dirección comprobada al alternar visibilidad.
+
+Includes WIF import and format help prepared in the unpublished 2.18.1 candidate.
+The owner confirmed successful WIF import during Windows testing. Validation:
+642 tests without failures/errors, 9 skipped; 35 focused UI/language checks and
+10 wallet tests with the shipped Windows Python also passed. The EXE started
+and closed normally with isolated data.
+
+Android retains its update certificate and DEX/native/resources. Its Python/UI
+payload and manifest are updated (versionCode 2180200); signature, alignment and
+payload were verified. This APK still needs testing on a phone/emulator. Install
+over the existing app without uninstalling or clearing data.
+
+Incluye importación WIF, ayudas de formato, placeholder neutral, ojito y menú ☰.
+El propietario confirmó la importación WIF al probar Windows. Pasaron 642 pruebas
+sin fallos ni errores, con 9 omitidas. La APK conserva la firma de actualización;
+falta probarla en teléfono/emulador. Instalá encima, sin desinstalar ni borrar datos.
+
+[Cambios detallados](releases/NOTAS_V2.18.2.md) · [Validation](VALIDATION.md) ·
+[Artifacts](ARTIFACTS.md)
+
+---
+
+## Unpublished local candidate 2.18.1 — included in 2.18.2
+
+Experimental Windows and Android update. Single private keys accept Hexadecimal
+or WIF; HD BIP39 and BIP32 imports remain separate. WIF validates its checksum,
+network and compression and shows the address before confirmation. Format help
+buttons work by click, keyboard and touch in Spanish and English. The imported
+wallet name is now network-neutral.
+
+Actualización experimental para Windows y Android: importación de claves
+individuales en hexadecimal o WIF, ayudas ⓘ para cada formato y placeholder
+neutral. Se comprueban checksum, red y compresión y se confirma la dirección
+antes de guardar. Las billeteras existentes conservan su estructura.
+
+This candidate was not published separately; its changes are included in 2.18.2.
+No se publicó por separado; sus cambios están incluidos en 2.18.2.
+
+[Detailed changes / Cambios detallados](releases/NOTAS_V2.18.2.md) ·
+[Validation / Validación](VALIDATION.md) · [Artifacts / Artefactos](ARTIFACTS.md)
+
+---
+
+## Previous release / Versión anterior: 2.18
+
 # CashMiner v2.18 — Chipnet Faster Blocks · Windows & Android
 
 **[Windows ZIP](https://github.com/MadSatCash/CashMiner/releases/download/v2.18/CashMiner-Windows.zip)** · **[Android APK](https://github.com/MadSatCash/CashMiner/releases/download/v2.18/CashMiner-Android-v2.18.apk)** · [SHA-256](https://github.com/MadSatCash/CashMiner/releases/download/v2.18/SHA256SUMS.txt)

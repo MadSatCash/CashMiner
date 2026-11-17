@@ -121,6 +121,13 @@
 /* Sensitive wallet fields are masked visually, but are not HTML login/password
    fields. This avoids Chrome treating an imported key as a saved credential. */
 .secret-input{-webkit-text-security:disc}
+.secret-input.is-visible{-webkit-text-security:none}
+.import-key-entry{position:relative}
+.import-key-entry .input{padding-right:55px}
+.import-key-visibility{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:44px;height:40px;display:grid;place-items:center;border:0;border-radius:7px;background:transparent;color:var(--muted);padding:0}
+.import-key-visibility:hover,.import-key-visibility[aria-pressed="true"]{color:var(--text);background:#344046}
+.import-key-visibility:active{transform:translateY(-50%)}
+.import-key-visibility svg{width:21px;height:21px}
 
 /* v2.6 · Slate interface. Green is an active state, not a wallpaper. */
 :root{--bg:#0c1119;--panel:#171f2b;--surface:#1e2935;--surface2:#253241;--muted:#a1b0c1;--text:#edf3f9;--line:#344153;--green:#79d99b;--action:#168a65;--action-hover:#229e77;--amber:#f2cc8f;--red:#f29a9d}
@@ -208,7 +215,7 @@ html,body{background:var(--bg);color:var(--text)}
   border-radius:8px;background:#252e33;border-color:#435056}
 .wallet-head-controls .pane-network-select{font-size:13px;font-weight:620}
 .wallet-head-controls .pane-network-select option{background:#252e33}
-.wallet-manage.btn{padding:9px 12px;font-size:12px;font-weight:600;white-space:nowrap;
+.wallet-manage.btn{display:grid;place-items:center;width:44px;height:44px;flex:0 0 44px;padding:10px;font-size:12px;font-weight:600;white-space:nowrap;
   background:#293237;border-color:#48565c;border-radius:8px}
 .wallet-manage.btn:hover{background:#354146}
 .wallet-dashboard-body{display:grid;grid-template-columns:minmax(205px,29%) minmax(0,1fr);flex:1;min-height:0}
@@ -464,7 +471,7 @@ details{background:#242d31;border-color:#3f4c52}
 .send-amount-tooltip{position:absolute;right:-4px;top:25px;width:max-content;max-width:220px;padding:7px 10px;border:1px solid #46555c;border-radius:7px;background:#263238;color:#e0e8e3;font-size:11px;line-height:1.45;box-shadow:0 4px 14px #0005;visibility:hidden;opacity:0;pointer-events:none}
 .send-amount-feedback:hover .send-amount-tooltip,.send-amount-feedback:focus-within .send-amount-tooltip{visibility:visible;opacity:1}
 @media(max-width:680px){.wallet-head-controls .fiat-currency-select{width:60px;flex-basis:60px}.fiat-estimate.fiat-main-balance{font-size:12px}}
-@media(max-width:480px){.wallet-head-controls .wallet-manage{font-size:0;padding:8px 11px;flex:0 0 38px}.wallet-head-controls .wallet-manage span{font-size:16px}}
+@media(max-width:480px){.wallet-head-controls .wallet-manage{padding:10px;flex:0 0 44px}}
 /* v2.11.1: stable one-line balances and a compact send amount unit. */
 .wallet-aggregate strong{white-space:nowrap;overflow-wrap:normal;font-size:clamp(13px,1.52vw,21px);letter-spacing:-.025em;overflow:visible;max-width:100%}
 .wallet-balance-row .balance{white-space:nowrap;word-break:normal;overflow-wrap:normal;font-size:clamp(20px,2.3vw,36px);letter-spacing:-.035em;overflow:visible;max-width:none}
@@ -560,6 +567,19 @@ details{background:#242d31;border-color:#3f4c52}
 .reward-total-line .btn{white-space:nowrap}
 .reward-total-line strong.invalid{color:#e8bf6c}
 @media(max-width:460px){.reward-row{padding:8px 7px}.reward-head{gap:5px}.reward-row-number{font-size:11px}.reward-pct{width:54px}.reward-copy{padding:7px 9px}}
+/* Format help stays in the document flow, including narrow Android screens. */
+.wallet-format-summary{display:grid;grid-template-columns:minmax(0,1fr) 32px 12px;gap:10px}
+.wallet-format-summary>span:first-child{grid-column:1;grid-row:1}
+.wallet-format-summary>.wallet-format-info{grid-column:2;grid-row:1}
+.wallet-format-summary::after{grid-column:3;grid-row:1;margin-left:0}
+.wallet-format-info{width:32px;height:32px;padding:0;border:1px solid #637b80;border-radius:50%;background:transparent;color:#a9dfc6;font:italic 600 17px Georgia,serif;cursor:pointer;flex:none}
+.wallet-format-info:hover,.wallet-format-info[aria-expanded="true"]{background:#294138;border-color:var(--green)}
+.wallet-format-info:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+.wallet-format-note{grid-column:1/-1;display:block;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#253337;color:#c3d2d5;font-size:12px;font-weight:400;line-height:1.6;cursor:default;overflow-wrap:anywhere}
+.wallet-key-formats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.wallet-key-format{display:grid;grid-template-columns:minmax(0,1fr) 32px;gap:8px;align-content:start;align-items:center}
+.wallet-key-format .radio-row{margin:0;min-height:44px}
+@media(max-width:460px){.wallet-key-formats{grid-template-columns:1fr}}
 </style>
 </head><body>
 <div class="container">
@@ -583,7 +603,7 @@ details{background:#242d31;border-color:#3f4c52}
      <select id="languageSelect" class="language-select" aria-label="Idioma / Language" title="Idioma / Language"><option value="es">ES</option><option value="en">EN</option></select>
      <select id="fiatCurrencySelect" class="fiat-currency-select" aria-label="Moneda fiat" title="Moneda fiat"><option>USD</option></select>
      <span id="fiatOneBchRate" class="fiat-one-bch-rate" aria-label="Cotización de 1 BCH" hidden></span>
-     <button class="btn wallet-manage" id="walletGear" aria-label="Administrar billeteras" title="Administrar billeteras"><span aria-hidden="true">⚙</span> Administrar</button>
+     <button type="button" class="btn wallet-manage" id="walletGear" aria-label="Menú general" title="Menú general" aria-haspopup="dialog" aria-controls="modalDialog"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
     </div>
    </div>
    <div class="wallet-dashboard-body">
@@ -631,7 +651,7 @@ details{background:#242d31;border-color:#3f4c52}
    </div>
   </section>
  </div>
-</main><div class="footer"><div class="footer-left"><div class="footer-info">CashMiner v2.18 · Made by <a id="cashriderCredit" href="https://munia.cash/profile/cashrider" rel="noopener noreferrer" style="color:inherit;text-decoration:none">CashRider</a></div></div></div>
+</main><div class="footer"><div class="footer-left"><div class="footer-info">CashMiner v2.18.2 · Made by <a id="cashriderCredit" href="https://munia.cash/profile/cashrider" rel="noopener noreferrer" style="color:inherit;text-decoration:none">CashRider</a></div></div></div>
 </div>
 <div class="modal-overlay" id="modalOverlay" hidden><div class="modal" id="modalDialog" role="dialog" aria-modal="true"><div class="modal-header"><div id="modalTitle" class="modal-title">Configuración</div><button class="modal-close" id="closeModal" aria-label="Cerrar">×</button></div><div class="modal-body" id="modalBody"></div></div></div>
 <div class="toast hidden" id="toast" role="status"></div>
@@ -773,7 +793,7 @@ async function api(path,body=null){const options={headers:{...authHeaders}};if(b
 let toastTimeout;function notice(t,error=false){const item=$('toast');item.textContent=t;item.className='toast'+(error?' error':'');clearTimeout(toastTimeout);toastTimeout=setTimeout(()=>item.className='toast hidden',5000)}
 async function act(task){try{return await task()}catch(e){notice(e.message,true);return null}}
 function modal(title,html,wide=false){const previousSecret=$('recoverySeed');if(previousSecret)previousSecret.textContent='';modalKind=title;$('modalTitle').textContent=title;$('modalDialog').className='modal'+(wide?' wide':'');$('modalBody').innerHTML=html;$('modalOverlay').hidden=false;$('closeModal').focus()}
-function closeModal(){if($('minerLog')){captureLogView();resetDeleteButton()}const secret=$('recoverySeed');if(secret)secret.textContent='';const imported=$('importMnemonic');if(imported)imported.value='';const legacy=$('importHex');if(legacy)legacy.value='';const privateKey=$('importPrivateKey');if(privateKey)privateKey.value='';modalKind='';$('modalOverlay').hidden=true}
+function closeModal(){if($('minerLog')){captureLogView();resetDeleteButton()}const secret=$('recoverySeed');if(secret)secret.textContent='';const imported=$('importMnemonic');if(imported)imported.value='';const legacy=$('importHex');if(legacy)legacy.value='';const privateKey=$('importPrivateKey');if(privateKey)privateKey.value='';setImportKeyVisible(false);modalKind='';$('modalOverlay').hidden=true}
 let decisionResolver=null;
 function finishDecision(ok){
  const result=ok?( $('decisionPasswordField').classList.contains('hidden')
@@ -935,7 +955,7 @@ function draw(){if(!current)return;
  updateOneBchRate(c.network);
  $('walletAggregate').classList.toggle('is-partial',!aggregate.complete);
  $('walletAggregateStatus').textContent=aggregate.wallets_total&&!aggregate.complete?'Verificando saldos…':'';
- $('walletList').innerHTML=c.wallets.length?c.wallets.map(w=>`<button class="wallet-item ${w.id===c.selected_wallet?'selected':''}" data-wallet="${esc(w.id)}"><span class="wallet-item-icon">▣</span><span><strong>${esc(w.name)}</strong><small>${esc(walletKindLabel(w))}${w.available_sats!==null?' · '+CMI18n.formatBch(w.available_sats,coinUnit(c.network),{min:2,max:8}):''}${w.available_sats!==null?CMFiat.html(w.available_sats,c.network,'compact'):''}</small></span></button>`).join(''):'<div class="wallet-empty">No hay billeteras para esta red. Usá Administrar para crear o importar.</div>';
+ $('walletList').innerHTML=c.wallets.length?c.wallets.map(w=>`<button class="wallet-item ${w.id===c.selected_wallet?'selected':''}" data-wallet="${esc(w.id)}"><span class="wallet-item-icon">▣</span><span><strong>${esc(w.name)}</strong><small>${esc(walletKindLabel(w))}${w.available_sats!==null?' · '+CMI18n.formatBch(w.available_sats,coinUnit(c.network),{min:2,max:8}):''}${w.available_sats!==null?CMFiat.html(w.available_sats,c.network,'compact'):''}</small></span></button>`).join(''):'<div class="wallet-empty">No hay billeteras para esta red. Abrí el menú ☰ para crear o importar.</div>';
  document.querySelectorAll('[data-wallet]').forEach(b=>b.onclick=()=>act(async()=>{await api('/api/wallet/select',{id:b.dataset.wallet===current.selected_wallet?null:b.dataset.wallet});await refresh()}));
  const picker=$('mobileWalletPicker');
  picker.innerHTML=(c.wallets.length?
@@ -1125,6 +1145,13 @@ $('walletSettingsToggle').onclick=()=>{
  if(!walletSettingsMode){walletSettingsKey=null;$('walletSettingsContent').replaceChildren();}
  renderWalletSettingsState(current,walletSelected());
 };
+function walletFormatInfo(id,text){return `<button type="button" class="wallet-format-info" data-wallet-help="${id}" aria-label="Información del formato" aria-expanded="false" aria-controls="${id}">i</button><span id="${id}" class="wallet-format-note hidden" role="note">${esc(text)}</span>`}
+function setImportKeyVisible(visible){
+ const input=$('importPrivateKey'),button=$('importPrivateKeyVisibility');if(!input||!button)return;
+ input.classList.toggle('is-visible',visible);button.setAttribute('aria-pressed',String(visible));
+ const label=visible?'Ocultar clave':'Mostrar clave';button.setAttribute('aria-label',label);button.title=label;
+ button.querySelector('.secret-eye-slash').classList.toggle('hidden',!visible);
+}
 function walletManagerContent(){const w=walletSelected();return `
 <details class="wallet-manager-section" id="wmDisplay"><summary>Preferencias de visualización</summary><div class="details-body">
 <div class="field"><label class="field-label" for="numberFormat">Formato numérico</label><select id="numberFormat" class="select"><option value="auto">Automático según idioma</option><option value="es">1.234,56</option><option value="en">1,234.56</option></select></div>
@@ -1137,25 +1164,29 @@ function walletManagerContent(){const w=walletSelected();return `
 <div class="field" id="newWalletAccountField"><label class="field-label" for="newWalletPath">Ruta de derivación BIP44 (cuenta)</label><input id="newWalletPath" class="input" spellcheck="false" autocomplete="off" value="${esc(current.wallet_default_derivation_path)}"><p class="help-text">Ejemplo: m/44'/145'/0'. Las direcciones se derivan agregando /0/0, /0/1, etc. La ruta queda vinculada a esta billetera.</p></div>
 <div class="btn-line"><button class="btn primary" id="createWalletBtn">Crear billetera</button></div></div></details>
 <details class="wallet-manager-section" id="wmImport"><summary>Importar billetera</summary><div class="details-body"><p class="help-text">Elegí el formato original. Una clave individual no se convierte en HD; conserva su dirección. Los secretos nunca deben enviarse a un sitio web externo ni compartirse por chat.</p>
-<details><summary>Frase semilla de 12, 15, 18, 21 o 24 palabras · BIP39</summary><div class="details-body">
+<details><summary class="wallet-format-summary"><span>Frase semilla de 12, 15, 18, 21 o 24 palabras · BIP39</span>${walletFormatInfo('bip39FormatInfo','Una frase de palabras que permite recuperar una billetera HD y derivar múltiples claves y direcciones. La ruta debe coincidir con la billetera original. No es una clave WIF.')}</summary><div class="details-body">
 <div class="field"><label class="field-label" for="importWalletName">Nombre</label><input id="importWalletName" class="input" maxlength="60" placeholder="Billetera importada"></div>
 <div class="field"><label class="field-label" for="importMnemonic">Frase de recuperación BIP39</label><textarea id="importMnemonic" class="input" rows="3" autocomplete="off" spellcheck="false" placeholder="Palabras BIP39 en inglés"></textarea></div>
 <div class="field"><label class="field-label" for="importMnemonicPath">Ruta de derivación BIP44</label><input id="importMnemonicPath" class="input" spellcheck="false" autocomplete="off" value="${esc(current.wallet_default_derivation_path)}"></div>
 <div class="field"><label class="field-label" for="importMnemonicExpectedAddress">Primera dirección pública esperada (opcional, muy recomendable)</label><input id="importMnemonicExpectedAddress" class="input" spellcheck="false" autocomplete="off" placeholder="bchtest:… o bitcoincash:…"></div><p class="help-text">Confirmá que la ruta y la primera dirección coinciden con la billetera original. Sin passphrase BIP39 adicional: no importes si la original usa una.</p>
 <button class="btn" id="importMnemonicBtn">Importar frase BIP39</button></div></details>
-<details><summary>BIP32 · semilla hexadecimal HD de 32 o 64 bytes</summary><div class="details-body">
+<details><summary class="wallet-format-summary"><span>BIP32 · semilla hexadecimal HD de 32 o 64 bytes</span>${walletFormatInfo('bip32FormatInfo','Una semilla de 64 o 128 caracteres hexadecimales que permite derivar múltiples claves y direcciones. Una clave privada individual de 64 caracteres no debe importarse como semilla: genera otras direcciones.')}</summary><div class="details-body">
 <div class="field"><label class="field-label" for="importHexName">Nombre</label><input id="importHexName" class="input" maxlength="60" placeholder="Billetera HD importada"></div>
 <div class="field"><label class="field-label" for="importHex">Semilla BIP32 (64 o 128 caracteres hexadecimales)</label><input id="importHex" class="input" spellcheck="false" autocomplete="off" placeholder="64 o 128 caracteres hexadecimales"></div>
 <div class="field"><label class="field-label" for="importHexPath">Ruta de derivación BIP44</label><input id="importHexPath" class="input" spellcheck="false" autocomplete="off" value="${esc(current.wallet_default_derivation_path)}"></div>
 <button id="importHexBtn" class="btn">Importar semilla HD</button></div></details>
-<details id="legacyImportSection"><summary>Legacy · clave privada individual hexadecimal (private_key_hex)</summary><div class="details-body">
-<p class="help-text">Un secreto de 64 caracteres puede representar una clave privada Legacy o una semilla BIP32: <strong>no son intercambiables.</strong> Se calculan ambas direcciones posibles, sin consulta de saldo ni selección automática.</p>
-<div class="field"><label class="field-label" for="importLegacyName">Nombre</label><input id="importLegacyName" class="input" maxlength="60" placeholder="Mi wallet de Tempnet"></div>
-<div class="field"><label class="field-label" for="importPrivateKey">Clave privada hexadecimal (32 bytes)</label><input id="importPrivateKey" class="input secret-input" type="text" spellcheck="false" autocomplete="off" autocapitalize="off" data-lpignore="true" placeholder="64 caracteres hexadecimales"></div>
+<details id="legacyImportSection"><summary>Clave privada individual · Hexadecimal / WIF</summary><div class="details-body">
+<div class="wallet-key-formats" role="group" aria-label="Formato de clave privada individual">
+<div class="wallet-key-format"><label class="radio-row"><input type="radio" name="privateKeyFormat" value="hex" checked>Hexadecimal</label>${walletFormatInfo('hexFormatInfo','Una clave privada individual de 64 caracteres hexadecimales. Conserva una sola clave; no es una semilla HD. Elegí la variante comprimida o sin comprimir que coincida con tu dirección original.')}</div>
+<div class="wallet-key-format"><label class="radio-row"><input type="radio" name="privateKeyFormat" value="wif">WIF</label>${walletFormatInfo('wifFormatInfo','La misma clase de clave privada individual, codificada en Base58Check con red, indicador de compresión y checksum. Conserva la dirección original. Las redes de prueba comparten el prefijo WIF; elegí la red correcta en CashMiner.')}</div>
+</div>
+<p class="help-text">Una clave individual no es una semilla HD. Verificá que la dirección calculada coincida con la billetera original antes de importar.</p>
+<div class="field"><label class="field-label" for="importLegacyName">Nombre</label><input id="importLegacyName" class="input" maxlength="60" placeholder="Billetera importada"></div>
+<div class="field"><label class="field-label" id="importPrivateKeyLabel" for="importPrivateKey">Clave privada hexadecimal (32 bytes)</label><div class="import-key-entry"><input id="importPrivateKey" class="input secret-input" type="text" spellcheck="false" autocomplete="off" autocapitalize="off" data-lpignore="true" placeholder="64 caracteres hexadecimales"><button type="button" id="importPrivateKeyVisibility" class="import-key-visibility" aria-label="Mostrar clave" title="Mostrar clave" aria-pressed="false" aria-controls="importPrivateKey"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="secret-eye-slash hidden" d="m3 3 18 18"/></svg></button></div></div>
 <div class="field"><label class="field-label" for="legacyExpectedAddress">Dirección pública esperada (opcional, recomendada)</label><input id="legacyExpectedAddress" class="input" spellcheck="false" autocomplete="off" placeholder="bchtest:... o bitcoincash:..."></div>
 <div class="btn-line"><button id="previewLegacyBtn" class="btn">Comprobar direcciones</button></div>
 <div id="legacyPreview" class="status-line" aria-live="polite">Primero verificá la dirección calculada antes de importar.</div>
-<div class="btn-line"><button id="importLegacyBtn" class="btn primary" disabled>Importar clave Legacy</button></div></div></details></div></details>
+<div class="btn-line"><button id="importLegacyBtn" class="btn primary" disabled>Importar clave individual</button></div></div></details></div></details>
 <details class="wallet-manager-section" id="wmDerivation"><summary>Ruta de derivación predeterminada</summary><div class="details-body"><p class="help-text">Esta preferencia sólo afecta futuras creaciones e importaciones; nunca cambia las rutas de billeteras existentes.</p><div class="field"><label class="field-label" for="networkDefaultPath">Ruta BIP44 predeterminada</label><input id="networkDefaultPath" class="input" spellcheck="false" autocomplete="off" value="${esc(current.wallet_default_derivation_path)}"></div><button id="saveDefaultPathBtn" class="btn ghost">Guardar ruta predeterminada</button></div></details>
 <details class="wallet-manager-section" id="wmConnection"><summary>Modo de conexión con la red</summary><div class="details-body"><h3 class="section-title">Electrum · modo normal automático</h3><p class="help-text">Una conexión activa por red para consultar tus direcciones; elige servidores según disponibilidad, rapidez y fallos recientes, y cambia automáticamente si uno falla. No compara saldos entre operadores. Guarda sus métricas de conexión por red, sin claves ni direcciones.</p><p class="help-text">Servidor actual: <strong>${esc(current.wallet_electrum?.server||'Sin conexión')}</strong></p><p class="help-text">Última actividad técnica: ${w?.last_sync?esc(new Date(w.last_sync).toLocaleString(CMI18n.getLocale())):'Sin registrar'}. Estado: ${esc(current.wallet_electrum?.status||'inactivo')}</p><h4 class="section-title">Agregar servidor personalizado</h4><p class="help-text">Los servidores predeterminados se seleccionan automáticamente. TLS y verificación de red obligatorios.</p><div class="grid2"><div class="field"><label class="field-label">Host</label><input class="input" id="electrumHost" placeholder="servidor.ejemplo.org"></div><div class="field"><label class="field-label">Puerto TLS</label><input class="input" id="electrumPort" type="number" min="1" max="65535" value="50002"></div></div>
 <div class="field"><label class="field-label" for="electrumCertPin">Huella SHA-256 del certificado (opcional; solo para confianza explícita)</label><input class="input" id="electrumCertPin" maxlength="95" spellcheck="false" autocomplete="off" placeholder="64 caracteres hexadecimales"></div>
@@ -1296,6 +1327,13 @@ function showRecoverySeed(res){
 }
 function openWalletManager(){const walletNet=current.network, walletNetLabel=current.network_label;
  modal('Mis billeteras · '+walletNetLabel,walletManagerContent());
+ setImportKeyVisible(false);
+ $('importPrivateKeyVisibility').onclick=()=>setImportKeyVisible(!$('importPrivateKey').classList.contains('is-visible'));
+ document.querySelectorAll('[data-wallet-help]').forEach(button=>{
+  const setOpen=open=>{button.setAttribute('aria-expanded',String(open));$(button.dataset.walletHelp).classList.toggle('hidden',!open)};
+  button.onclick=event=>{event.preventDefault();event.stopPropagation();setOpen(button.getAttribute('aria-expanded')!=='true')};
+  button.onkeydown=event=>{if(event.key==='Escape'){event.preventDefault();event.stopPropagation();setOpen(false)}};
+ });
  const formatControl=$('numberFormat');formatControl.value=CMI18n.getNumberFormat();
  formatControl.onchange=()=>CMI18n.setNumberFormat(formatControl.value,true);
  const readPath=id=>{
@@ -1321,28 +1359,39 @@ function openWalletManager(){const walletNet=current.network, walletNetLabel=cur
  $('importMnemonicBtn').onclick=()=>act(async()=>{const name=$('importWalletName').value.trim(),mnemonic=$('importMnemonic').value.trim(),derivation_path=readPath('importMnemonicPath'),expected_address=$('importMnemonicExpectedAddress').value.trim()||undefined;if(!name)throw Error('Escribí un nombre');if(!mnemonic)throw Error('Ingresá las palabras de recuperación');await api('/api/wallet/import',{name,mnemonic,network:walletNet,derivation_path,expected_address});$('importMnemonic').value='';closeModal();await refresh();notice('Frase BIP39 importada en '+walletNetLabel)});
  $('importHexBtn').onclick=()=>act(async()=>{const name=$('importHexName').value.trim(),seed=$('importHex').value.trim(),derivation_path=readPath('importHexPath');if(!name)throw Error('Escribí un nombre');if(!/^(?:[0-9a-fA-F]{64}|[0-9a-fA-F]{128})$/.test(seed))throw Error('La semilla BIP32 debe tener 64 o 128 caracteres hexadecimales');await api('/api/wallet/import',{name,seed_hex:seed,network:walletNet,derivation_path});$('importHex').value='';closeModal();await refresh();notice('Semilla BIP32 importada en '+walletNetLabel)});
  let legacyPreview=null;
+ const privateKeyFormat=()=>document.querySelector('input[name="privateKeyFormat"]:checked').value;
+ const privateKeyPayload=(key,format)=>format==='wif'?{private_key_wif:key}:{private_key_hex:key};
  function invalidateLegacy(){legacyPreview=null;$('importLegacyBtn').disabled=true;$('legacyPreview').textContent='Volvé a comprobar las direcciones antes de importar.'}
+ document.querySelectorAll('input[name="privateKeyFormat"]').forEach(input=>input.onchange=()=>{
+  $('importPrivateKey').value='';setImportKeyVisible(false);invalidateLegacy();
+  const wif=privateKeyFormat()==='wif';
+  $('importPrivateKeyLabel').textContent=wif?'Clave privada WIF':'Clave privada hexadecimal (32 bytes)';
+  $('importPrivateKey').placeholder=wif?'WIF de la red seleccionada':'64 caracteres hexadecimales';
+ });
  $('importPrivateKey').oninput=invalidateLegacy;
  $('legacyExpectedAddress').oninput=()=>{if(legacyPreview){$('importLegacyBtn').disabled=true;$('legacyPreview').textContent='La dirección esperada cambió. Volvé a comprobar.';legacyPreview=null}};
  $('previewLegacyBtn').onclick=()=>act(async()=>{
-  const key=$('importPrivateKey').value.trim(),expected=$('legacyExpectedAddress').value.trim();
-  const result=await api('/api/wallet/legacy/preview',{network:walletNet,private_key_hex:key});
+  const key=$('importPrivateKey').value.trim(),expected=$('legacyExpectedAddress').value.trim(),format=privateKeyFormat();
+  invalidateLegacy();
+  const result=await api('/api/wallet/legacy/preview',{network:walletNet,...privateKeyPayload(key,format)});
+  if(key!==$('importPrivateKey').value.trim()||format!==privateKeyFormat()||expected!==$('legacyExpectedAddress').value.trim())return;
   const matches=result.candidates.filter(c=>!expected||c.address===expected);
-  legacyPreview={key,choices:result.candidates,expected};
-  $('legacyPreview').innerHTML=`<div class="help-text" style="margin:10px 0">Elegí la versión que corresponde a tu dirección original. <strong>No se consultaron saldos.</strong></div>`+result.candidates.map((c,i)=>`<label class="radio-row"><input type="radio" name="legacyCandidate" value="${i}" ${matches.length===1&&c.address===matches[0].address?'checked':''}><span><strong>${esc(c.label)}</strong><span class="inline-code" style="display:block;overflow-wrap:anywhere">${esc(c.address)}</span></span></label>`).join('')+(expected&&!matches.length?'<div class="notice">Ninguna dirección calculada coincide con la esperada. No importes esta clave.</div>':'');
+  legacyPreview={key,format,choices:result.candidates,expected};
+  $('legacyPreview').innerHTML=`<div class="help-text" style="margin:10px 0">${format==='wif'?'La dirección y la compresión se obtuvieron de la WIF.':'Elegí la versión que corresponde a tu dirección original.'} <strong>No se consultaron saldos.</strong></div>`+result.candidates.map((c,i)=>`<label class="radio-row"><input type="radio" name="legacyCandidate" value="${i}" ${matches.length===1&&c.address===matches[0].address?'checked':''}><span><strong>${esc(c.label)}</strong><span class="inline-code" style="display:block;overflow-wrap:anywhere">${esc(c.address)}</span></span></label>`).join('')+(expected&&!matches.length?'<div class="notice">Ninguna dirección calculada coincide con la esperada. No importes esta clave.</div>':'');
   $('importLegacyBtn').disabled=expected&&!matches.length;
-  if(!expected||matches.length!==1)$('importLegacyBtn').disabled=true;
+  if(matches.length!==1)$('importLegacyBtn').disabled=true;
   document.querySelectorAll('input[name="legacyCandidate"]').forEach(input=>input.onchange=()=>{const candidate=legacyPreview.choices[Number(input.value)];$('importLegacyBtn').disabled=Boolean(expected&&candidate.address!==expected)});
  });
  $('importLegacyBtn').onclick=()=>act(async()=>{
-  if(!legacyPreview||legacyPreview.key!==$('importPrivateKey').value.trim())throw Error('La clave cambió: comprobá otra vez');
+  if(!legacyPreview||legacyPreview.key!==$('importPrivateKey').value.trim()||legacyPreview.format!==privateKeyFormat())throw Error('La clave cambió: comprobá otra vez');
   const name=$('importLegacyName').value.trim();if(!name)throw Error('Escribí un nombre');
   const selected=document.querySelector('input[name="legacyCandidate"]:checked');if(!selected)throw Error('Seleccioná la variante de dirección');
   const choice=legacyPreview.choices[Number(selected.value)];const expected=$('legacyExpectedAddress').value.trim();
   if(expected&&choice.address!==expected)throw Error('La dirección elegida no coincide con la dirección esperada');
-  const answer=await askDecision('Importar clave Legacy · '+walletNetLabel,'Confirmá que reconocés la dirección pública '+choice.address+' y que esta wallet corresponde a la red '+walletNetLabel+'. No se moverán fondos.',{accept:'Importar'});if(!answer)return;
-  await api('/api/wallet/import',{name,network:walletNet,private_key_hex:legacyPreview.key,compressed:choice.compressed,expected_address:choice.address});
-  $('importPrivateKey').value='';legacyPreview=null;closeModal();await refresh();notice('Clave Legacy importada · '+choice.address.slice(0,18)+'…');
+  const answer=await askDecision(CMI18n.t('Importar clave individual')+' · '+walletNetLabel,'Confirmá que reconocés la dirección pública '+choice.address+' y que esta wallet corresponde a la red '+walletNetLabel+'. No se moverán fondos.',{accept:'Importar'});if(!answer)return;
+  if(!legacyPreview||legacyPreview.key!==$('importPrivateKey').value.trim()||legacyPreview.format!==privateKeyFormat()||legacyPreview.expected!==$('legacyExpectedAddress').value.trim())throw Error('La clave cambió: comprobá otra vez');
+  await api('/api/wallet/import',{name,network:walletNet,...privateKeyPayload(legacyPreview.key,legacyPreview.format),compressed:choice.compressed,expected_address:choice.address});
+  $('importPrivateKey').value='';legacyPreview=null;closeModal();await refresh();notice(CMI18n.t('Clave individual importada · ')+choice.address.slice(0,18)+'…');
  });
  $('refreshWalletsBtn').onclick=()=>act(async()=>{await api('/api/wallet/refresh',{});notice('Sincronización solicitada')});
  if($('fillElectrumAlternate'))$('fillElectrumAlternate').onclick=()=>{ $('electrumHost').value='bch0.kister.net';$('electrumPort').value='51002';$('electrumCertPin').focus();};

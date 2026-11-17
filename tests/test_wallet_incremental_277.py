@@ -241,7 +241,7 @@ class Incremental277(unittest.TestCase):
 
     def test_ui_bip39_choice_closed_and_renamed(self):
         html=(Path(__file__).resolve().parents[1]/'ui'/'index.html').read_text()
-        self.assertIn('<details><summary>Frase semilla de 12, 15, 18, 21 o 24 palabras · BIP39</summary>',html)
+        self.assertIn('<details><summary class="wallet-format-summary"><span>Frase semilla de 12, 15, 18, 21 o 24 palabras · BIP39</span>',html)
         self.assertNotIn('<details open><summary>BIP39 · frase',html)
 
 if __name__=='__main__':unittest.main()

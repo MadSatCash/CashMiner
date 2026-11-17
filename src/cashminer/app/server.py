@@ -507,7 +507,7 @@ class CashMinerService:
                 'last_error':v.last_error,'active_reward_address':v.active_reward_address if v.mining.running() else '',
                 'mining_run':v.mining_run}
                 for n,v in self.sessions.items()}
-            return {'version':'2.18','mining_sessions':active,
+            return {'version':'2.18.2','mining_sessions':active,
                 'active_mining_count':sum(int(v['mining']) for v in active.values()),'network':wallet_net,'network_label':NETWORK_LABELS[wallet_net],
                 'wallet_default_derivation_path':self.prefs['wallet_derivation_defaults'][wallet_net],
                 'miner_network':net,'miner_network_label':NETWORK_LABELS[net],
@@ -1219,7 +1219,7 @@ def _open_external_transaction(network: str, txid: str):
 
 
 class CashMinerHandler(BaseHTTPRequestHandler):
-    server_version='CashMiner/2.18'
+    server_version='CashMiner/2.18.2'
     def log_message(self,*args):pass
 
     def _valid_host(self):
@@ -1367,19 +1367,22 @@ class CashMinerHandler(BaseHTTPRequestHandler):
                 store=s.wallet_store()
                 if path=='/api/wallet/legacy/preview':
                     out={'network':s.wallet_network,
-                         'candidates':store.legacy_candidates(data.get('private_key_hex',''))}
+                         'candidates':store.legacy_candidates(data.get('private_key_hex'),
+                                                             private_wif=data.get('private_key_wif'))}
                 else:
                     imported = path=='/api/wallet/import'
                     # New UI sends an explicit per-wallet path; older clients with
                     # account_index retain their v2.3.3 derivation for compatibility.
                     path_for_wallet=data.get('derivation_path')
                     if (path_for_wallet is None and 'account_index' not in data and
-                        not data.get('private_key_hex') and data.get('wallet_type')!='legacy-hex'):
+                        not data.get('private_key_hex') and not data.get('private_key_wif') and
+                        data.get('wallet_type')!='legacy-hex'):
                         path_for_wallet=s.prefs['wallet_derivation_defaults'][s.wallet_network]
                     out=store.create(data.get('name',''),
                                      recovery_hex=data.get('seed_hex') if imported else None,
                                      mnemonic=data.get('mnemonic') if imported else None,
                                      legacy_hex=data.get('private_key_hex') if imported else None,
+                                      private_wif=data.get('private_key_wif') if imported else None,
                                      legacy_compressed=data.get('compressed',True),
                                      account_index=data.get('account_index',0),
                                      new_type=data.get('wallet_type','bip39'),

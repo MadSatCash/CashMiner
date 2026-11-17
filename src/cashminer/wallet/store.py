@@ -18,7 +18,7 @@ import time
 
 from cashminer.config import data_home, modern_wallets_home, legacy_wallets_home
 from cashminer.wallet.crypto import (COIN_TYPE, ORDER, address_for, address_for_legacy,
-                                protect_seed, unprotect_seed)
+                                decode_wif, protect_seed, unprotect_seed)
 from cashminer.wallet.bip39 import entropy_to_mnemonic, mnemonic_to_entropy, mnemonic_to_seed
 from cashminer.wallet.derivation import account_path, parse_account_path
 
@@ -276,7 +276,14 @@ class WalletStore:
         return {'kind': 'raw-bip32', 'seed_hex': material.hex(), 'account_index': account,
                 'derivation_path': self.get(wid)['derivation_path']}
 
-    def legacy_candidates(self, private_hex: str) -> list[dict]:
+    def legacy_candidates(self, private_hex: str | None = None, *, private_wif: str | None = None) -> list[dict]:
+        if private_wif is not None:
+            if private_hex is not None:
+                raise ValueError('Indicá una sola forma de recuperación')
+            scalar, compressed = decode_wif(private_wif, self.network)
+            return [{'compressed': compressed,
+                     'label': 'Comprimida' if compressed else 'Sin comprimir',
+                     'address': address_for_legacy(scalar, self.network, compressed)}]
         if not isinstance(private_hex, str):
             raise ValueError('Clave privada inválida')
         raw = private_hex.strip()
@@ -297,13 +304,16 @@ class WalletStore:
                legacy_compressed: bool = True, account_index: int = 0,
                new_type: str = 'bip39', seed_bytes: int = 32,
                expected_address: str | None = None, derivation_path: str | None = None,
-               bip39_words: int = 12):
+               bip39_words: int = 12, private_wif: str | None = None):
         if not isinstance(name, str) or not 1 <= len(name.strip()) <= 60:
             raise ValueError('Escribí un nombre de hasta 60 caracteres')
         if type(account_index) is not int or not 0 <= account_index <= 1000:
             raise ValueError('La cuenta HD debe estar entre 0 y 1000')
-        if sum(value is not None for value in (recovery_hex, mnemonic, legacy_hex)) > 1:
+        if sum(value is not None for value in (recovery_hex, mnemonic, legacy_hex, private_wif)) > 1:
             raise ValueError('Indicá una sola forma de recuperación')
+        if private_wif is not None:
+            scalar, legacy_compressed = decode_wif(private_wif, self.network)
+            legacy_hex = f'{scalar:064x}'
         if new_type not in ('bip39', 'raw-bip32', 'legacy-hex'):
             raise ValueError('Tipo de billetera desconocido')
         if seed_bytes not in (32, 64):

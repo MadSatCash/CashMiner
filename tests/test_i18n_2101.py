@@ -10,8 +10,8 @@ I18N = (ROOT / "ui/i18n.js").read_text(encoding="utf-8")
 
 class I18nRegression2101(unittest.TestCase):
     def test_version_and_only_ui_assets_changed(self):
-        self.assertIn('CashMiner v2.18', HTML)
-        self.assertIn('version = "2.18"', (ROOT / 'pyproject.toml').read_text())
+        self.assertIn('CashMiner v2.18.2', HTML)
+        self.assertIn('version = "2.18.2"', (ROOT / 'pyproject.toml').read_text())
     def test_input_placeholder_not_ignored(self):
         self.assertNotIn('#sendAmount,', I18N.split('ignoredSelectors=',1)[1].split(';',1)[0])
         self.assertIn("'Monto tBCH':'Amount tBCH'", I18N)

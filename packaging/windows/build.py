@@ -17,7 +17,7 @@ import zipfile
 
 HERE = Path(__file__).resolve().parent
 SOURCE = HERE.parents[1]
-VERSION = '2.18'
+VERSION = '2.18.2'
 PYTHON_VERSION = '3.14.10'
 PYTHON_URL = f'https://www.python.org/ftp/python/{PYTHON_VERSION}/python-{PYTHON_VERSION}-embed-amd64.zip'
 PYTHON_SHA256 = '90905e64a840557d8c1bc4f5b74db3d7ee85e3ffb217611cac1c7813acea4159'
@@ -147,7 +147,7 @@ def main():
         shutil.copytree(license_folder, notices/('MinGW-'+name))
     (stage/'LEEME.txt').write_text((HERE/'LEEME.txt').read_text('utf-8'), encoding='utf-8')
     (stage/'THIRD_PARTY_NOTICES.txt').write_text(
-        'CashMiner 2.18 Windows x64\n\n'
+        'CashMiner 2.18.2 Windows x64\n\n'
         'Python '+PYTHON_VERSION+': Python Software Foundation; see Licenses/Python-LICENSE.txt.\n'
         +'\n'.join(f"{p['name']} {p['version']}: see Licenses/{p['name']}-{p['version']}.dist-info/" for p in pins)
         +'\n\nQRCode.js: davidshimjs/contributors and Kazuhiko Arase; MIT.\n'
