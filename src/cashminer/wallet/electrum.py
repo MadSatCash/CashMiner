@@ -52,7 +52,7 @@ TESTNET3_BAD_LEGACY = frozenset((host, 50002) for host in
 
 # Max outstanding JSON-RPC requests on one TLS socket. Edit this constant,
 # not a user preference. Conservative versus ElectrumX's default concurrency.
-ELECTRUM_MAX_CONCURRENT_REQUESTS = 8
+ELECTRUM_MAX_CONCURRENT_REQUESTS = 15
 
 
 class ElectrumError(RuntimeError):

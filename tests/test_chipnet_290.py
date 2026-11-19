@@ -19,7 +19,7 @@ ROOT=Path(__file__).resolve().parents[1]
 
 class Chipnet290(unittest.TestCase):
     def test_chipnet_registry(self):
-        self.assertEqual(__version__,'2.18.2')
+        self.assertEqual(__version__,'2.18.3')
         self.assertEqual(len(NETWORKS),6)
         net=NETWORKS['chipnet']
         self.assertEqual(net.magic_hex,'e2b7daaf')

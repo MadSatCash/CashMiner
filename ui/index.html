@@ -537,7 +537,6 @@ details{background:#242d31;border-color:#3f4c52}
  .wallet-detail-column[data-wallet-action="receive"] #walletSendSection{display:none}
  .wallet-detail-column[data-wallet-action="send"] #walletReceiveSection{display:none}
  .wallet-detail-column[data-wallet-action="send"] #walletBalanceBreakdown{display:none}
- .wallet-detail-column[data-wallet-action="send"] #balanceHelp{display:none}
 }
 
 /* Compatibilidad de la serie CashMiner v2.11: CSS y navegación sin cambios funcionales. */
@@ -622,7 +621,7 @@ details{background:#242d31;border-color:#3f4c52}
      <div id="walletMeta" class="help-text wallet-technical-meta" hidden>Formato y ruta de derivación</div>
      <div class="wallet-balance-row"><div id="balance" class="balance unknown">Sin saldo sincronizado</div><span id="balanceStatus" class="wallet-connection-status is-connecting" role="status" aria-label="Conectando" title="Conectando"></span></div>
      <div id="balanceFiat" class="fiat-live fiat-main-balance" data-fiat-network="mainnet"></div>
-     <div id="balanceHelp" class="help-text" hidden></div>
+     <div id="balanceHelp" class="help-text" role="status" hidden></div>
      <div class="wallet-balance-breakdown" id="walletBalanceBreakdown" hidden>
       <div class="wallet-balance-detail"><span class="wallet-detail-long">Saldo total:</span><span class="wallet-detail-short">Total:</span><strong id="balanceTotal">—</strong></div>
       <div class="wallet-balance-detail" id="immatureRow" hidden><span class="wallet-detail-long">Recompensas inmaduras:</span><span class="wallet-detail-short">Inmaduras:</span><strong id="balanceImmature">—</strong></div>
@@ -651,7 +650,7 @@ details{background:#242d31;border-color:#3f4c52}
    </div>
   </section>
  </div>
-</main><div class="footer"><div class="footer-left"><div class="footer-info">CashMiner v2.18.2 · Made by <a id="cashriderCredit" href="https://munia.cash/profile/cashrider" rel="noopener noreferrer" style="color:inherit;text-decoration:none">CashRider</a></div></div></div>
+</main><div class="footer"><div class="footer-left"><div class="footer-info">CashMiner v2.18.3 · Made by <a id="cashriderCredit" href="https://munia.cash/profile/cashrider" rel="noopener noreferrer" style="color:inherit;text-decoration:none">CashRider</a></div></div></div>
 </div>
 <div class="modal-overlay" id="modalOverlay" hidden><div class="modal" id="modalDialog" role="dialog" aria-modal="true"><div class="modal-header"><div id="modalTitle" class="modal-title">Configuración</div><button class="modal-close" id="closeModal" aria-label="Cerrar">×</button></div><div class="modal-body" id="modalBody"></div></div></div>
 <div class="toast hidden" id="toast" role="status"></div>
@@ -976,9 +975,11 @@ function draw(){if(!current)return;
  $('balance').textContent=w?(known?formatMoney(w.available_sats):'Sin saldo sincronizado'):'Sin billetera seleccionada';
  setFiatValue('balanceFiat',known?w.available_sats:null,c.network);
  $('balance').classList.toggle('unknown',!fresh);$('balance').style.opacity=fresh?'1':'0.58';
- const state=!w?'offline':ws.status==='sincronizando'||(ws.status==='conectado'&&w.scan_state!=='synced')?'syncing':
+ const scan=w&&ws.scan?.wallet_id===w.id?ws.scan:null;
+ const state=!w?'offline':scan?'syncing':
    fresh?'connected':ws.status==='conectando'||ws.status==='reintentando'?'connecting':'offline';
- const stateLabel={connected:'Conectada y sincronizada',connecting:'Conectando',syncing:'Sincronizando',offline:'Sin conexión o datos desactualizados'}[state];
+ const stateLabel={connected:'Conectada y sincronizada',connecting:known?'Reconectando':'Conectando',
+   syncing:known?'Verificando saldo':'Sincronizando',offline:'Sin conexión o datos desactualizados'}[state];
  const statusIcon=$('balanceStatus');
  statusIcon.className='wallet-connection-status is-'+state;
  statusIcon.setAttribute('aria-label',stateLabel);
@@ -999,7 +1000,36 @@ function draw(){if(!current)return;
    if(!fiatImmature){fiatImmature=document.createElement('span');fiatImmature.id='balanceImmatureFiat';fiatImmature.className='fiat-live';immatureParent.insertAdjacentElement('afterend',fiatImmature)}
    setFiatValue('balanceImmatureFiat',immature,c.network);
  }
- $('balanceHelp').textContent='';
+ const progress=$('balanceHelp');
+ let syncText='';
+ if(scan){
+   const phases={
+     discovering:known?'Verificando saldo · {done} direcciones revisadas':'Buscando actividad · {done} direcciones revisadas',
+     checking:'Verificando actividad · {done} de {total} direcciones',
+     saving:'Guardando el saldo y el historial…',
+   };
+   syncText=CMI18n.t(phases[scan.phase])
+     .replace('{done}',CMI18n.formatNumber(scan.done))
+     .replace('{total}',CMI18n.formatNumber(scan.total));
+ }else if(w&&!fresh){
+   const online=ws.status==='conectado'||ws.status==='sincronizando';
+   if(online){
+     syncText=CMI18n.t(w.error?'Esperando para reintentar…':'Escaneo en espera…');
+   }else if(ws.status==='conectando'){
+     syncText=CMI18n.t(known?'Reconectando con Electrum…':'Conectando con Electrum…');
+   }else if(ws.status==='reintentando'||ws.status==='sin_conexion'){
+     syncText=CMI18n.t('Conexión Electrum interrumpida. Reintentando…');
+   }else if(ws.status==='sin_servidores'){
+     syncText=CMI18n.t('Sin servidores Electrum configurados');
+   }
+ }
+ if(known&&!fresh){
+   const staleLabel=CMI18n.t('Saldo desactualizado');
+   syncText=syncText?staleLabel+' · '+syncText:staleLabel;
+ }
+ if(progress.textContent!==syncText)progress.textContent=syncText;
+ progress.title=!scan&&!fresh?(w?.error||ws.error||''):'';
+ progress.hidden=!syncText;
  updateReceive(c,w);
  $('walletReceiveSection').hidden=!w;
  $('walletSendSection').hidden=!w;

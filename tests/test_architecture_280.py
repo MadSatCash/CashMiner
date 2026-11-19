@@ -19,7 +19,7 @@ ROOT=Path(__file__).resolve().parents[1]
 
 class ArchitectureV280(unittest.TestCase):
     def test_source_structure_and_version(self):
-        self.assertEqual(__version__,'2.18.2')
+        self.assertEqual(__version__,'2.18.3')
         for path in ('src/cashminer/app/server.py','src/cashminer/wallet/send.py',
                      'src/cashminer/mining/history.py','src/cashminer/network/peer_store.py',
                      'src/cashminer/platform/log_archive.py','mining_engine/miner.py',

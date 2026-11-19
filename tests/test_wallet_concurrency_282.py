@@ -25,7 +25,7 @@ class ElectrumPipelineTests(unittest.TestCase):
         def server():
             try:
                 reader=server_sock.makefile('rb')
-                incoming=[json.loads(reader.readline()) for _ in range(8)]
+                incoming=[json.loads(reader.readline()) for _ in range(15)]
                 # Deliberately deliver a notification before reverse-ordered replies.
                 event={'jsonrpc':'2.0','method':'blockchain.scripthash.subscribe',
                        'params':['aa'*32,'bb'*32]}
@@ -41,8 +41,8 @@ class ElectrumPipelineTests(unittest.TestCase):
                 server_errors.append(exc)
         worker=threading.Thread(target=server,daemon=True)
         worker.start()
-        data=client.rpc_many([('wallet.test',[i]) for i in range(8)])
-        self.assertEqual(data,[i*10 for i in range(8)])
+        data=client.rpc_many([('wallet.test',[i]) for i in range(15)])
+        self.assertEqual(data,[i*10 for i in range(15)])
         self.assertEqual(client.notifications,[('aa'*32,'bb'*32)])
         self.assertEqual(client.rpc('server.ping',[]),'pong')
         worker.join(3)

@@ -1,3 +1,20 @@
+# Validation — v2.18.3
+
+- Shared suite passed 635 tests, with 9 skipped.
+- The Windows launcher and the Android 13 x86-64 emulator imported a synthetic
+  Testnet3 wallet against two local TLS Electrum fixtures. The first scan
+  checked 58 addresses and reported discovery and verification progress. After
+  a forced disconnect, the cached balance was marked outdated and reverified
+  through the second server without requesting unchanged history or outputs.
+- The shared UI strings for discovery, verification, saving, and reconnecting
+  were checked in Spanish and English.
+- The emulator accepted the APK over v2.18.2. The package kept the same signing
+  certificate and passed the Android Keystore, wallet recovery, signing and
+  native hashing self-tests. Testing used an emulator and synthetic funds.
+- All 321 Windows manifest file hashes and both distribution checksums matched.
+
+---
+
 # Validation — v2.18.2
 
 - Full shared suite: 642 tests, no failures/errors, 9 skipped. Optional hardware

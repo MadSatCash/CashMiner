@@ -38,7 +38,8 @@ def _subscription_status(status):
 
 
 def scan_wallet(store: WalletStore, client: ElectrumClient, wallet_id: str,
-                watch: dict[str, set[str]], subscribed: set[str] | None = None):
+                watch: dict[str, set[str]], subscribed: set[str] | None = None, *,
+                report_progress=None):
     """Discover and subscribe first, fetch only changed addresses, publish atomically.
 
     Return the number of discovered addresses. Works for Legacy and HD alike.
@@ -47,6 +48,8 @@ def scan_wallet(store: WalletStore, client: ElectrumClient, wallet_id: str,
     """
     if not 1 <= ELECTRUM_MAX_CONCURRENT_REQUESTS <= 128:
         raise ValueError('ELECTRUM_MAX_CONCURRENT_REQUESTS debe estar entre 1 y 128')
+    if report_progress:
+        report_progress('discovering', 0)
     wallet=store.get(wallet_id)
     legacy=wallet['wallet_type'].startswith('legacy-')
     seed=None if legacy else store.seed(wallet_id)
@@ -54,6 +57,10 @@ def scan_wallet(store: WalletStore, client: ElectrumClient, wallet_id: str,
     old_utxos={(u['address'],u['txid'],u['vout']):u for u in store.utxos(wallet_id)}
     if subscribed is None:
         subscribed=set()
+    query=getattr(client,'rpc_many',None)
+    if query is None:
+        def query(calls):
+            return [client.rpc(method,params) for method,params in calls]
     new_rows=[]
     changed=[]
     tx_cache={}
@@ -83,13 +90,26 @@ def scan_wallet(store: WalletStore, client: ElectrumClient, wallet_id: str,
                 event_markers[sh]=len(client.notifications)
                 batch.append((at,address,sh,old.get((branch,at),{})))
             calls=[('blockchain.scripthash.subscribe',[sh]) for _,_,sh,_ in batch]
-            # Backwards-compatible with mock clients and legacy tests.
-            statuses=(client.rpc_many(calls) if hasattr(client,'rpc_many')
-                      else [client.rpc(method,params) for method,params in calls])
+            statuses=query(calls)
             if len(statuses)!=len(batch):
                 raise ElectrumError('Respuestas de suscripción incompletas')
-            for (idx,address,sh,old_row),status_value in zip(batch,statuses):
-                status=_subscription_status(status_value)
+            statuses=[_subscription_status(value) for value in statuses]
+            changed_hashes=[sh for (_,_,sh,old_row),status in zip(batch,statuses)
+                            if status is not None and
+                            (not old_row.get('status_known') or old_row.get('electrum_status')!=status)]
+            # Pipeline independent address queries through the same bounded Electrum connection.
+            # Protocol >=1.5 allows listunspent to include outputs carrying CashTokens.
+            if changed_hashes:
+                calls=[call for sh in changed_hashes for call in (
+                    ('blockchain.scripthash.get_history',[sh]),
+                    ('blockchain.scripthash.listunspent',[sh,'include_tokens']))]
+                responses=query(calls)
+                if len(responses)!=len(calls):
+                    raise ElectrumError('Respuestas de actividad incompletas')
+                activity=dict(zip(changed_hashes,zip(responses[::2],responses[1::2])))
+            else:
+                activity={}
+            for (idx,address,sh,old_row),status in zip(batch,statuses):
                 subscribed.add(sh)
                 watch.setdefault(sh,set()).add(wallet_id)
                 needs_change=(not old_row.get('status_known') or old_row.get('electrum_status')!=status)
@@ -99,17 +119,11 @@ def scan_wallet(store: WalletStore, client: ElectrumClient, wallet_id: str,
                      'electrum_status':status}
                 new_rows.append(row)
                 if needs_change:
-                    history=[]
-                    utxos=[]
-                    if status is not None:
-                        history=client.rpc('blockchain.scripthash.get_history',[sh])
-                        if not isinstance(history,list):
-                            raise ElectrumError('Historial de dirección desconocido')
-                        # Protocol >=1.5 prevents silently omitting BCH UTXOs carrying
-                        # CashTokens (1.4's default excludes them).
-                        utxos=client.rpc('blockchain.scripthash.listunspent',[sh,'include_tokens'])
-                        if not isinstance(utxos,list):
-                            raise ElectrumError('UTXOs de dirección desconocidos')
+                    history,utxos=activity.get(sh,([],[]))
+                    if not isinstance(history,list):
+                        raise ElectrumError('Historial de dirección desconocido')
+                    if not isinstance(utxos,list):
+                        raise ElectrumError('UTXOs de dirección desconocidos')
                     new_history=[]
                     for item in history:
                         if not isinstance(item,dict):raise ElectrumError('Historial malformado')
@@ -171,6 +185,8 @@ def scan_wallet(store: WalletStore, client: ElectrumClient, wallet_id: str,
                         status_check[sh]=status
                 if used or idx<=highest_issued:gap=0
                 else:gap+=1
+                if report_progress:
+                    report_progress('discovering', len(new_rows))
             idx=batch[-1][0]+1
             if legacy:break
         if idx>=MAX_BRANCH_SCAN and (gap<20 or idx<=highest_issued):
@@ -179,16 +195,19 @@ def scan_wallet(store: WalletStore, client: ElectrumClient, wallet_id: str,
     # Check queried addresses again after their RPCs. An intermediate mempool
     # change, even if it later reverted, invalidates the assembled view.
     checks=list(status_check.items())
+    if checks and report_progress:
+        report_progress('checking', 0, len(checks))
     for start in range(0,len(checks),ELECTRUM_MAX_CONCURRENT_REQUESTS):
         chunk=checks[start:start+ELECTRUM_MAX_CONCURRENT_REQUESTS]
         calls=[('blockchain.scripthash.subscribe',[sh]) for sh,_ in chunk]
-        statuses=(client.rpc_many(calls) if hasattr(client,'rpc_many')
-                  else [client.rpc(method,params) for method,params in calls])
+        statuses=query(calls)
         if len(statuses)!=len(chunk):
             raise ElectrumError('Respuestas de comprobación incompletas')
         for (sh,status),latest in zip(chunk,statuses):
             if _subscription_status(latest)!=status:
                 raise WalletScanStale('Estado de dirección cambiado durante la consulta')
+        if report_progress:
+            report_progress('checking', start+len(chunk), len(checks))
     for sh,marker in event_markers.items():
         original=next(r['electrum_status'] for r in new_rows if r['scripthash']==sh)
         for event_sh,event_status in client.notifications[marker:]:
@@ -197,6 +216,8 @@ def scan_wallet(store: WalletStore, client: ElectrumClient, wallet_id: str,
     # A new contiguous header by itself is not an error or an excuse to fetch
     # an entire history. Reorgs are reconciled via status notifications/audits.
     height,tip_hash=client.tip_height_hash()
+    if report_progress:
+        report_progress('saving', len(new_rows))
     applied_at=time.monotonic()
     store.apply_incremental(wallet_id,new_rows,changed,height,tip_hash,
                             f'{client.host}:{client.port}')
@@ -218,7 +239,7 @@ class WalletSync:
         self.wallet_operation_locks={net:threading.RLock() for net in
             ('mainnet','testnet3','testnet4','chipnet','tempnet_fablous_2026','regtest')}
         self.wallet_revisions={net:0 for net in self.wallet_operation_locks}
-        self.active_scans={net:0 for net in self.wallet_operation_locks}
+        self.active_scans={}
 
     def store(self,network):return WalletStore(network,self.root)
 
@@ -256,19 +277,36 @@ class WalletSync:
         with self.lock:
             if wid:
                 self.priorities[network]=wid
-                self.requested.setdefault(network,set()).add(wid)
+                pending=self.requested.setdefault(network,set())
+                if pending is not None:
+                    pending.add(wid)
             else:self.requested[network]=None
-        self.wake_events[network].set()
+            self.wake_events[network].set()
 
     def syncing_for_explorer(self) -> bool:
         """Actual wallet scans / connection startup, not idle Electrum listeners."""
         with self.lock:
-            return (any(self.active_scans.values()) or
+            return (bool(self.active_scans) or
                     any(s.get('status') in ('sincronizando','conectando')
                         for s in self.network_status.values()))
 
     def status(self,network):
-        with self.lock:return dict(self.network_status.get(network,{'status':'inactivo','error':None}))
+        with self.lock:
+            result=dict(self.network_status.get(network,{'status':'inactivo','error':None}))
+            scan=self.active_scans.get(network)
+            if scan is not None:
+                result['scan']=dict(scan)
+            return result
+
+    def _scan(self,store,client,wid,watch,subscribed):
+        def report(phase,done,total=None):
+            with self.lock:
+                self.active_scans[store.network]={'wallet_id':wid,'phase':phase,'done':done,'total':total}
+        try:
+            return scan_wallet(store,client,wid,watch,subscribed,report_progress=report)
+        finally:
+            with self.lock:
+                self.active_scans.pop(store.network,None)
 
     def _set_status(self,net,status,server='',error=None,**details):
         with self.lock:self.network_status[net]={'status':status,'server':server,'error':error,**details}
@@ -346,12 +384,12 @@ class WalletSync:
         scan_metrics={}
         while not self.stop_event.is_set():
             if revision!=self.wallet_revisions[net]:return
+            with self.lock:
+                requested=self.requested.pop(net,set())
+                wake.clear()
             present={w['id'] for w in store.list()}
             dirty &= present
-            if wake.is_set():
-                with self.lock:requested=self.requested.pop(net,set())
-                wake.clear()
-                dirty.update(present if requested is None else (requested & present))
+            dirty.update(present if requested is None else (requested & present))
             now=time.monotonic()
             for wid,due in list(retry_due.items()):
                 if now>=due:
@@ -372,11 +410,7 @@ class WalletSync:
                         try:
                             started_scan=time.monotonic()
                             start_rpc=getattr(client,'sequence',0)
-                            with self.lock:self.active_scans[net]+=1
-                            try:
-                                count=scan_wallet(store,client,wid,watch,subscribed)
-                            finally:
-                                with self.lock:self.active_scans[net]-=1
+                            count=self._scan(store,client,wid,watch,subscribed)
                         except Exception as exc:
                             store.mark_error(wid,f'{type(exc).__name__}: {str(exc)[:140]}')
                             # Stale/mempool events may race: retry quickly without

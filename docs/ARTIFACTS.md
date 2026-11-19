@@ -1,3 +1,17 @@
+# Release artifacts — 2.18.3
+
+| Artifact | SHA-256 |
+| --- | --- |
+| `CashMiner-Windows.zip` | `e5ee484d9ac2cc86c9f4407ad69f04efd6259a4ec3b575da69308b7a64ca34c0` |
+| `CashMiner-Android-v2.18.3.apk` | `d2785195b3801d730dd619bd074c146520cfdf2bf539754203b5e82b09bdc2b9` |
+
+Windows uses the pinned build recipe. Android uses the shared Python/UI from
+2.18.3 and retains the 2.18.2 DEX, resources, native libraries and signing
+certificate. The Android application ID is `org.cashminer.android` with
+versionCode 2180300.
+
+---
+
 # Release artifacts — 2.18.2
 
 | Artifact | SHA-256 |

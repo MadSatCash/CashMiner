@@ -2,6 +2,7 @@
 import sqlite3
 from contextlib import closing
 import tempfile
+import threading
 import unittest
 from pathlib import Path
 from unittest.mock import patch
@@ -10,7 +11,7 @@ from cashminer.wallet.crypto import (address_for, address_for_legacy,
     script_hash, p2pkh_script, decode_address, sha256d)
 from cashminer.wallet.store import WalletStore
 from cashminer.wallet.transactions import serialize_tx, locking_script_without_tokens
-from cashminer.wallet.sync import scan_wallet, WalletScanStale
+from cashminer.wallet.sync import scan_wallet, WalletScanStale, WalletSync
 from cashminer.wallet.send import WalletSender
 
 SEED=bytes(range(32))
@@ -75,6 +76,48 @@ class Incremental277(unittest.TestCase):
         a.start();b.start();self.addCleanup(a.stop);self.addCleanup(b.stop)
         self.store=WalletStore('testnet4',self.root)
         self.fake=ElectrumScript()
+
+    def test_import_priority_is_kept_when_a_full_refresh_is_pending(self):
+        sync=WalletSync()
+        net='testnet4'
+        sync.wake_events[net]=threading.Event()
+        with patch.object(sync,'start'):
+            sync.refresh(net)
+            wallet=self.store.create('New wallet',recovery_hex=SEED.hex())
+            sync.refresh(net,wallet['id'])
+        self.assertIsNone(sync.requested[net])
+        self.assertEqual(sync.priorities[net],wallet['id'])
+        self.assertTrue(sync.wake_events[net].is_set())
+
+    def test_active_scan_reports_progress_and_pipelines_changed_addresses(self):
+        wallet=self.store.create('HD',recovery_hex=SEED.hex())
+        sh0,_=self.fake.add_output(wallet['address'])
+        sh1,_=self.fake.add_output(address_for(SEED,'testnet4',0,1))
+        sync=WalletSync()
+        batches=[]
+        updates=[]
+
+        def rpc_many(calls):
+            batches.append(calls)
+            updates.append(sync.status('testnet4')['scan'])
+            self.assertTrue(sync.syncing_for_explorer())
+            self.assertEqual(self.store.get(wallet['id'])['scan_state'],'pending')
+            return [self.fake.rpc(method,params) for method,params in calls]
+
+        self.fake.rpc_many=rpc_many
+        count=sync._scan(self.store,self.fake,wallet['id'],{},set())
+        self.assertIn([
+            ('blockchain.scripthash.get_history',[sh0]),
+            ('blockchain.scripthash.listunspent',[sh0,'include_tokens']),
+            ('blockchain.scripthash.get_history',[sh1]),
+            ('blockchain.scripthash.listunspent',[sh1,'include_tokens']),
+        ],batches)
+        self.assertEqual(updates[0],{'wallet_id':wallet['id'],'phase':'discovering','done':0,'total':None})
+        self.assertTrue(any(p['phase']=='discovering' and p['done']>0 for p in updates))
+        self.assertEqual(updates[-1],{'wallet_id':wallet['id'],'phase':'checking','done':0,'total':2})
+        self.assertEqual(count,42)
+        self.assertNotIn('scan',sync.status('testnet4'))
+        self.assertEqual(self.store.get(wallet['id'])['scan_state'],'synced')
 
     def test_cached_447_like_utxos_never_redownload_on_reconnect(self):
         wallet=self.store.create('HD',recovery_hex=SEED.hex())

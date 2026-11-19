@@ -1,3 +1,18 @@
+# CashMiner v2.18.3 — Wallet sync progress
+
+Initial wallet sync pipelines history and unspent-output requests, with up to
+15 requests in flight per Electrum connection. The wallet shows discovery and
+verification progress, and labels cached balances while reconnecting.
+
+La sincronización inicial agrupa las consultas y muestra cuántas direcciones
+se revisaron. Después de una reconexión, indica cuándo el saldo guardado está
+pendiente de verificar.
+
+[Cambios detallados](releases/NOTAS_V2.18.3.md) · [Validation](VALIDATION.md) ·
+[Packages and SHA-256](ARTIFACTS.md)
+
+---
+
 # CashMiner v2.18.2 — WIF import, key visibility and general menu
 
 **[Windows ZIP](https://github.com/MadSatCash/CashMiner/releases/download/v2.18.2/CashMiner-Windows.zip)** · **[Android APK](https://github.com/MadSatCash/CashMiner/releases/download/v2.18.2/CashMiner-Android-v2.18.2.apk)** · [SHA-256](https://github.com/MadSatCash/CashMiner/releases/download/v2.18.2/SHA256SUMS.txt)

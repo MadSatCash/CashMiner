@@ -507,7 +507,7 @@ class CashMinerService:
                 'last_error':v.last_error,'active_reward_address':v.active_reward_address if v.mining.running() else '',
                 'mining_run':v.mining_run}
                 for n,v in self.sessions.items()}
-            return {'version':'2.18.2','mining_sessions':active,
+            return {'version':'2.18.3','mining_sessions':active,
                 'active_mining_count':sum(int(v['mining']) for v in active.values()),'network':wallet_net,'network_label':NETWORK_LABELS[wallet_net],
                 'wallet_default_derivation_path':self.prefs['wallet_derivation_defaults'][wallet_net],
                 'miner_network':net,'miner_network_label':NETWORK_LABELS[net],
@@ -1219,7 +1219,7 @@ def _open_external_transaction(network: str, txid: str):
 
 
 class CashMinerHandler(BaseHTTPRequestHandler):
-    server_version='CashMiner/2.18.2'
+    server_version='CashMiner/2.18.3'
     def log_message(self,*args):pass
 
     def _valid_host(self):
