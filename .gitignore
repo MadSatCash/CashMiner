@@ -42,6 +42,7 @@ runtime/
 docs/releases/*
 !docs/releases/NOTAS_V2.18.md
 !docs/releases/NOTAS_V2.18.2.md
+!docs/releases/NOTAS_V2.18.4.md
 docs/ARQUITECTURA.md
 docs/MIGRACION.md
 docs/ROADMAP.md

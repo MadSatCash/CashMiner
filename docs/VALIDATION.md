@@ -1,3 +1,18 @@
+# Validation — v2.18.4
+
+- Shared suite passed 636 tests, with 9 skipped.
+- Windows ZIP and extracted package matched all 321 file hashes in the build
+  manifest. The launcher metadata and packaged local API report 2.18.4.
+- With synthetic wallets, a synced wallet could prepare 40,000 sats while
+  another wallet was stale. The regression tests also cover the largest
+  valid fungible CashToken amount and keep token outputs out of BCH sends.
+- The signed APK installed over v2.18.3 in an Android 13 x86-64 emulator.
+  A synthetic Regtest wallet remained available and its recovery phrase still
+  derived the same address. Keystore, synthetic transaction signing and
+  native hashing self-tests passed.
+
+---
+
 # Validation — v2.18.3
 
 - Shared suite passed 635 tests, with 9 skipped.

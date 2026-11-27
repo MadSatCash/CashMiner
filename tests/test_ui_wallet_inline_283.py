@@ -1,8 +1,11 @@
 """Version 2.8.3: no Send modal, reusable inline send form."""
 from pathlib import Path
+import shutil
+import subprocess
 import unittest
 
-HTML=(Path(__file__).resolve().parents[1]/'ui/index.html').read_text(encoding='utf8')
+HTML_PATH=Path(__file__).resolve().parents[1]/'ui/index.html'
+HTML=HTML_PATH.read_text(encoding='utf8')
 
 class InlineSendLayout(unittest.TestCase):
     def test_receiving_and_sending_are_separate_inline_sections(self):
@@ -30,5 +33,28 @@ class InlineSendLayout(unittest.TestCase):
         self.assertIn("sendFormContext!==context",HTML)
         self.assertIn("$('sendPrepare').onclick=prepareInlineSend",HTML)
         self.assertIn('totalFormat(aggregate.available_sats)',HTML)
+
+    @unittest.skipUnless(shutil.which('node'),'Requires Node.js')
+    def test_synced_wallet_can_prepare_send_while_other_wallet_retries(self):
+        self.assertIn("$('sendPrepare').disabled=!canPrepareWalletSend(c,w)",HTML)
+        self.assertIn('if(!canPrepareWalletSend(current,w))',HTML)
+        code=r'''
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const vm=require('node:vm');
+const html=fs.readFileSync(process.argv[1],'utf8');
+const helpers=html.slice(html.indexOf('function walletElectrumOnline'),html.indexOf('function coinUnit'));
+const {canPrepareWalletSend}=vm.runInNewContext(helpers+'\n({canPrepareWalletSend})');
+const synced={scan_state:'synced',available_sats:77723};
+const retrying={scan_state:'stale',available_sats:90000};
+const state={wallets:[synced,retrying],wallet_electrum:{status:'sincronizando'},wallet_capabilities:{send:true}};
+assert.equal(canPrepareWalletSend(state,synced),true);
+assert.equal(canPrepareWalletSend(state,retrying),false);
+assert.equal(canPrepareWalletSend(state,{...synced,available_sats:0}),false);
+state.wallet_electrum.status='sin_conexion';
+assert.equal(canPrepareWalletSend(state,synced),false);
+'''
+        result=subprocess.run(['node','-e',code,str(HTML_PATH)],capture_output=True,text=True,timeout=20)
+        self.assertEqual(result.returncode,0,result.stderr)
 
 if __name__=='__main__':unittest.main()

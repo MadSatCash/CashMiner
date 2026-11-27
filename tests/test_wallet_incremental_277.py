@@ -10,7 +10,7 @@ from unittest.mock import patch
 from cashminer.wallet.crypto import (address_for, address_for_legacy,
     script_hash, p2pkh_script, decode_address, sha256d)
 from cashminer.wallet.store import WalletStore
-from cashminer.wallet.transactions import serialize_tx, locking_script_without_tokens
+from cashminer.wallet.transactions import serialize_tx, locking_script_without_tokens, varint
 from cashminer.wallet.sync import scan_wallet, WalletScanStale, WalletSync
 from cashminer.wallet.send import WalletSender
 
@@ -30,10 +30,10 @@ class ElectrumScript:
         self.blockhash='aa'*32
         self.on_history=None
 
-    def add_output(self,address,value=123456, height=300, coinbase=False, tokens=False):
+    def add_output(self,address,value=123456, height=300, coinbase=False, token_amount=0):
         pkh=decode_address(address,self.network)
         script=p2pkh_script(pkh)
-        if tokens:script=b'\xef'+b'\x01'*32+b'\x10'+b'\x01'+script
+        if token_amount:script=b'\xef'+b'\x01'*32+b'\x10'+varint(token_amount)+script
         prev='00'*32 if coinbase else '01'*32
         idx=0xffffffff if coinbase else 0
         raw=serialize_tx([{'txid':prev,'vout':idx,'sequence':0xffffffff,'script_sig':b'one'}],
@@ -44,7 +44,7 @@ class ElectrumScript:
         self.states[sh]={'status':'ab'*32,
                          'history':[{'tx_hash':txid,'height':height}],
                          'utxos':[{'tx_hash':txid,'tx_pos':0,'height':height,'value':value,
-                                   **({'token_data':{'category':'01'*32}} if tokens else {})}]}
+                                   **({'token_data':{'category':'01'*32}} if token_amount else {})}]}
         return sh,txid
 
     def tip_height_hash(self):return self.height,self.blockhash
@@ -213,7 +213,7 @@ class Incremental277(unittest.TestCase):
     def test_cash_token_locked_output_is_recorded_but_not_spendable(self):
         wallet=self.store.create('Legacy',legacy_hex='0'*63+'1',
                                  expected_address=address_for_legacy(1,'testnet4',True))
-        sh,txid=self.fake.add_output(wallet['address'],value=1500,tokens=True)
+        self.fake.add_output(wallet['address'],value=1500,token_amount=2**63-1)
         scan_wallet(self.store,self.fake,wallet['id'],{})
         result=self.store.list()[0]
         self.assertEqual(result['total_sats'],1500)
@@ -221,6 +221,8 @@ class Incremental277(unittest.TestCase):
         self.assertEqual(result['available_sats'],0)
         self.assertEqual(self.store.utxos(wallet['id'])[0]['tokens'],1)
         with self.assertRaises(ValueError):locking_script_without_tokens(b'\xef\x00')
+        with self.assertRaisesRegex(ValueError,'Importe CashTokens inválido'):
+            locking_script_without_tokens(b'\xef'+b'\x01'*32+b'\x10'+varint(2**63))
 
     def test_ordinary_zero_conf_receipt_is_available_and_spendable(self):
         wallet=self.store.create('Legacy',legacy_hex='0'*63+'1',

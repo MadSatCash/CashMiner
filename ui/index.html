@@ -650,7 +650,7 @@ details{background:#242d31;border-color:#3f4c52}
    </div>
   </section>
  </div>
-</main><div class="footer"><div class="footer-left"><div class="footer-info">CashMiner v2.18.3 · Made by <a id="cashriderCredit" href="https://munia.cash/profile/cashrider" rel="noopener noreferrer" style="color:inherit;text-decoration:none">CashRider</a></div></div></div>
+</main><div class="footer"><div class="footer-left"><div class="footer-info">CashMiner v2.18.4 · Made by <a id="cashriderCredit" href="https://munia.cash/profile/cashrider" rel="noopener noreferrer" style="color:inherit;text-decoration:none">CashRider</a></div></div></div>
 </div>
 <div class="modal-overlay" id="modalOverlay" hidden><div class="modal" id="modalDialog" role="dialog" aria-modal="true"><div class="modal-header"><div id="modalTitle" class="modal-title">Configuración</div><button class="modal-close" id="closeModal" aria-label="Cerrar">×</button></div><div class="modal-body" id="modalBody"></div></div></div>
 <div class="toast hidden" id="toast" role="status"></div>
@@ -869,6 +869,11 @@ $('walletReceiveAddress').onclick=async()=>{
  }catch(error){notice('No se pudo copiar la dirección',true)}
 };
 function walletSelected(){return current?.wallets?.find(w=>w.id===current.selected_wallet)||null}
+function walletElectrumOnline(status){return status==='conectado'||status==='sincronizando'}
+function canPrepareWalletSend(state,wallet){
+ return wallet?.scan_state==='synced'&&walletElectrumOnline(state.wallet_electrum?.status)&&
+   Number(wallet.available_sats)>546&&Boolean(state.wallet_capabilities?.send);
+}
 function coinUnit(network){return network==='mainnet'?'BCH':'tBCH'}
 function walletPathLabel(w){return w?.derivation_path?(w.derivation_path+' · P2PKH'):(w?.kind==='legacy'?'P2PKH · una dirección':'P2PKH')}
 function currentLabel(){const w=walletSelected();return w?w.name:'Ninguna billetera'}
@@ -945,7 +950,7 @@ function draw(){if(!current)return;
  $('walletNetworkSelect').innerHTML=c.networks.map(n=>`<option value="${esc(n.key)}" ${n.key===c.network?'selected':''}>${esc(n.key==='mainnet'?'Mainnet':n.label)}</option>`).join('');
  renderMinerCards(c);
 
- $('networkDot').className='network-indicator'+(['conectado','sincronizando'].includes(c.wallet_electrum?.status)?' online':'');
+ $('networkDot').className='network-indicator'+(walletElectrumOnline(c.wallet_electrum?.status)?' online':'');
  const aggregate=c.wallet_total||{};
  const totalFormat=v=>CMI18n.formatBch(v,coinUnit(c.network),{min:2,max:8});
  $('walletAggregateAmount').textContent=aggregate.wallets_known?totalFormat(aggregate.available_sats):
@@ -970,7 +975,8 @@ function draw(){if(!current)return;
  const known=w?.available_sats!==null&&w?.available_sats!==undefined;
  // A live Electrum session can refresh *another* wallet without making
  // this wallet's already verified spendable UTXOs stale.
- const fresh=known&&w.scan_state==='synced'&&(ws.status==='conectado'||ws.status==='sincronizando');
+ const online=walletElectrumOnline(ws.status);
+ const fresh=known&&w.scan_state==='synced'&&online;
  const formatMoney=v=>CMI18n.formatBch(v,coinUnit(c.network),{min:2,max:8});
  $('balance').textContent=w?(known?formatMoney(w.available_sats):'Sin saldo sincronizado'):'Sin billetera seleccionada';
  setFiatValue('balanceFiat',known?w.available_sats:null,c.network);
@@ -1012,7 +1018,6 @@ function draw(){if(!current)return;
      .replace('{done}',CMI18n.formatNumber(scan.done))
      .replace('{total}',CMI18n.formatNumber(scan.total));
  }else if(w&&!fresh){
-   const online=ws.status==='conectado'||ws.status==='sincronizando';
    if(online){
      syncText=CMI18n.t(w.error?'Esperando para reintentar…':'Escaneo en espera…');
    }else if(ws.status==='conectando'){
@@ -1045,7 +1050,7 @@ function draw(){if(!current)return;
  $('sendAddress').placeholder=c.network==='mainnet'?'bitcoincash:…':'bchtest:…';
  if(c.network!=='mainnet'&&sendUnitMode!=='bch'){sendUnitMode='bch';resetFiatEntry()}
  sendAmountPlaceholder();
- $('sendPrepare').disabled=!(w&&fresh&&ws.status==='conectado'&&Number(w.available_sats)>546&&c.wallet_capabilities?.send);
+ $('sendPrepare').disabled=!canPrepareWalletSend(c,w);
  updateSendFiat();
  $('balanceHint').textContent=w?'':'Elegí una billetera o creá una nueva para comenzar.';
 
@@ -1136,12 +1141,12 @@ $('sendMax').onclick=()=>{sendMaxMode=true;resetFiatEntry();$('sendAmount').valu
 $('sendUnit').addEventListener('change',()=>setSendUnit($('sendUnit').value));
 function prepareInlineSend(){return act(async()=>{
    const w=walletSelected();if(!w)throw Error('Elegí una billetera para enviar');
-   if(w.scan_state!=='synced'||current.wallet_electrum?.status!=='conectado')throw Error('Primero sincronizá y conectá la billetera');
+   if(!canPrepareWalletSend(current,w))throw Error('Primero sincronizá y conectá la billetera');
    const requestedNetwork=current.network, requestedWallet=w.id;
    const button=$('sendPrepare');button.disabled=true;
    let preview;
    try{preview=await api('/api/wallet/send/prepare',{id:w.id,destination:$('sendAddress').value.trim(),amount_bch:sendMaxMode?'':ensureFiatAmountPrepared(),fee_rate:CMI18n.normalizeInput($('sendFeeRate').value),send_max:sendMaxMode});}
-   finally{button.disabled=!(current.network===requestedNetwork&&current.selected_wallet===requestedWallet);}
+   finally{button.disabled=!canPrepareWalletSend(current,walletSelected());}
    if(current.network!==requestedNetwork||current.selected_wallet!==requestedWallet)throw Error('La red o la billetera cambió. Revisá de nuevo el envío');
    const amount=CMI18n.formatSats(preview.amount_sats,{min:8,max:8});
    const fee=CMI18n.formatSats(preview.fee_sats,{min:8,max:8});

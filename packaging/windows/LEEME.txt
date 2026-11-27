@@ -1,4 +1,4 @@
-CashMiner 2.18.3 - Windows x64 - Paquete experimental
+CashMiner 2.18.4 - Windows x64 - Paquete experimental
 
 ESPAÑOL
 1. Extraé el ZIP completo a una carpeta propia.

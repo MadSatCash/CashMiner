@@ -19,7 +19,7 @@ class TestSendUnits2111(unittest.TestCase):
         self.assertIn("amount_bch:sendMaxMode?'':ensureFiatAmountPrepared()",HTML)
         self.assertIn('sendFiatInputValue',HTML)
         self.assertIn('handleFiatCurrencyChange',HTML)
-        self.assertIn('CashMiner v2.18.3',HTML)
+        self.assertIn('CashMiner v2.18.4',HTML)
         # The actual transaction builder must remain exclusively BCH-based.
         self.assertNotIn('fiat_currency',(ROOT/'src/cashminer/wallet/send.py').read_text())
         self.assertNotIn('fiat_currency',(ROOT/'mining_engine/miner.py').read_text())

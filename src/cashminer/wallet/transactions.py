@@ -46,13 +46,10 @@ class Reader:
     def vi(self):
         v=self.num(1)
         if v<253:return v
-        n={253:2,254:4,255:8}[v]
-        out=self.num(n)
-        if out>100000: raise ValueError('Transacción excesivamente grande')
-        return out
+        return self.num({253:2,254:4,255:8}[v])
     def vec(self):
         n=self.vi()
-        if n>2_000_000: raise ValueError('Script excesivamente grande')
+        if n>100_000: raise ValueError('Script excesivamente grande')
         return self.take(n)
 
 

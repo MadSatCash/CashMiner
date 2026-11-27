@@ -1,3 +1,17 @@
+# CashMiner v2.18.4 — Wallet sync and send fixes
+
+Wallet sync reads valid CashToken quantities independently of transaction
+size limits. An up-to-date wallet can prepare a send while other wallets
+are still syncing, provided its Electrum connection is active.
+
+La sincronización admite cantidades válidas de CashTokens. Una billetera
+sincronizada puede preparar un envío mientras otra sigue verificando su saldo.
+
+[Cambios detallados](releases/NOTAS_V2.18.4.md) · [Validation](VALIDATION.md) ·
+[Packages and SHA-256](ARTIFACTS.md)
+
+---
+
 # CashMiner v2.18.3 — Wallet sync progress
 
 Initial wallet sync pipelines history and unspent-output requests, with up to

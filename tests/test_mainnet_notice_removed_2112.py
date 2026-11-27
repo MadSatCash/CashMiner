@@ -25,7 +25,8 @@ class MainnetNoticeRemoved2112(unittest.TestCase):
         self.assertIn('id="sendConfirm"',HTML)
         self.assertIn("api('/api/wallet/send/broadcast'",HTML)
         self.assertIn('amount_bch:sendMaxMode?\'\':ensureFiatAmountPrepared()',HTML)
-        self.assertIn('if(w.scan_state!==\'synced\'',HTML)
+        self.assertIn('if(!canPrepareWalletSend(current,w))',HTML)
+        self.assertIn("wallet?.scan_state==='synced'",HTML)
 
 if __name__=='__main__':
     unittest.main()

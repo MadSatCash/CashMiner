@@ -248,6 +248,7 @@ class PostBroadcast27131(unittest.TestCase):
         self.assertIn('justify-content:flex-start;align-items:baseline;gap:4px',html)
         self.assertIn('<span class="wallet-detail-long">Saldo total:</span><span class="wallet-detail-short">Total:</span><strong id="balanceTotal">',html)
         self.assertIn('<span class="wallet-detail-long">Recompensas inmaduras:</span><span class="wallet-detail-short">Inmaduras:</span><strong id="balanceImmature">',html)
-        self.assertIn("(ws.status==='conectado'||ws.status==='sincronizando')",html)
+        self.assertIn('const online=walletElectrumOnline(ws.status);',html)
+        self.assertIn("const fresh=known&&w.scan_state==='synced'&&online;",html)
 
 if __name__=='__main__':unittest.main()
